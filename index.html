@@ -287,7 +287,15 @@ html[dir="rtl"] .sec-title{letter-spacing:0}
 .copy.done{background:var(--green-soft)!important;border-color:#A6F4C5!important;color:var(--green)!important}
 .ob pre{margin:0;padding:12px 14px;white-space:pre-wrap;word-break:break-word;font-family:var(--font);font-size:15px;direction:ltr;text-align:left}
 .ob pre.to{font-family:var(--mono);font-weight:700;color:var(--navy);font-size:14px}
-.preview{padding:22px;direction:ltr;text-align:left;overflow-x:auto;background:#EEF2F6}
+.preview{padding:22px;direction:ltr;text-align:left;overflow:hidden;background:#EEF2F6}
+.sheet{width:682px;transform-origin:0 0;direction:ltr;margin:0 auto}
+.preview.full .sheet{margin:0}
+#oToken{white-space:nowrap}
+.token>div{min-width:0}
+@media (max-width:460px){.token{flex-wrap:wrap;gap:8px 12px}#oToken{font-size:clamp(12.5px,4vw,18px)!important;letter-spacing:0!important}}
+.preview.full{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.obtns{display:flex;gap:6px}
+.sheet>table{float:none!important}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 .remind{font-size:14px;color:var(--muted);margin-top:16px;padding:14px 16px;background:var(--surface2);border-radius:12px;border:1px solid var(--line)}
 .remind ul{margin:6px 0 0;padding-inline-start:18px}
@@ -342,6 +350,43 @@ footer{width:100%;max-width:var(--wrap);margin:0 auto;padding:6px 24px 30px;colo
 .tour-nav{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .tour-nav .btn{min-height:40px;padding:0 15px;font-size:14px}
 .tour-skip{background:none;border:0;color:var(--muted);cursor:pointer;font-weight:600;font-size:13.5px;padding:6px 0}
+
+
+/* Dropdown hints, category references */
+.opt-hint{margin-top:8px;font-size:13.5px;line-height:1.45;color:#1B3554;background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);border-radius:10px;padding:8px 12px}
+.cref{display:inline-block;margin-inline-start:8px;font-size:11.5px;font-weight:700;color:var(--blue);background:#fff;border:1px solid var(--blue-line);border-radius:6px;padding:1px 7px;vertical-align:1px}
+.axlink{background:none;border:0;padding:0;margin-inline-start:4px;color:var(--blue);font-weight:700;font-size:13.5px;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.infobox p{line-height:1.55}
+.infobox p+p{padding-top:8px;border-top:1px solid var(--blue-line)}
+
+/* Annexure 2 — topic selector */
+#axModal .modal-card{max-width:1180px}
+.ax-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin-bottom:14px}
+.ax-pick{font-weight:700;color:var(--navy);font-size:14.5px}
+.ax-top select{flex:1 1 260px;min-height:46px;font-size:15.5px;font-weight:600;color:var(--navy);border:1.5px solid var(--navy);border-radius:var(--r-sm);padding:10px 38px 10px 14px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2312243A' stroke-width='2'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 14px center;appearance:none}
+html[dir="rtl"] .ax-top select{background-position:left 14px center;padding:10px 14px 10px 38px}
+.ax-top .btn{min-height:46px}
+.ax-layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:18px;align-items:start}
+.ax-nav{display:flex;flex-direction:column;gap:6px;position:sticky;top:70px}
+.ax-nav button{display:flex;gap:10px;align-items:flex-start;text-align:start;border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 11px;cursor:pointer;color:var(--ink);transition:.15s}
+.ax-nav button:hover{border-color:#A9BCD3;background:var(--surface2)}
+.ax-nav button.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.ax-nav .n{flex:0 0 22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:12px;font-weight:800;background:var(--blue-soft);color:var(--navy)}
+.ax-nav button.on .n{background:rgba(255,255,255,.18);color:#fff}
+.ax-nav b{display:block;font-size:14px;line-height:1.3}
+.ax-nav small{display:block;font-size:12px;opacity:.75;line-height:1.35;margin-top:1px}
+.ax-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px 14px;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.ax-head h3{margin:0!important;font-size:19px;color:var(--navy)}
+.ax-head p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.ax-ref{font-size:12.5px;font-weight:700;color:var(--blue);background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:8px;padding:5px 10px;white-space:nowrap}
+.ax-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ax ul{padding-inline-start:18px}
+.ax li.swl{list-style:none;margin-inline-start:-18px}
+.ax-src{margin:14px 0 0;font-size:12.5px;color:var(--muted)}
+.ax-hr{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ax-hr .btn{min-height:34px;padding:0 12px;font-size:13.5px}
+@media (min-width:821px){ .ax-top{display:none} }
+@media (max-width:820px){ .ax-layout{grid-template-columns:1fr} .ax-nav{display:none} .ax-grid{grid-template-columns:1fr} .ax-top select{flex:1 1 100%} }
 
 /* ==========================================================
    Small screens
@@ -467,7 +512,7 @@ footer{width:100%;max-width:var(--wrap);margin:0 auto;padding:6px 24px 30px;colo
           <div class="ob"><div class="ob-h"><span data-t="cc"></span><button class="copy" data-copy="cc" type="button"><span data-t="copy"></span></button></div><pre class="to" id="oCc"></pre></div>
           <div class="ob"><div class="ob-h"><span data-t="subject"></span><button class="copy" data-copy="subject" type="button"><span data-t="copy"></span></button></div><pre id="oSubj"></pre></div>
         </div>
-        <div class="ob"><div class="ob-h"><span data-t="body"></span><button class="copy" data-copy="body" type="button"><span data-t="copyBody"></span></button></div><div class="preview" id="oBody"></div></div>
+        <div class="ob"><div class="ob-h"><span data-t="body"></span><div class="obtns"><button class="copy zoom" id="zoomBtn" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg><span id="zoomLbl"></span></button><button class="copy" data-copy="body" type="button"><span data-t="copyBody"></span></button></div></div><div class="preview" id="oBody"></div></div>
       </div>
       <div class="toolbar" id="outActions">
         <button class="btn btn-p wide" type="button" data-copy="body"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1"/></svg><span data-t="copyEmail"></span></button>
@@ -559,6 +604,7 @@ const CONFIG = {
       "Create every email here and keep its reference number for follow-ups.",
       "Do not reply to DCD emails, and do not CC or email the engineer directly.",
       "Review the UAE FLS Code 2018 and Annexure 2 before you write.",
+      "Visit DCD only when your meeting has been approved. On arrival at DCD HQ, scan the QR code at the entrance to register your visit.",
       "Share files through an editable OneDrive link (“Can edit”), named and organised.",
       "Meetings are for existing applications only. DCD sets the date, time and format.",
       "No meetings for rejected applications — read the rejection reasons and Annexure 2.",
@@ -570,6 +616,7 @@ const CONFIG = {
       "أنشئ كل بريد من هنا واحتفظ برقمه المرجعي للمتابعة.",
       "لا ترد على رسائل الدفاع المدني، ولا تضع المهندس في نسخة ولا تراسله مباشرة.",
       "راجع كود الإمارات 2018 والملحق رقم 2 قبل الكتابة.",
+      "لا تزر الدفاع المدني إلا بعد اعتماد اجتماعك. عند الوصول إلى المقر الرئيسي امسح رمز QR عند المدخل لتسجيل زيارتك.",
       "شارك الملفات عبر رابط OneDrive قابل للتعديل، مع تسمية الملفات وتنظيمها.",
       "الاجتماعات للطلبات القائمة فقط. يحدد الدفاع المدني الموعد والوقت وطريقة الاجتماع.",
       "لا اجتماعات للطلبات المرفوضة — اقرأ أسباب الرفض والملحق رقم 2.",
@@ -592,28 +639,32 @@ const CONFIG = {
 /* ---------- Options ----------
    Option format: [value (used in the email), Arabic label, English label (optional), English hint, Arabic hint] */
 const APP_CATS = [
-  ["Projects & Infrastructure","المشاريع والبنية التحتية","Projects & Infrastructure","Infrastructure, master plans, temporary offices and temporary event structures","البنية التحتية، المخططات الرئيسية، المكاتب المؤقتة، المنشآت المؤقتة للفعاليات"],
-  ["Buildings & Facilities","المباني والمنشآت","Buildings & Facilities","New buildings and modifications to existing buildings","المباني الجديدة والتعديلات على المباني القائمة"],
-  ["Decor & LPG","الديكور والغاز المسال","Decor & LPG","Interior fit-out works and LPG / gas installations","أعمال التشطيبات الداخلية وتركيبات الغاز المسال"]
+  ["Projects & Infrastructure","المشاريع والبنية التحتية","Projects & Infrastructure","Master plans, road and hydrant networks, temporary offices and temporary structures · Annexure 2 – A2.7","المخططات الرئيسية، شبكات الطرق والحريق، المكاتب والمنشآت المؤقتة · الملحق 2 – A2.7"],
+  ["Buildings & Facilities","المباني والمنشآت","Buildings & Facilities","New or modified buildings of any occupancy and height · Annexure 2 – A2.3 / A2.6","المباني الجديدة أو المعدلة لأي إشغال وارتفاع · الملحق 2 – A2.3 / A2.6"],
+  ["Decor & LPG","الديكور والغاز المسال","Decor & LPG","Interior fit-out in an existing building, and LPG / natural gas · Annexure 2 – A2.4 / A2.5","التشطيبات الداخلية في مبنى قائم، والغاز المسال / الطبيعي · الملحق 2 – A2.4 / A2.5"]
 ];
+/* "Your application falls under" — explanation taken from the UAE FLS Code 2018
+   (Chapter 1, Section 7 "Occupancies and types of buildings" and Annexure 2 submission types) */
+const CREF = t => "<span class='cref'>" + t + "</span>";
+const CBTN = (topic, txt) => " <button type='button' class='axlink' data-annex='" + topic + "'>" + txt + "</button>";
 const APP_CAT_INFO = {
-  en:["<b>Projects & Infrastructure</b> — infrastructure works (roads, bridges, tunnels, utilities and networks), master plans and community developments, temporary site offices and labour facilities, and temporary structures for events.",
-      "<b>Buildings & Facilities</b> — fire & life safety submissions for a building or facility: new buildings and modifications to existing ones (residential, commercial, mixed use, hotels, healthcare, educational, industrial, warehouses, villas, etc.).",
-      "<b>Decor & LPG</b> — interior fit-out / decoration of a unit inside an existing approved building (offices, shops, restaurants), and LPG / gas installations (tanks, cylinders, central gas piping).",
-      "Not sure? Check the occupancy classification and the related chapter in the UAE FLS Code 2018."],
-  ar:["<b>المشاريع والبنية التحتية</b> — أعمال البنية التحتية (الطرق، الجسور، الأنفاق، المرافق والشبكات)، المخططات الرئيسية والمجمعات، مكاتب المواقع المؤقتة ومرافق العمال، والمنشآت المؤقتة للفعاليات.",
-      "<b>المباني والمنشآت</b> — مخططات السلامة لمبنى أو منشأة: المباني الجديدة والتعديلات على المباني القائمة (سكنية، تجارية، متعددة الاستخدام، فنادق، صحية، تعليمية، صناعية، مستودعات، فلل، إلخ).",
-      "<b>الديكور والغاز المسال</b> — التشطيبات الداخلية لوحدة داخل مبنى معتمد قائم (مكاتب، محلات، مطاعم)، وتركيبات الغاز المسال (خزانات، أسطوانات، تمديدات الغاز المركزي).",
-      "غير متأكد؟ راجع تصنيف الإشغال والفصل المعني في كود الإمارات 2018."]
+  en:["<b>Projects & Infrastructure</b>" + CREF("Annexure 2 · A2.7") + "<br>Master plans and communities, road networks (roundabouts, bridges, underpasses), fire access roads, yard fire hydrant networks and fire pump rooms, LPG / fuel gas networks, and fire alarm networks of villa developments. Also temporary site offices and temporary structures — tents, membrane and air-supported structures and kiosks (Chapter 1, Section 7); for 6 months or less, use the <b>Temporary Project</b> inquiry." + CBTN("infrastructure","View requirements"),
+      "<b>Buildings & Facilities</b>" + CREF("Annexure 2 · A2.3 / A2.6") + "<br>Complete fire & life safety drawings of a building — life safety, fire alarm, fire protection, smoke control and LPG files — for any occupancy defined in Chapter 1, Section 7 (assembly, business, educational, healthcare, residential, hotel, mercantile, storage, industrial, malls, parking, villas, mixed occupancies) and any height: low-rise up to 15 m, mid-rise 15–23 m, high-rise 23–90 m, super high-rise above 90 m. Includes modifications to an approved building." + CBTN("consultant","View requirements"),
+      "<b>Decor & LPG</b>" + CREF("Annexure 2 · A2.4 / A2.5") + "<br>Interior fit-out of a unit or floor inside an existing building — for example an office, shop, restaurant or clinic — and LPG / natural gas installations: tanks, cylinders, piping, gas detection and control panels." + CBTN("decor","Décor requirements") + CBTN("lpg","LPG requirements"),
+      "Façade, cladding, curtain wall and roofing reports (A2.9) are sent under <b>Façade / Cladding</b>. Event proposals and temporary event structures (A2.8) are handled by the Events Department."],
+  ar:["<b>المشاريع والبنية التحتية</b>" + CREF("الملحق 2 · A2.7") + "<br>المخططات الرئيسية والمجمعات، شبكات الطرق (الدوارات، الجسور، الأنفاق)، طرق وصول الإطفاء، شبكات حنفيات الحريق الخارجية وغرف المضخات، شبكات الغاز المسال / الوقود، وشبكات إنذار الحريق لمجمعات الفلل. وكذلك مكاتب المواقع المؤقتة والمنشآت المؤقتة — الخيام والمنشآت الغشائية والمنفوخة والأكشاك (الفصل 1، البند 7)؛ ولمدة 6 أشهر أو أقل استخدم استفسار <b>مشروع مؤقت</b>." + CBTN("infrastructure","عرض المتطلبات"),
+      "<b>المباني والمنشآت</b>" + CREF("الملحق 2 · A2.3 / A2.6") + "<br>مخططات السلامة الكاملة لمبنى — سلامة الأرواح، إنذار الحريق، الحماية من الحريق، التحكم بالدخان والغاز المسال — لأي إشغال معرّف في الفصل 1، البند 7 (تجمعات، أعمال، تعليمي، صحي، سكني، فندقي، تجاري، تخزين، صناعي، مراكز تسوق، مواقف، فلل، إشغالات مختلطة) ولأي ارتفاع: منخفض حتى 15 م، متوسط 15–23 م، عالٍ 23–90 م، شاهق أكثر من 90 م. ويشمل التعديلات على مبنى معتمد." + CBTN("consultant","عرض المتطلبات"),
+      "<b>الديكور والغاز المسال</b>" + CREF("الملحق 2 · A2.4 / A2.5") + "<br>التشطيبات الداخلية لوحدة أو طابق داخل مبنى قائم — مثل مكتب أو محل أو مطعم أو عيادة — وتركيبات الغاز المسال / الطبيعي: الخزانات والأسطوانات والأنابيب وكشف الغاز ولوحات التحكم." + CBTN("decor","متطلبات الديكور") + CBTN("lpg","متطلبات الغاز"),
+      "تقارير الواجهات والكسوة والواجهات الزجاجية والأسطح (A2.9) تُرسل ضمن <b>الواجهات / الكسوة</b>. مقترحات الفعاليات ومنشآتها المؤقتة (A2.8) تتولاها إدارة الفعاليات."]
 };
 
 /* ---------- Field helpers ---------- */
 const OD_HELP = {en:"Paste a OneDrive / SharePoint link shared with “Can edit” access.", ar:"الصق رابط OneDrive / SharePoint مشاركاً بصلاحية «يمكن التعديل»."};
 const F = {
   appNo:   (o={}) => ({id:"appNo", en:"Application number", ar:"رقم الطلب", type:"text", req:true, inputmode:"numeric", ph:{en:"e.g. 825775",ar:"مثال: 825775"}, ...o}),
-  system:  (o={}) => ({id:"system", en:"Submission system", el:"System", ar:"نظام التقديم", type:"cards", req:true, options:[["D.M","D.M","D.M","Dubai Municipality system","نظام بلدية دبي"],["D.C.D","D.C.D","D.C.D","Dubai Civil Defence system","نظام الدفاع المدني دبي"]], ...o}),
+  system:  (o={}) => ({id:"system", en:"Submission system", el:"System", ar:"نظام التقديم", type:"cards", req:true, options:[["D.M","بلدية دبي (D.M)","Dubai Municipality (D.M)"],["D.C.D","الدفاع المدني دبي (D.C.D)","Dubai Civil Defence (D.C.D)"]], ...o}),
   projKind:(o={}) => ({id:"projKind", en:"Submission type", ar:"نوع التقديم", type:"cards", req:true,
-             options:[["New","جديد","New","Not registered or stamped by DCD before","لم يُسجَّل أو يُختم من الدفاع المدني من قبل"],["Modification","تعديل","Modification","Already stamped by DCD, with changes","مختوم من الدفاع المدني وعليه تغييرات"]], ...o}),
+             options:[["New","تقديم جديد","New submission","Not previously approved or stamped by DCD","لم يسبق اعتماده أو ختمه من الدفاع المدني"],["Modification","تعديل","Modification","Changes to a project already approved or stamped by DCD","تغييرات على مشروع معتمد أو مختوم من الدفاع المدني"]], ...o}),
   appCat:  (o={}) => ({id:"appCat", en:"Your application falls under", el:"Application category", ar:"يندرج طلبك ضمن", type:"cards", req:true, full:true, options:APP_CATS, info:APP_CAT_INFO, infoHtml:true, ...o}),
   project: (o={}) => ({id:"project", en:"Project name", ar:"اسم المشروع", type:"text", req:true, ph:{en:"e.g. Marina Tower",ar:"مثال: برج المارينا"}, ...o}),
   plot:    (o={}) => ({id:"plot", en:"Plot number", ar:"رقم قطعة الأرض", type:"text", req:true, ph:{en:"e.g. 345-678",ar:"مثال: 345-678"}, ...o}),
@@ -626,24 +677,24 @@ const F = {
 /* ---------- Sender section (shown first; categories unlock when complete) ---------- */
 CONFIG.SENDER = [
   {en:"Your details", ar:"بياناتك", fields:[
-    {id:"role", en:"You are sending as", el:"Submitted by", ar:"صفتك", type:"cards", req:true, full:true,
-      options:[["Consultant","استشاري","Consultant","Design / supervision consultant of the project","الاستشاري المصمم / المشرف على المشروع"],["Contractor","مقاول","Contractor","Main, fit-out or LPG contractor of the project","المقاول الرئيسي أو مقاول التشطيبات أو الغاز"]],
+    {id:"role", en:"Your role in the project", el:"Submitted by", ar:"صفتك في المشروع", type:"cards", req:true, full:true,
+      options:[["Consultant","استشاري المشروع","Project consultant","Design or supervision consultant","الاستشاري المصمم أو المشرف"],["Contractor","مقاول المشروع","Project contractor","Main, fit-out or LPG contractor","المقاول الرئيسي أو مقاول التشطيبات أو الغاز"]],
       info:{en:["Only the consultant or the contractor of the project may contact the department.","The project owner is not the sender — the owner is copied (CC) on your email."],ar:["يتواصل مع الإدارة استشاري المشروع أو مقاوله فقط.","مالك المشروع ليس المرسل — يوضع المالك في نسخة (CC) من بريدك."]}},
     {id:"company", en:"Company name", ar:"اسم الشركة", type:"text", req:true, ac:"organization", ph:{en:"Consultancy / contracting company",ar:"اسم الشركة الاستشارية / المقاولات"}},
-    {id:"name", en:"Your full name", el:"Contact person", ar:"اسمك الكامل", type:"text", req:true, ac:"name", ph:{en:"Full name",ar:"الاسم الكامل"}},
+    {id:"name", en:"Full name", el:"Contact person", ar:"اسمك الكامل", type:"text", req:true, ac:"name", ph:{en:"Full name",ar:"الاسم الكامل"}},
     {id:"phone", en:"Mobile number", ar:"رقم الهاتف المتحرك", type:"phone", req:true},
     {id:"email", en:"Email address", ar:"البريد الإلكتروني", type:"email", req:true, ac:"email", ph:{en:"name@company.com",ar:"name@company.com"}, pattern:/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/}
   ]},
-  {en:"Project owner (copied on your email)", el:"Project owner (CC)", ar:"مالك المشروع (يوضع في نسخة)", note:{en:"The owner is added in CC automatically.",ar:"يُضاف المالك في خانة النسخة (CC) تلقائياً."}, fields:[
+  {en:"Project owner (copied on the email)", el:"Project owner (CC)", ar:"مالك المشروع (نسخة من البريد)", note:{en:"The owner is added in CC automatically.",ar:"يُضاف المالك في خانة النسخة (CC) تلقائياً."}, fields:[
     {id:"ownerName", en:"Owner name", ar:"اسم المالك", type:"text", req:true, ph:{en:"Owner / owner's representative",ar:"المالك / ممثل المالك"}},
     {id:"ownerPhone", en:"Owner mobile number", ar:"رقم هاتف المالك", type:"phone", req:true},
     {id:"ownerEmail", en:"Owner email address", ar:"البريد الإلكتروني للمالك", type:"email", req:true, full:true, ph:{en:"owner@email.com",ar:"owner@email.com"}, pattern:/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/}
   ]},
-  {id:"sec_prev", en:"Previous email", ar:"البريد السابق", fields:[
+  {id:"sec_prev", en:"Request type", ar:"نوع الطلب", fields:[
     {id:"hasPrev", en:"Is this a new request or a follow-up?", el:"Follow-up", ar:"هل هذا طلب جديد أم متابعة؟", type:"cards", req:true, full:true,
-      options:[["No — this is a new request","طلب جديد","New request","A new reference number will be created","سيُنشأ رقم مرجعي جديد"],["Yes — I have a reference number","متابعة لبريد سابق","Follow-up of an earlier email","Keeps your earlier reference number","يحتفظ برقمك المرجعي السابق"]],
-      helpTop:{en:"Every email created here has a reference number (e.g. PS-PED-AS-05-10-26-123456) in its subject. Following up on an earlier email? Choose “Follow-up” and enter that number, so your request stays under the same reference.",
-               ar:"لكل بريد يُنشأ هنا رقم مرجعي (مثال: PS-PED-AS-05-10-26-123456) في عنوانه. تتابع بريداً سابقاً؟ اختر «متابعة» وأدخل الرقم ليبقى طلبك تحت نفس المرجع."}},
+      options:[["No — this is a new request","طلب جديد","New request","A new reference number will be issued","سيصدر رقم مرجعي جديد"],["Yes — I have a reference number","متابعة لبريد سابق","Follow-up to a previous email","Your previous reference number is kept","يُحتفظ برقمك المرجعي السابق"]],
+      help:{en:"Each email generated here carries a reference number in its subject (e.g. PS-PED-AS-05-10-26-123456). For a follow-up, choose “Follow-up to a previous email” and enter that reference.",
+               ar:"يحمل كل بريد يُنشأ هنا رقماً مرجعياً في عنوانه (مثال: PS-PED-AS-05-10-26-123456). للمتابعة اختر «متابعة لبريد سابق» وأدخل ذلك الرقم."}},
     {id:"prevRef", en:"Previous reference number", ar:"الرقم المرجعي السابق", type:"text", req:true, full:true, when:{f:"hasPrev", in:["Yes — I have a reference number"]},
       ph:{en:"PS-PED-AS-05-10-26-123456",ar:"PS-PED-AS-05-10-26-123456"}, pattern:/^PS-PED?-[A-Z]{2,9}-\d{2}-\d{2}-\d{2,4}-[A-Z0-9]{6}$/i,
       help:{en:"Copy it from the subject of your earlier email.",ar:"انسخه من عنوان بريدك السابق."}}
@@ -660,10 +711,10 @@ const TECH_BUILDING = [
 ];
 
 /* Annexure 2 link/button used inside notices (built with normal strings — no template literals with URLs) */
-const AX_BTNS = {
-  en:"<div class='nbtns'><button type='button' class='btn btn-s' data-annex style='min-height:40px'>Annexure 2 at a glance</button><a class='btn btn-s' style='min-height:40px' target='_blank' rel='noopener noreferrer' href='" + FLS_LINK + "'>UAE FLS Code 2018 ↗</a></div>",
-  ar:"<div class='nbtns'><button type='button' class='btn btn-s' data-annex style='min-height:40px'>ملخص الملحق رقم 2</button><a class='btn btn-s' style='min-height:40px' target='_blank' rel='noopener noreferrer' href='" + FLS_LINK + "'>كود الإمارات 2018 ↗</a></div>"
-};
+const axBtns = topic => ({
+  en:"<div class='nbtns'><button type='button' class='btn btn-s' data-annex='" + topic + "' style='min-height:40px'>View in Annexure 2</button><a class='btn btn-s' style='min-height:40px' target='_blank' rel='noopener noreferrer' href='" + FLS_LINK + "'>UAE FLS Code 2018 ↗</a></div>",
+  ar:"<div class='nbtns'><button type='button' class='btn btn-s' data-annex='" + topic + "' style='min-height:40px'>عرض في الملحق رقم 2</button><a class='btn btn-s' style='min-height:40px' target='_blank' rel='noopener noreferrer' href='" + FLS_LINK + "'>كود الإمارات 2018 ↗</a></div>"
+});
 const IN_SPECIFIC = {f:"giAbout", in:["A specific UAE FLS Code 2018 requirement"]};
 const MTG_YES = {f:"mHasApp", in:["Yes"]};
 const MTG_TOPIC = {f:"mAbout", in:["Unclear comment","Clarification"]};
@@ -685,7 +736,13 @@ CONFIG.CATEGORIES = [
         {id:"statusGate", type:"gate", req:true, full:true, en:"I have checked my application status online and still need to contact the department.", ar:"تحققت من حالة طلبي إلكترونياً وما زلت بحاجة إلى التواصل مع الإدارة."}
       ]},
       {en:"Application details", ar:"بيانات الطلب", when:{f:"statusGate", in:["Yes"]}, fields:[
-        F.appNo(), F.project(), F.system(), F.projKind(), F.appCat(),
+        F.appNo(), F.project(),
+        {id:"appStage", en:"Is this a new submission or a resubmission?", el:"Submission stage", ar:"هل هذا تقديم جديد أم إعادة تقديم؟", type:"cards", req:true, full:true,
+          options:[["New submission","تقديم جديد","New submission","First submission in the system — no DCD comments yet","أول تقديم في النظام — لا توجد ملاحظات من الدفاع المدني بعد"],
+                   ["Resubmission","إعادة تقديم","Resubmission","Resubmitted after previous DCD comments","أُعيد تقديمه بعد ملاحظات سابقة من الدفاع المدني"]]},
+        F.engineer({id:"statusEng", req:false, when:{f:"appStage", in:["Resubmission"]}, en:"DCD engineer who issued the previous comments", el:"DCD engineer", ar:"مهندس الدفاع المدني صاحب الملاحظات السابقة",
+          help:{en:"Optional — select only if you know the engineer.",ar:"اختياري — اختره فقط إذا كنت تعرف المهندس."}}),
+        F.system(), F.projKind(), F.appCat(),
         F.plot({req:false}),
         {id:"submittedOn", en:"Submission date", ar:"تاريخ التقديم", type:"date"}
       ]}
@@ -697,20 +754,20 @@ CONFIG.CATEGORIES = [
     blocks:[
       {when:{f:"giAbout", in:["Submission requirements"]},
         en:"<b class='h'>No email is required for submission requirements.</b>All submission steps, file formats, file names and drawing contents are set out in Annexure 2 of the UAE FLS Code 2018 and the Consultant Submission Requirements. Please follow them and submit through the system.",
-        ar:"<b class='h'>لا حاجة لإرسال بريد بخصوص متطلبات التقديم.</b>جميع خطوات التقديم وصيغ الملفات وأسماؤها ومحتوى المخططات موضحة في الملحق رقم 2 من كود الإمارات 2018 ومتطلبات تقديم الاستشاري. يرجى اتباعها والتقديم عبر النظام.", ax:true},
+        ar:"<b class='h'>لا حاجة لإرسال بريد بخصوص متطلبات التقديم.</b>جميع خطوات التقديم وصيغ الملفات وأسماؤها ومحتوى المخططات موضحة في الملحق رقم 2 من كود الإمارات 2018 ومتطلبات تقديم الاستشاري. يرجى اتباعها والتقديم عبر النظام.", ax:"consultant"},
       {when:{f:"giAbout", in:["Reason for rejection"]},
         en:"<b class='h'>Please review the rejection reasons in the system.</b>The reasons for rejection are listed in Annexure 2 of the UAE FLS Code 2018. Meetings are not available for rejected applications — correct the drawings and resubmit through the system.",
-        ar:"<b class='h'>يرجى مراجعة أسباب الرفض في النظام.</b>أسباب الرفض مذكورة في الملحق رقم 2 من كود الإمارات 2018. لا تتوفر اجتماعات للطلبات المرفوضة — صحّح المخططات وأعد التقديم عبر النظام.", ax:true},
+        ar:"<b class='h'>يرجى مراجعة أسباب الرفض في النظام.</b>أسباب الرفض مذكورة في الملحق رقم 2 من كود الإمارات 2018. لا تتوفر اجتماعات للطلبات المرفوضة — صحّح المخططات وأعد التقديم عبر النظام.", ax:"rejection"},
       {when:[IN_SPECIFIC,{f:"appCat", in:["Projects & Infrastructure"]},{f:"piType", in:["Temporary event structure / tent"]}],
         en:"<b class='h'>Temporary structures for events are handled by the Events Department.</b>Please email events@dcd.gov.ae directly and follow their process.",
         ar:"<b class='h'>المنشآت المؤقتة للفعاليات تتبع إدارة الفعاليات.</b>يرجى مراسلة events@dcd.gov.ae مباشرة واتباع إجراءاتهم."}
     ],
     sections:[
       {en:"Inquiry", ar:"الاستفسار", fields:[
-        {id:"giAbout", en:"What is your inquiry about?", ar:"عن ماذا استفسارك؟", type:"cards", req:true, full:true,
-          options:[["A specific UAE FLS Code 2018 requirement","متطلب محدد في الكود","A UAE FLS Code requirement","A specific chapter / section of the code","فصل أو بند محدد في الكود"],
-                   ["Submission requirements","متطلبات التقديم","Submission requirements","Files, names and drawings to submit","الملفات والأسماء والمخططات المطلوبة"],
-                   ["Reason for rejection","سبب الرفض","Reason for rejection","Understanding a rejection","فهم سبب رفض الطلب"]]}
+        {id:"giAbout", en:"Nature of your inquiry", ar:"طبيعة استفسارك", type:"cards", req:true, full:true,
+          options:[["A specific UAE FLS Code 2018 requirement","متطلب محدد في كود الإمارات 2018","A specific UAE FLS Code 2018 requirement","Clarification of a chapter or section of the code","توضيح فصل أو بند في الكود"],
+                   ["Submission requirements","متطلبات التقديم","Submission requirements","Files, file names and drawing contents","الملفات وأسماؤها ومحتوى المخططات"],
+                   ["Reason for rejection","سبب الرفض","Reason for rejection","Understanding why an application was rejected","فهم سبب رفض الطلب"]]}
       ]},
       {en:"Project", ar:"المشروع", when:IN_SPECIFIC, fields:[
         F.appCat(), F.project(), F.appNo({req:false, help:{en:"Only if an application already exists.",ar:"فقط إذا كان هناك طلب قائم."}})
@@ -719,17 +776,17 @@ CONFIG.CATEGORIES = [
         {id:"piType", en:"Project type", ar:"نوع المشروع", type:"select", req:true,
           options:[["Infrastructure","بنية تحتية"],["Master plan","مخطط رئيسي"],["Temporary site offices","مكاتب مواقع مؤقتة"],["Temporary event structure / tent","منشأة / خيمة مؤقتة لفعالية"],["Temporary structure / tent (non-event)","منشأة / خيمة مؤقتة (ليست لفعالية)"]]},
         F.num("piArea","Total area (m²)","المساحة الإجمالية (م²)",{ph:{en:"e.g. 1500",ar:"مثال: 1500"}}),
-        {id:"piUse", en:"Description / use", ar:"الوصف / الاستخدام", type:"text", req:true, full:true, ph:{en:"e.g. 12 site office cabins with a welfare area",ar:"مثال: 12 كابينة مكاتب موقع مع منطقة استراحة"}}
+        {id:"piUse", en:"Brief description of the project", el:"Description", ar:"وصف مختصر للمشروع", type:"text", req:true, full:true, ph:{en:"e.g. 12 site office cabins with a welfare area",ar:"مثال: 12 كابينة مكاتب موقع مع منطقة استراحة"}}
       ]},
       {en:"Building details", ar:"بيانات المبنى", when:[IN_SPECIFIC,{f:"appCat", in:["Buildings & Facilities"]}], fields:TECH_BUILDING},
       {en:"Decor & LPG details", ar:"بيانات الديكور / الغاز", when:[IN_SPECIFIC,{f:"appCat", in:["Decor & LPG"]}], fields:[
-        {id:"dlType", en:"Works type", ar:"نوع الأعمال", type:"cards", req:true, full:true,
-          options:[["Decor (interior fit-out)","ديكور (تشطيبات داخلية)","Decor (interior fit-out)"],["LPG installation","تركيب غاز مسال (LPG)","LPG installation"]]},
+        {id:"dlType", en:"Type of works", ar:"نوع الأعمال", type:"cards", req:true, full:true,
+          options:[["Decor (interior fit-out)","ديكور (تشطيبات داخلية)","Décor (interior fit-out)","Annexure 2 – A2.4","الملحق 2 – A2.4"],["LPG installation","تركيب غاز مسال (LPG)","LPG / natural gas installation","Annexure 2 – A2.5","الملحق 2 – A2.5"]]},
         F.num("decorArea","Area (m²)","المساحة (م²)",{when:{f:"dlType", in:["Decor (interior fit-out)"]}, ph:{en:"e.g. 350",ar:"مثال: 350"}}),
         {id:"decorUse", en:"Use of the unit", ar:"استخدام الوحدة", type:"text", req:true, when:{f:"dlType", in:["Decor (interior fit-out)"]}, ph:{en:"e.g. Office, restaurant, retail shop",ar:"مثال: مكتب، مطعم، محل تجاري"}},
         {id:"lpgStorage", en:"Storage type", ar:"نوع التخزين", type:"select", req:true, when:{f:"dlType", in:["LPG installation"]}, options:[["Tank","خزان"],["Cylinders","أسطوانات"],["Other","أخرى"]]},
         {id:"lpgCapacity", en:"Capacity", ar:"السعة", type:"text", req:true, when:{f:"dlType", in:["LPG installation"]}, ph:{en:"e.g. 2,000 L tank / 10 × 50 kg cylinders",ar:"مثال: خزان 2000 لتر / 10 × 50 كغ"}},
-        {id:"dlBuilding", en:"Building / location", ar:"المبنى / الموقع", type:"text", full:true, ph:{en:"e.g. Marina Plaza, Shop 12",ar:"مثال: مارينا بلازا، محل 12"}}
+        {id:"dlBuilding", en:"Building and unit", el:"Building / unit", ar:"المبنى والوحدة", type:"text", full:true, ph:{en:"e.g. Marina Plaza, Shop 12",ar:"مثال: مارينا بلازا، محل 12"}}
       ]},
       {en:"Your questions", el:"Questions", ar:"أسئلتك", when:IN_SPECIFIC, note:{en:"One question per row, with the chapter, section and page of the UAE FLS Code 2018 you reviewed (up to 5).",ar:"سؤال واحد في كل صف، مع الفصل والبند والصفحة من كود الإمارات 2018 التي راجعتها (حتى 5)."}, fields:[
         {id:"questions", type:"list", en:"Questions", min:1, max:5, cols:[
@@ -745,39 +802,39 @@ CONFIG.CATEGORIES = [
 
   {id:"meeting", code:"MR", to:INBOX.projects, en:"Meeting Request", ar:"طلب اجتماع", icon:"meeting", tag:{en:"Existing applications",ar:"للطلبات القائمة"},
     subject:["mAbout","appNo","project"],
-    note:{tone:"warn", en:"Meetings are for existing applications with paid service fees only, and are not available for rejected applications. DCD sets the date, time and meeting format — please do not visit until you receive confirmation.", ar:"الاجتماعات للطلبات القائمة المدفوعة رسومها فقط، ولا تتوفر للطلبات المرفوضة. يحدد الدفاع المدني الموعد والوقت وطريقة الاجتماع — يرجى عدم الحضور قبل استلام التأكيد."},
+    note:{tone:"warn", en:"Meetings are for existing applications with paid service fees only, and are not available for rejected applications. DCD sets the date, time and meeting format — please visit only after your meeting has been approved. On arrival at DCD HQ, scan the QR code at the entrance to register your visit.", ar:"الاجتماعات للطلبات القائمة المدفوعة رسومها فقط، ولا تتوفر للطلبات المرفوضة. يحدد الدفاع المدني الموعد والوقت وطريقة الاجتماع — يرجى الحضور فقط بعد اعتماد الاجتماع. عند الوصول إلى المقر الرئيسي امسح رمز QR عند المدخل لتسجيل زيارتك."},
     blocks:[
       {when:{f:"mHasApp", in:["No"]},
         en:"<b class='h'>Meetings are only for existing applications.</b>If you do not have an application yet, please send a <b>General Inquiry</b> with clear questions after reviewing the UAE FLS Code 2018.<div class='nbtns'><button type='button' class='btn btn-s' data-switch='general' style='min-height:40px'>Switch to General Inquiry</button></div>",
         ar:"<b class='h'>الاجتماعات مخصصة للطلبات القائمة فقط.</b>إذا لم يكن لديك طلب بعد، يرجى إرسال <b>استفسار عام</b> بأسئلة واضحة بعد مراجعة كود الإمارات 2018.<div class='nbtns'><button type='button' class='btn btn-s' data-switch='general' style='min-height:40px'>الانتقال إلى الاستفسار العام</button></div>"},
       {when:[MTG_YES,{f:"mAbout", in:["Submission requirements"]}],
         en:"<b class='h'>No meeting or email is required for submission requirements.</b>Please review Annexure 2 (Consultant Submission Requirements) and the rejection reasons in the system, then resubmit.",
-        ar:"<b class='h'>لا حاجة لاجتماع أو بريد بخصوص متطلبات التقديم.</b>يرجى مراجعة الملحق رقم 2 (متطلبات تقديم الاستشاري) وأسباب الرفض في النظام، ثم إعادة التقديم.", ax:true}
+        ar:"<b class='h'>لا حاجة لاجتماع أو بريد بخصوص متطلبات التقديم.</b>يرجى مراجعة الملحق رقم 2 (متطلبات تقديم الاستشاري) وأسباب الرفض في النظام، ثم إعادة التقديم.", ax:"consultant"}
     ],
-    decl:[{id:"dVisit", en:"I understand DCD will set the meeting date, time and format, and I will not visit until I receive confirmation.", ar:"أفهم أن الدفاع المدني سيحدد موعد الاجتماع ووقته وطريقته، ولن أحضر قبل استلام التأكيد."}],
+    decl:[{id:"dVisit", en:"I will visit DCD only after the meeting is approved, and all attendees will scan the QR code at the DCD HQ entrance to register the visit.", ar:"لن أزور الدفاع المدني إلا بعد اعتماد الاجتماع، وسيمسح جميع الحضور رمز QR عند مدخل المقر الرئيسي لتسجيل الزيارة."}],
     sections:[
       {en:"Application", ar:"الطلب", fields:[
         {id:"mHasApp", en:"Do you have an existing application in the system?", el:"Existing application", ar:"هل لديك طلب قائم في النظام؟", type:"cards", req:true, full:true,
-          options:[["Yes","نعم — لدي طلب قائم","Yes — existing application","Submitted, with the service fee paid","مقدم ومدفوعة رسومه"],["No","لا — ليس لدي طلب","No application yet","You will be guided to a General Inquiry","سيتم توجيهك إلى الاستفسار العام"]]},
+          options:[["Yes","نعم — لدي طلب قائم","Yes — I have an existing application","Submitted, with the service fee paid","مقدم ومدفوعة رسومه"],["No","لا — ليس لدي طلب بعد","No — I do not have an application yet","You will be directed to a General Inquiry","سيتم توجيهك إلى الاستفسار العام"]]},
         F.appNo({when:MTG_YES}), F.project({when:MTG_YES}), F.system({when:MTG_YES}), F.projKind({when:MTG_YES}), F.appCat({when:MTG_YES})
       ]},
       {en:"Purpose of the meeting", el:"Meeting", ar:"الغرض من الاجتماع", when:MTG_YES, fields:[
-        {id:"mAbout", en:"The meeting is about", ar:"موضوع الاجتماع", type:"cards", req:true, full:true,
-          options:[["Unclear comment","ملاحظة غير واضحة","Unclear comment","The code was reviewed and the comment is still unclear","تمت مراجعة الكود وما زالت الملاحظة غير واضحة"],
-                   ["Clarification","توضيح","Clarification","Explaining a design / proposal, with an undertaking letter","شرح تصميم أو مقترح مع خطاب تعهد"],
-                   ["Submission requirements","متطلبات التقديم","Submission requirements","Covered by Annexure 2 — no meeting needed","يغطيها الملحق رقم 2 — لا حاجة لاجتماع"]]},
-        {id:"reqByEng", en:"Was this meeting requested by a DCD engineer?", el:"Requested by DCD engineer", ar:"هل طلب هذا الاجتماع مهندس من الدفاع المدني؟", type:"cards", req:true, when:MTG_TOPIC,
+        {id:"mAbout", en:"Purpose of the meeting", el:"Meeting subject", ar:"الغرض من الاجتماع", type:"cards", req:true, full:true,
+          options:[["Unclear comment","مناقشة ملاحظة غير واضحة","Discuss an unclear comment","The code has been reviewed and the comment remains unclear","تمت مراجعة الكود وما زالت الملاحظة غير واضحة"],
+                   ["Clarification","تقديم توضيح","Present a clarification","Explain a design or proposal, supported by an undertaking letter","شرح تصميم أو مقترح مدعوم بخطاب تعهد"],
+                   ["Submission requirements","متطلبات التقديم","Submission requirements","Covered by Annexure 2 — a meeting is not required","يغطيها الملحق رقم 2 — لا حاجة لاجتماع"]]},
+        {id:"reqByEng", en:"Was the meeting requested by a DCD engineer?", el:"Requested by DCD engineer", ar:"هل طلب هذا الاجتماع مهندس من الدفاع المدني؟", type:"cards", req:true, when:MTG_TOPIC,
           options:[["Yes","نعم","Yes"],["No","لا","No"]]},
         F.engineer({when:MTG_TOPIC, en:"Engineer to meet", el:"DCD engineer", ar:"المهندس المطلوب مقابلته",
           help:{en:"If the engineer requested the meeting, choose that engineer.",ar:"إذا طلب المهندس الاجتماع فاختره."}})
       ]},
       {en:"Unclear comment", ar:"الملاحظة غير الواضحة", when:[MTG_YES,{f:"mAbout", in:["Unclear comment"]}], fields:[
         {id:"codeRef", en:"UAE FLS Code reference (chapter / section)", el:"UAE FLS Code reference", ar:"مرجع الكود (الفصل / البند)", type:"text", req:true, full:true, ph:{en:"e.g. Chapter 3, Section 3.4.2, page 112",ar:"مثال: الفصل 3، البند 3.4.2، صفحة 112"}},
-        F.details({id:"engComment", en:"Engineer's comment (as written)", el:"Engineer's comment", ar:"ملاحظة المهندس (كما وردت)"}),
+        F.details({id:"engComment", en:"Engineer's comment (exactly as written)", el:"Engineer's comment", ar:"ملاحظة المهندس (كما وردت)"}),
         F.details({id:"unclearWhat", en:"What remains unclear after reviewing the code?", el:"What is unclear", ar:"ما الذي ما زال غير واضح بعد مراجعة الكود؟"})
       ]},
       {en:"Clarification", ar:"التوضيح", when:[MTG_YES,{f:"mAbout", in:["Clarification"]}], fields:[
-        F.details({id:"clarDetails", en:"What needs to be clarified? (in detail)", el:"Clarification needed", ar:"ما الذي يحتاج إلى توضيح؟ (بالتفصيل)"}),
+        F.details({id:"clarDetails", en:"Details of the clarification", el:"Clarification", ar:"ما الذي يحتاج إلى توضيح؟ (بالتفصيل)"}),
         {id:"undertaking", type:"gate", req:true, full:true, en:"A clear, detailed undertaking letter has been uploaded to the system for the engineer's review.", el:"Undertaking letter uploaded to the system", ar:"تم رفع خطاب تعهد واضح ومفصل في النظام لمراجعة المهندس."}
       ]},
       {en:"Supporting files", ar:"الملفات الداعمة", when:[MTG_YES,MTG_TOPIC], fields:[
@@ -788,7 +845,7 @@ CONFIG.CATEGORIES = [
         {id:"agenda", type:"list", en:"Points to discuss", el:"Points to discuss", min:1, max:6, cols:[
           {id:"item", en:"Point to discuss", ar:"نقطة للنقاش", req:true, w:"1fr"}
         ]},
-        {id:"attendees", type:"list", en:"Attendees from your side", el:"Attendees", min:1, max:5, cols:[
+        {id:"attendees", type:"list", en:"Your attendees", el:"Attendees", min:1, max:5, cols:[
           {id:"n", en:"Full name", ar:"الاسم الكامل", req:true, w:"1.2fr"},
           {id:"r", en:"Designation & company", ar:"المسمى الوظيفي والشركة", req:true, w:"1.6fr"}
         ]}
@@ -820,19 +877,95 @@ CONFIG.CATEGORIES = [
       ]}]},
 
   {id:"stamp", code:"MS", to:INBOX.projects, en:"Missing Stamp", ar:"ختم مفقود", icon:"stamp",
-    subject:["newAppNo","project"],
-    note:{tone:"warn", html:true,
-      en:"<b class='h'>Stamps are applied through the system only. To resolve a missing stamp:</b><ul><li>Submit a <b>new application</b> and attach the <b>final approval report</b>.</li><li>Then send this email with the <b>new application number</b>.</li><li>Use the <b>same page size</b> for all pages (e.g. all A3 — do not mix sizes).</li><li>Keep each file <b>under 30 MB</b> — the stamp is an image and increases the file size.</li><li>Remove details not required by the UAE FLS Code 2018 — they add to the file size.</li></ul>",
-      ar:"<b class='h'>يُختم من خلال النظام فقط. لمعالجة الختم المفقود:</b><ul><li>قدّم <b>طلباً جديداً</b> وأرفق <b>تقرير الاعتماد النهائي</b>.</li><li>ثم أرسل هذا البريد مع <b>رقم الطلب الجديد</b>.</li><li>استخدم <b>نفس مقاس الصفحة</b> لجميع الصفحات (مثلاً كلها A3 — لا تخلط المقاسات).</li><li>اجعل حجم كل ملف <b>أقل من 30 ميغابايت</b> — الختم صورة ويزيد حجم الملف.</li><li>احذف التفاصيل غير المطلوبة في كود الإمارات 2018 — فهي تزيد الحجم.</li></ul>"},
-    decl:[
-      {id:"dNewApp", en:"A new application has been submitted with the final approval report attached.", ar:"تم تقديم طلب جديد مع إرفاق تقرير الاعتماد النهائي."},
-      {id:"dPages", en:"All pages use the same page size and each file is under 30 MB.", ar:"جميع الصفحات بنفس المقاس وحجم كل ملف أقل من 30 ميغابايت."}],
+    subject:["appNo","project"],
+    note:{tone:"info", html:true,
+      en:"<b class='h'>How to avoid a missing stamp</b>The DCD stamp is applied <b>automatically</b> by the system — it is not placed by hand. The system reads the page size and layout of your file and places the stamp at the same position on every page. Pages that do not match the rest of the file can be missed.<ul><li><b>One page size</b> for the whole file (e.g. all A1 or all A3) — do not mix sizes.</li><li><b>One orientation</b> for all pages (all landscape or all portrait), with every page upright — not rotated.</li><li>Keep each file <b>under 30 MB</b> — the stamp is an image and increases the file size.</li><li>Remove content not required by the UAE FLS Code 2018 — it only adds to the size.</li><li>Upload <b>every page</b> that needs approval — pages that are not uploaded are not reviewed and cannot be stamped.</li></ul>",
+      ar:"<b class='h'>كيف تتجنب فقدان الختم</b>يُوضع ختم الدفاع المدني <b>آلياً</b> بواسطة النظام — ولا يُوضع يدوياً. يقرأ النظام مقاس صفحات ملفك وتخطيطها ويضع الختم في نفس الموضع على كل صفحة، لذا قد لا تُختم الصفحات المختلفة عن بقية الملف.<ul><li><b>مقاس صفحة واحد</b> للملف كاملاً (مثلاً كلها A1 أو كلها A3) — لا تخلط المقاسات.</li><li><b>اتجاه واحد</b> لجميع الصفحات (كلها أفقية أو كلها عمودية)، وكل صفحة معتدلة — غير مُدارة.</li><li>اجعل حجم كل ملف <b>أقل من 30 ميغابايت</b> — الختم صورة ويزيد حجم الملف.</li><li>احذف المحتوى غير المطلوب في كود الإمارات 2018 — فهو يزيد الحجم فقط.</li><li>ارفع <b>جميع الصفحات</b> المطلوب اعتمادها — الصفحات غير المرفوعة لا تُراجع ولا يمكن ختمها.</li></ul>"},
+    blocks:[
+      {when:{f:"stampCase", in:["Not uploaded"]},
+        en:"<b class='h'>Please submit a new application.</b>Pages that were not uploaded with the approved submission were not reviewed, so they cannot be stamped. Submit a new application in the system and attach:<ul><li>An <b>undertaking letter</b> stating which pages were not uploaded and why.</li><li>The <b>final approval letter</b> of the approved application.</li><li><b>Only the pages</b> that were not uploaded — not the full set of drawings.</li></ul>For the fees of the new application, please contact the Finance Department at <b>Fddcd@dcd.gov.ae</b>.",
+        ar:"<b class='h'>يرجى تقديم طلب جديد.</b>الصفحات التي لم تُرفع مع التقديم المعتمد لم تُراجع، لذا لا يمكن ختمها. قدّم طلباً جديداً في النظام وأرفق:<ul><li><b>خطاب تعهد</b> يوضح الصفحات التي لم تُرفع وسبب ذلك.</li><li><b>خطاب الاعتماد النهائي</b> للطلب المعتمد.</li><li><b>الصفحات المعنية فقط</b> — وليس كامل المخططات.</li></ul>بخصوص رسوم الطلب الجديد، يرجى التواصل مع الإدارة المالية على <b>Fddcd@dcd.gov.ae</b>."},
+      {when:[{f:"stampCase", in:["Uploaded"]},{f:"stampAge", in:["More than 5 days"]}],
+        en:"<b class='h'>More than 5 days have passed — please submit a new application.</b>Missing stamps reported more than 5 days after the final approval are handled through a new application. Submit a new application in the system and attach:<ul><li>An <b>undertaking letter</b> stating which pages did not receive the stamp.</li><li>The <b>final approval letter</b> of the approved application.</li><li><b>Only the pages</b> that did not receive the stamp — not the full set of drawings.</li></ul>For the fees of the new application, please contact the Finance Department at <b>Fddcd@dcd.gov.ae</b>.",
+        ar:"<b class='h'>مضى أكثر من 5 أيام — يرجى تقديم طلب جديد.</b>تُعالج الأختام المفقودة المبلّغ عنها بعد أكثر من 5 أيام من الاعتماد النهائي من خلال طلب جديد. قدّم طلباً جديداً في النظام وأرفق:<ul><li><b>خطاب تعهد</b> يوضح الصفحات التي لم تُختم.</li><li><b>خطاب الاعتماد النهائي</b> للطلب المعتمد.</li><li><b>الصفحات غير المختومة فقط</b> — وليس كامل المخططات.</li></ul>بخصوص رسوم الطلب الجديد، يرجى التواصل مع الإدارة المالية على <b>Fddcd@dcd.gov.ae</b>."}
+    ],
+    decl:[{id:"dStampPages", en:"The pages listed were uploaded with the approved submission and did not receive the DCD stamp.", ar:"الصفحات المذكورة رُفعت مع التقديم المعتمد ولم تحصل على ختم الدفاع المدني."}],
     sections:[
-      {en:"Applications", ar:"الطلبات", fields:[
-        {id:"newAppNo", en:"New application number", ar:"رقم الطلب الجديد", type:"text", req:true, inputmode:"numeric", ph:{en:"The application just submitted",ar:"الطلب الذي قُدم الآن"}},
-        {id:"oldAppNo", en:"Previous (approved) application number", ar:"رقم الطلب السابق (المعتمد)", type:"text", req:true, inputmode:"numeric"},
-        F.project(), F.system(), F.projKind(), F.appCat()
-      ]}]},
+      {en:"Missing stamp", ar:"الختم المفقود", fields:[
+        {id:"stampCase", en:"Were the pages uploaded with the approved submission?", el:"Pages uploaded", ar:"هل رُفعت الصفحات مع التقديم المعتمد؟", type:"cards", req:true, full:true,
+          options:[["Uploaded","نعم — رُفعت ولم تُختم","Yes — uploaded, but not stamped","The pages are in the approved submission without the stamp","الصفحات موجودة في التقديم المعتمد بدون ختم"],
+                   ["Not uploaded","لا — لم تُرفع","No — the pages were not uploaded","Pages missing from the approved submission","صفحات غير موجودة في التقديم المعتمد"]]},
+        {id:"stampAge", en:"When was the final approval issued?", el:"Reported", ar:"متى صدر الاعتماد النهائي؟", type:"cards", req:true, full:true, when:{f:"stampCase", in:["Uploaded"]},
+          options:[["Within 5 days","خلال 5 أيام أو أقل","5 days ago or less","An email can be sent to the department","يمكن إرسال بريد إلى الإدارة"],
+                   ["More than 5 days","أكثر من 5 أيام","More than 5 days ago","A new application is required","يلزم تقديم طلب جديد"]]}
+      ]},
+      {en:"Approved application", ar:"الطلب المعتمد", when:[{f:"stampCase", in:["Uploaded"]},{f:"stampAge", in:["Within 5 days"]}], fields:[
+        F.appNo({en:"Approved application number", ar:"رقم الطلب المعتمد"}), F.project(),
+        F.appCat({en:"Project type — your application falls under", el:"Project type", ar:"نوع المشروع — يندرج طلبك ضمن"}), F.system(), F.projKind(),
+        {id:"approvalDate", en:"Final approval date", ar:"تاريخ الاعتماد النهائي", type:"date", req:true}
+      ]},
+      {en:"Pages without the stamp", el:"Pages without the stamp", ar:"الصفحات غير المختومة", when:[{f:"stampCase", in:["Uploaded"]},{f:"stampAge", in:["Within 5 days"]}],
+        note:{en:"List each page that did not receive the stamp (up to 10).",ar:"اذكر كل صفحة لم تحصل على الختم (حتى 10)."}, fields:[
+        {id:"missingPages", type:"list", en:"Pages", el:"Pages without the stamp", min:1, max:10, cols:[
+          {id:"file", en:"File name", ar:"اسم الملف", req:true, w:"1.6fr"},
+          {id:"page", en:"Page no.", ar:"رقم الصفحة", req:true, w:".6fr", inputmode:"numeric"},
+          {id:"title", en:"Drawing title", ar:"عنوان المخطط", req:false, w:"1.6fr"}
+        ]},
+        {id:"stampReason", en:"Likely reason the stamp was not applied", el:"Likely reason", ar:"السبب المحتمل لعدم وضع الختم", type:"select", req:true, full:true,
+          options:[["Different page size from the rest of the file","مقاس صفحة مختلف عن بقية الملف"],["Different page orientation (rotated / portrait vs landscape)","اتجاه صفحة مختلف (مُدارة / عمودية وأفقية)"],["File size over 30 MB","حجم الملف أكبر من 30 ميغابايت"],["Not known","غير معروف"],["Other","أخرى"]]},
+        F.details({id:"stampWhy", en:"Explain what happened", el:"Explanation", ar:"وضّح ما حدث", ph:{en:"e.g. Pages 12–14 are A1 while the rest of the file is A3",ar:"مثال: الصفحات 12–14 بمقاس A1 وبقية الملف A3"}}),
+        F.oneDrive({req:false, help:{en:"Optional — a folder with the approved file and the final approval letter.",ar:"اختياري — مجلد يحتوي الملف المعتمد وخطاب الاعتماد النهائي."}})
+      ]}
+    ]},
+
+  {id:"temporary", code:"TP", to:INBOX.projects, en:"Temporary Project", ar:"مشروع مؤقت", icon:"temporary", tag:{en:"Up to 6 months",ar:"حتى 6 أشهر"},
+    subject:["tpType","project"],
+    note:{tone:"info", html:true,
+      en:"<b class='h'>Temporary projects fall under Projects & Infrastructure.</b>Temporary structures — such as site offices and cabins, tents, membrane and air-supported structures and kiosks — are defined in Chapter 1, Section 7 of the UAE FLS Code 2018.<ul><li><b>6 months or less:</b> send the project details here, with an editable OneDrive link containing the documents listed below.</li><li><b>More than 6 months:</b> submit an application in the system (Projects & Infrastructure).</li><li>Temporary structures for <b>events</b> are handled by the Events Department (events@dcd.gov.ae).</li></ul>",
+      ar:"<b class='h'>المشاريع المؤقتة تندرج ضمن المشاريع والبنية التحتية.</b>المنشآت المؤقتة — مثل مكاتب وكبائن المواقع والخيام والمنشآت الغشائية والمنفوخة والأكشاك — معرّفة في الفصل 1، البند 7 من كود الإمارات 2018.<ul><li><b>6 أشهر أو أقل:</b> أرسل بيانات المشروع من هنا مع رابط OneDrive قابل للتعديل يحتوي المستندات المذكورة أدناه.</li><li><b>أكثر من 6 أشهر:</b> قدّم طلباً في النظام (المشاريع والبنية التحتية).</li><li>المنشآت المؤقتة <b>للفعاليات</b> تتولاها إدارة الفعاليات (events@dcd.gov.ae).</li></ul>"},
+    blocks:[
+      {when:{f:"tpDuration", in:["More than 6 months"]},
+        en:"<b class='h'>Projects longer than 6 months must be submitted as an application in the system.</b>Please submit an application under Projects & Infrastructure, following the submission requirements of Annexure 2 of the UAE FLS Code 2018.",
+        ar:"<b class='h'>المشاريع التي تزيد مدتها عن 6 أشهر تُقدَّم كطلب في النظام.</b>يرجى تقديم طلب ضمن المشاريع والبنية التحتية وفق متطلبات التقديم في الملحق رقم 2 من كود الإمارات 2018.", ax:"infrastructure"},
+      {when:[{f:"tpDuration", in:["6 months or less"]},{f:"tpType", in:["Temporary event structure"]}],
+        en:"<b class='h'>Temporary structures for events are handled by the Events Department.</b>Please email events@dcd.gov.ae directly and follow their process.",
+        ar:"<b class='h'>المنشآت المؤقتة للفعاليات تتبع إدارة الفعاليات.</b>يرجى مراسلة events@dcd.gov.ae مباشرة واتباع إجراءاتهم.", ax:"events"}
+    ],
+    decl:[{id:"dTpDocs", en:"The OneDrive folder contains the cover page, the duration letter, the layout drawings and the material test certificates.", ar:"يحتوي مجلد OneDrive على صفحة الغلاف وخطاب المدة ومخططات الموقع وشهادات فحص المواد."}],
+    sections:[
+      {en:"Duration", ar:"المدة", fields:[
+        {id:"tpDuration", en:"How long will the temporary project remain on site?", el:"Duration", ar:"ما مدة بقاء المشروع المؤقت في الموقع؟", type:"cards", req:true, full:true,
+          options:[["6 months or less","6 أشهر أو أقل","6 months or less","Send the details through this form","أرسل البيانات من خلال هذا النموذج"],
+                   ["More than 6 months","أكثر من 6 أشهر","More than 6 months","Must be submitted as an application in the system","يجب تقديمه كطلب في النظام"]]}
+      ]},
+      {en:"Project details", ar:"بيانات المشروع", when:{f:"tpDuration", in:["6 months or less"]}, fields:[
+        {id:"tpType", en:"Type of temporary project", el:"Type", ar:"نوع المشروع المؤقت", type:"select", req:true,
+          options:[["Temporary site offices / cabins","مكاتب / كبائن مواقع مؤقتة"],["Tent / membrane structure","خيمة / منشأة غشائية"],["Air-supported / inflatable structure","منشأة منفوخة / مدعومة بالهواء"],["Kiosk","كشك"],["Temporary storage","تخزين مؤقت"],["Temporary event structure","منشأة مؤقتة لفعالية"],["Other temporary structure","منشأة مؤقتة أخرى"]]},
+        F.project({en:"Project name", ph:{en:"e.g. Marina Tower — site offices",ar:"مثال: برج المارينا — مكاتب الموقع"}}),
+        {id:"tpLocation", en:"Location / area", ar:"الموقع / المنطقة", type:"text", req:true, ph:{en:"e.g. Al Barsha South, next to plot 345-678",ar:"مثال: البرشاء جنوب، بجانب القطعة 345-678"}},
+        F.plot({req:false}),
+        {id:"tpStart", en:"Start date", ar:"تاريخ البدء", type:"date", req:true},
+        {id:"tpEnd", en:"End date", ar:"تاريخ الانتهاء", type:"date", req:true,
+          check:v => { if(!v.tpStart || !v.tpEnd) return null; const d=(new Date(v.tpEnd)-new Date(v.tpStart))/864e5; return d<0 ? {en:"The end date must be after the start date.",ar:"يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء."} : d>184 ? {en:"This is longer than 6 months — please submit an application in the system.",ar:"المدة أكثر من 6 أشهر — يرجى تقديم طلب في النظام."} : null; }},
+        F.num("tpArea","Total area (m²)","المساحة الإجمالية (م²)",{ph:{en:"e.g. 450",ar:"مثال: 450"}}),
+        F.num("tpUnits","Number of structures / units","عدد المنشآت / الوحدات",{ph:{en:"e.g. 12 cabins",ar:"مثال: 12 كابينة"}, inputmode:"text"}),
+        F.num("tpOccupants","Maximum number of occupants","الحد الأقصى لعدد الأشخاص",{ph:{en:"e.g. 60",ar:"مثال: 60"}, inputmode:"numeric"}),
+        {id:"tpMaterial", en:"Main construction materials", el:"Materials", ar:"مواد الإنشاء الرئيسية", type:"text", req:true, ph:{en:"e.g. Steel frame, sandwich panels, PVC membrane",ar:"مثال: هيكل فولاذي، ألواح ساندويتش، غشاء PVC"}},
+        F.details({id:"tpUse", en:"Use of the temporary project", el:"Use", ar:"استخدام المشروع المؤقت", ph:{en:"Describe what the structures will be used for and any activities inside them (e.g. cooking, storage, generators).",ar:"صف استخدام المنشآت وأي أنشطة بداخلها (مثل الطبخ، التخزين، المولدات)."}})
+      ]},
+      {en:"Documents", ar:"المستندات", when:[{f:"tpDuration", in:["6 months or less"]}],
+        note:{en:"Place these documents in one OneDrive folder, named and organised: 01-Cover page · 02-Duration letter · 03-Layout · 04-Test certificates.",ar:"ضع هذه المستندات في مجلد OneDrive واحد مسماة ومنظمة: 01-صفحة الغلاف · 02-خطاب المدة · 03-المخطط · 04-شهادات الفحص."}, fields:[
+        {id:"tpDocNote", type:"note", tone:"info", en:"Required: (1) a cover page; (2) a clear letter on company letterhead stating the project, location, use, and the start and end dates; (3) layout drawings showing the location and dimensions of the structures, exits and fire safety provisions; (4) fire test certificates for the materials used (e.g. tent / membrane fabric, panels, insulation), as required by the UAE FLS Code 2018.",
+          ar:"المطلوب: (1) صفحة غلاف؛ (2) خطاب واضح على ورق الشركة يوضح المشروع والموقع والاستخدام وتاريخي البدء والانتهاء؛ (3) مخططات توضح موقع المنشآت وأبعادها والمخارج ووسائل السلامة من الحريق؛ (4) شهادات فحص الحريق للمواد المستخدمة (مثل قماش الخيام / الأغشية، الألواح، العزل) وفق كود الإمارات 2018."},
+        {id:"tpCerts", type:"list", en:"Material test certificates", el:"Test certificates", min:1, max:8, cols:[
+          {id:"mat", en:"Material", ar:"المادة", req:true, w:"1.3fr"},
+          {id:"std", en:"Test standard", ar:"معيار الفحص", req:true, w:"1fr"},
+          {id:"no", en:"Certificate / report no.", ar:"رقم الشهادة / التقرير", req:false, w:"1fr"}
+        ]},
+        F.oneDrive({help:{en:"One folder with the cover page, duration letter, layout and test certificates — shared with “Can edit”.",ar:"مجلد واحد يحتوي صفحة الغلاف وخطاب المدة والمخطط وشهادات الفحص — بصلاحية «يمكن التعديل»."}}),
+        F.details({id:"tpComments", en:"Additional comments", el:"Comments", ar:"ملاحظات إضافية", req:false, ph:{en:"Anything else you would like the department to know",ar:"أي معلومات أخرى تود إبلاغ الإدارة بها"}})
+      ]}
+    ]},
 
   {id:"event", code:"EV", direct:true, to:INBOX.events, en:"Event", ar:"فعالية", icon:"event", tag:{en:"Email directly",ar:"راسلهم مباشرة"},
     msg:{en:"Event inquiries are handled directly by the Events Department. No email is generated here — please email them and follow their process.", ar:"تتولى إدارة الفعاليات استفسارات الفعاليات مباشرة. لا يُنشأ بريد من هنا — يرجى مراسلتهم واتباع إجراءاتهم."}},
@@ -845,12 +978,14 @@ CONFIG.CATEGORIES = [
 /* ---------- One-sentence summary at the top of each email ---------- */
 const lc = x => (x||"").toLowerCase();
 const SUMMARY = {
-  status:  v => `Kindly advise on the current status of application no. ${v.appNo} for ${v.project} (${v.appCat}, ${lc(v.projKind)} submission, ${v.system} system).`,
+  status:  v => `Kindly advise on the current status of application no. ${v.appNo} for ${v.project} (${v.appCat}, ${lc(v.projKind)} submission, ${v.system} system).` +
+                 (v.appStage==="Resubmission" ? ` The application has been resubmitted following previous comments${v.statusEng ? " issued by " + v.statusEng : ""}.` : ""),
   general: v => `Kindly find below my inquiry regarding the UAE FLS Code 2018 for ${v.project} (${v.appCat}${v.piType||v.dlType ? " – " + (v.piType||v.dlType) : ""}). The relevant chapters and sections have been reviewed.`,
   meeting: v => `Kindly arrange a meeting with ${v.engineer} regarding application no. ${v.appNo} (${v.project}, ${v.system} system) to discuss ${v.mAbout==="Unclear comment"?"an unclear comment":"a clarification"}${v.reqByEng==="Yes"?", as requested by the engineer":""}. The meeting date, time and format will be confirmed by DCD.`,
   facade:  v => `Kindly find below my façade / cladding inquiry for ${v.project}, plot no. ${v.plot}.`,
   special: v => `Kindly review the special approval request below — “${v.saTitle}” — for application no. ${v.appNo}, plot no. ${v.plot}, ${v.area}, related to the comment issued by ${v.engineer}.`,
-  stamp:   v => `Kindly note that new application no. ${v.newAppNo} has been submitted with the final approval report attached, for stamping of ${v.project} (previous application no. ${v.oldAppNo}).`
+  temporary: v => `Kindly review the temporary project below — ${v.project} (${lc(v.tpType)}) at ${v.tpLocation}, from ${v.tpStart} to ${v.tpEnd} (6 months or less). The cover page, duration letter, layout drawings and material test certificates are available in the OneDrive link below.`,
+  stamp:   v => `Kindly note that the DCD stamp was not applied to some pages of approved application no. ${v.appNo} for ${v.project} (${v.appCat}, ${v.system} system), approved on ${v.approvalDate}. The affected pages are listed below; kindly arrange for them to be stamped.`
 };
 
 /* ==========================================================
@@ -861,7 +996,7 @@ const T = {
     intro:"Prepare a complete, correctly addressed email to the Preventive Engineering Department in four steps. Every email receives a unique reference number to track your request.",
     tour:"Take the tour",tourShort:"Tour",guide:"Guide",guideFull:"User guide",odBtn:"OneDrive link guide",odSub:"Share files with “Can edit” access",
     flsCode:"UAE FLS Code 2018",flsCodeFull:"UAE FLS Code of Practice 2018",flsCodeSub:"Official DCD page ↗",
-    annex:"Annexure 2",annexFull:"Annexure 2 at a glance",annexSub:"Submission requirements & reasons for rejection",
+    annex:"Annexure 2",annexFull:"Annexure 2 — Submission requirements",annexSub:"Requirements and rejection reasons by topic",
     notesTitle:"Before you start",more:"Show all guidelines",less:"Show fewer",
     resH:"Resources",progH:"Your progress",prog:["Your details","Inquiry type","Request details","Confirmations"],
     altH:"DCD Smart Services",altP:"Official enquiry page ↗",
@@ -871,16 +1006,16 @@ const T = {
     gen:"Generate email",genHint:"Your details stay on this device. Nothing is sent until you send the email yourself.",reset:"Start over",
     readyH:"Your email is ready",ready:"Review it, copy it into a new email and send it to the address shown.",
     tokenLbl:"Reference number",tokHint:"",
-    to:"To",cc:"CC (project owner)",subject:"Subject",body:"Email",copy:"Copy",copyBody:"Copy email",copied:"Copied ✓",copyEmail:"Copy email",copySubj:"Copy subject",
+    to:"To",cc:"CC (project owner)",subject:"Subject",body:"Email",copy:"Copy",copyBody:"Copy email",copied:"Copied ✓",copyEmail:"Copy email",copySubj:"Copy subject",zoomIn:"Actual size",zoomFit:"Fit to screen",
     open:"Open in email app",edit:"Edit details",
     long:"This email is long and some email apps may shorten it. Use “Copy email” and paste it instead.",
     remindH:"Before you send",
-    remind:["Send only to the address in “To”, with the project owner in “CC”. Do not CC the engineer.","Keep the subject and reference number exactly as shown.","Attach PDF files only, or use the editable OneDrive link.","For a new matter, return here and generate a new email. Do not reply to DCD emails."],
+    remind:["Send only to the address in “To”, with the project owner in “CC”. Do not CC the engineer.","Keep the subject and reference number exactly as shown.","Attach PDF files only, or use the editable OneDrive link.","For a new matter, return here and generate a new email. Do not reply to DCD emails.","Visit DCD only after your meeting is approved, and scan the QR code at the DCD HQ entrance to register your visit."],
     privacy:"Your information stays on your device. This page does not store anything you type — you send the email yourself.",
     foot:"Dubai Civil Defence · Preventive Engineering Department",
     required:"This field is required.",invalid:"Please check this value.",badPhone:"Enter a UAE mobile number, e.g. 05X XXX XXXX.",badLink:"Please paste a full OneDrive / SharePoint link (starting with https://).",
     select:"— Select —",optional:"(optional)",fix:"Please complete the highlighted fields.",resetQ:"Click again to clear",copiedToast:"Copied — paste it into a new email",
-    lang:"العربية",addRow:"Add question",addPoint:"Add point",addAtt:"Add attendee",remove:"Remove",declErr:"Please tick all confirmations.",
+    lang:"العربية",addRow:"Add question",addPoint:"Add point",addAtt:"Add attendee",addPage:"Add page",addCert:"Add certificate",remove:"Remove",declErr:"Please tick all confirmations.",
     sendTo:"Sent to:",directH:"Please email this department directly",copyAddr:"Copy address",mailNow:"Write email",
     next:"Next",back:"Back",done:"Finish",skip:"Skip tour",stepOf:"Step {n} of {t}",
     odTitle:"How to share an editable OneDrive link"},
@@ -888,7 +1023,7 @@ const T = {
     intro:"جهّز بريداً مكتملاً وموجهاً بشكل صحيح إلى إدارة الهندسة الوقائية في أربع خطوات. يحصل كل بريد على رقم مرجعي فريد لتتبع طلبك.",
     tour:"جولة تعريفية",tourShort:"جولة",guide:"الدليل",guideFull:"دليل الاستخدام",odBtn:"دليل رابط OneDrive",odSub:"شارك الملفات بصلاحية «يمكن التعديل»",
     flsCode:"كود الإمارات 2018",flsCodeFull:"كود الإمارات للحماية من الحرائق 2018",flsCodeSub:"الصفحة الرسمية للدفاع المدني ↗",
-    annex:"الملحق رقم 2",annexFull:"ملخص الملحق رقم 2",annexSub:"متطلبات التقديم وأسباب الرفض",
+    annex:"الملحق رقم 2",annexFull:"الملحق رقم 2 — متطلبات التقديم",annexSub:"المتطلبات وأسباب الرفض حسب الموضوع",
     notesTitle:"قبل البدء",more:"عرض جميع الإرشادات",less:"عرض أقل",
     resH:"مراجع",progH:"تقدمك",prog:["بياناتك","نوع الاستفسار","تفاصيل الطلب","الإقرارات"],
     altH:"الخدمات الذكية للدفاع المدني",altP:"صفحة الاستفسارات الرسمية ↗",
@@ -898,16 +1033,16 @@ const T = {
     gen:"إنشاء البريد",genHint:"تبقى بياناتك على جهازك. لا يُرسل شيء حتى ترسل البريد بنفسك.",reset:"البدء من جديد",
     readyH:"بريدك جاهز",ready:"راجعه وانسخه في بريد جديد وأرسله إلى العنوان الظاهر.",
     tokenLbl:"الرقم المرجعي",tokHint:"",
-    to:"إلى",cc:"نسخة (مالك المشروع)",subject:"الموضوع",body:"البريد",copy:"نسخ",copyBody:"نسخ البريد",copied:"تم النسخ ✓",copyEmail:"نسخ البريد",copySubj:"نسخ الموضوع",
+    to:"إلى",cc:"نسخة (مالك المشروع)",subject:"الموضوع",body:"البريد",copy:"نسخ",copyBody:"نسخ البريد",copied:"تم النسخ ✓",copyEmail:"نسخ البريد",copySubj:"نسخ الموضوع",zoomIn:"الحجم الفعلي",zoomFit:"ملاءمة الشاشة",
     open:"فتح في تطبيق البريد",edit:"تعديل البيانات",
     long:"البريد طويل وقد تختصره بعض تطبيقات البريد. استخدم «نسخ البريد» والصقه.",
     remindH:"قبل الإرسال",
-    remind:["أرسل فقط إلى العنوان في «إلى» مع وضع المالك في «نسخة». لا تضع المهندس في نسخة.","اترك الموضوع والرقم المرجعي كما هما تماماً.","أرفق ملفات PDF فقط أو استخدم رابط OneDrive القابل للتعديل.","لأي موضوع جديد عُد إلى هنا وأنشئ بريداً جديداً. لا ترد على رسائل الدفاع المدني."],
+    remind:["أرسل فقط إلى العنوان في «إلى» مع وضع المالك في «نسخة». لا تضع المهندس في نسخة.","اترك الموضوع والرقم المرجعي كما هما تماماً.","أرفق ملفات PDF فقط أو استخدم رابط OneDrive القابل للتعديل.","لأي موضوع جديد عُد إلى هنا وأنشئ بريداً جديداً. لا ترد على رسائل الدفاع المدني.","لا تزر الدفاع المدني إلا بعد اعتماد اجتماعك، وامسح رمز QR عند مدخل المقر الرئيسي لتسجيل زيارتك."],
     privacy:"تبقى بياناتك على جهازك. لا تحفظ هذه الصفحة أي شيء تكتبه — أنت من يرسل البريد.",
     foot:"القيادة العامة للدفاع المدني دبي · إدارة الهندسة الوقائية",
     required:"هذا الحقل إلزامي.",invalid:"يرجى التحقق من القيمة.",badPhone:"أدخل رقم هاتف متحرك إماراتي، مثال: 05X XXX XXXX.",badLink:"يرجى لصق رابط OneDrive / SharePoint كامل (يبدأ بـ https://).",
     select:"— اختر —",optional:"(اختياري)",fix:"يرجى إكمال الحقول المظللة.",resetQ:"اضغط مرة أخرى للمسح",copiedToast:"تم النسخ — الصقه في بريد جديد",
-    lang:"English",addRow:"إضافة سؤال",addPoint:"إضافة نقطة",addAtt:"إضافة شخص",remove:"حذف",declErr:"يرجى تأكيد جميع الإقرارات.",
+    lang:"English",addRow:"إضافة سؤال",addPoint:"إضافة نقطة",addAtt:"إضافة شخص",addPage:"إضافة صفحة",addCert:"إضافة شهادة",remove:"حذف",declErr:"يرجى تأكيد جميع الإقرارات.",
     sendTo:"يُرسل إلى:",directH:"يرجى مراسلة هذه الإدارة مباشرة",copyAddr:"نسخ العنوان",mailNow:"كتابة بريد",
     next:"التالي",back:"السابق",done:"إنهاء",skip:"تخطي الجولة",stepOf:"الخطوة {n} من {t}",
     odTitle:"كيف تشارك رابط OneDrive قابلاً للتعديل"}
@@ -922,31 +1057,153 @@ const GUIDE = {
       tokenParts:"PS-PED — البادئة · AS — رمز الاستفسار · DD-MM-YY — التاريخ · آخر 6 أرقام — رقم فريد. المتابعات تحتفظ بنفس المرجع.",rulesH:"الإرشادات"}
 };
 
-/* Annexure 2 — condensed reference (UAE FLS Code of Practice 2018). Always refer to the full code. */
+
+/* ==========================================================
+   Annexure 2 — UAE Fire & Life Safety Code of Practice 2018 (pages 1284–1334)
+   Topic-based reference. Each topic shows the complete list for that submission type.
+   Item format: "text" or {c:"#colour", s:"text"} (colour swatch)
+   ========================================================== */
+const SW = {pink:"#F49AC1", green:"#2E9E4F", lgreen:"#A8E6B4", red:"#D92D20", blue:"#2F6FD1", crimson:"#A1123A"};
 const ANNEX = {
-  en:{src:"Condensed from Annexure 2 of the UAE Fire & Life Safety Code of Practice 2018. Always refer to the full code for the complete requirements.",open:"Open the UAE FLS Code ↗",
-    blocks:[
-      {t:"File format & size", n:"1", items:["Soft copies in PDF (DWF also accepted for online approval).","Maximum 50 MB per file and 200 MB per project.","Files over 50 MB may be split into Part 1, Part 2, Part 3, etc.","No ZIP files, files with errors or password-protected files."]},
-      {t:"Number of files", n:"2", items:["4 to 6 separate files, as required by the project:","Architecture & Life Safety · Fire Detection & Alarm · Fire Protection & Suppression · Emergency Lighting & Signage · Smoke Control & Management · LPG (if applicable).","Additional letters where applicable: material / activity letter, scope of work, “LPG not required”, undertakings."]},
-      {t:"File names", n:"3", items:["Application No._LIFE SAFETY · _FIRE ALARM SYSTEM · _FIRE PROTECTION SYSTEM · _EMERGENCY LIGHTING SYSTEM · _SMOKE CONTROL SYSTEM · _LPG SYSTEM.","Names such as “Fire”, “Civil Defence”, “Project”, “Untitled”, “FF” or “Approval” are not accepted and will not be reviewed."]},
-      {t:"Do not submit", n:"4", items:["HVAC, drainage, lighting, plumbing, structural details, floor / ceiling tiles, electrical distribution or landscaping drawings.","Product catalogues, brochures, brand specifications or company / product licences."]},
-      {t:"Reasons for rejection — all submissions", n:"5", red:true, items:["Missing files or incorrect file names.","Drawings without scale, check marking (online submissions), cover page, or room / occupancy names.","Colour coding not as per Annexure 2.","No material / activity / storage letter for storage and industrial projects.","No letter clarifying LPG / natural gas usage.","Modifications without the exact scope highlighted — yellow cloud for as-approved, red cloud for as-revised.","Catalogues, brochures or licences included."]},
-      {t:"Reasons for rejection — life safety drawings", n:"5", red:true, items:["No fire access road layout, no dimensioned sections, or missing floor plans.","Stair separation not shown (1/3 of the diagonal in sprinklered buildings, 1/2 in non-sprinklered).","No separation at discharge level; no stair / step details on a dedicated page.","No fire lift in a dedicated shaft (high-rise), no fire lift lobby (super high-rise), no generator room.","No pump room and water tank details, or fire ratings of rooms, corridors and stairs not shown."]},
-      {t:"Consultant life safety file", n:"C1", items:["One combined file: cover page · setting-out plan · fire access road · floor plans (one per floor) · 2 sections · stair details · curtain wall / cladding / roofing · door schedule."]},
-      {t:"Life safety colour scheme", n:"C2", items:["<span class='sw' style='background:#F7A8C8'></span>Fire access road — pink","<span class='sw' style='background:#2E9E4F'></span>Stairs — green","<span class='sw' style='background:#A8E6B4'></span>Corridors / exit passageways — light green","<span class='sw' style='background:#D92D20'></span>2-hour walls and 90-minute doors — red","<span class='sw' style='background:#2F6FD1'></span>1-hour walls and 60-minute doors — blue","Show travel distance, diagonal distance, stair separation, dead ends, room names and occupant load on each floor."]},
-      {t:"Modification submissions", n:"M", items:["Highlight the exact scope of work: yellow cloud for as-approved and red cloud for as-revised."]}
+  en:{
+    pick:"Select a topic", open:"Open the UAE FLS Code ↗", refLbl:"Code reference",
+    src:"Summarised from Annexure 2 of the UAE Fire & Life Safety Code of Practice 2018 (pages 1284–1334). The code is the authoritative source — always refer to it for the complete text.",
+    topics:[
+      {id:"general", t:"General requirements", sub:"File format, number of files, file names", ref:"Annexure 2 · A2.2 · Table A2.1", groups:[
+        {h:"File format & size", items:["Soft copies in PDF format (DWF is also accepted for online approval).","Maximum 50 MB per file and 200 MB in total.","Files larger than 50 MB are split and named Part 1, Part 2, Part 3, etc.","ZIP files, files with errors and password-protected files are not accepted."]},
+        {h:"Number of files", items:["4 to 6 separate files, as applicable to the project:","1 · Architecture & Life Safety","2 · Fire Detection & Alarm","3 · Fire Protection & Suppression","4 · Emergency Lighting & Signage","5 · Smoke Control & Management","6 · LPG system (if applicable)","Supporting letters where applicable: material & activity letter, scope of work, “LPG not required” letter and undertakings."]},
+        {h:"File names", items:["Application number followed by the system name:","XXXXX_LIFE SAFETY","XXXXX_FIRE ALARM SYSTEM","XXXXX_FIRE PROTECTION SYSTEM","XXXXX_EMERGENCY LIGHTING SYSTEM","XXXXX_SMOKE CONTROL SYSTEM","XXXXX_LPG SYSTEM","Letters: XXXXX_MATERIAL AND ACTIVITY LETTER · XXXXX_SCOPE OF WORK · XXXXX_LPG NOT REQUIRED · XXXXX_UNDERTAKING"]},
+        {h:"File names not accepted", red:true, items:["Names such as Fire, Civil Defence, Residential, Project, Untitled, FF, Approval, 2December, Titlepage or Groundfloor — files named this way are not reviewed."]},
+        {h:"Do not submit", red:true, items:["HVAC, drainage, lighting, plumbing, structural, floor tiling, ceiling tile, electrical distribution or landscaping drawings.","Product catalogues and brand specifications."]},
+        {h:"Legends", items:["Show the standard legend of each system on every drawing, as per Figures A2.1.1 to A2.1.6."]}
+      ]},
+      {id:"rejection", t:"Reasons for rejection", sub:"General and each system", ref:"Annexure 2 · A2.2 · Item 5", groups:[
+        {h:"i. General", red:true, items:["The required number of files is not submitted.","Files are not named as required.","Drawings are not to scale.","No check marking (online submissions).","No cover page.","Room and occupancy names are not shown.","Colour coding is not as per Annexure 2.","No material, activity and storage letter for storage and industrial projects.","No letter clarifying the use of LPG / natural gas.","Modification scope not clouded — yellow for as-approved, red for as-revised.","Product catalogues, brochures or licences are included."]},
+        {h:"ii. Architecture / Life safety", red:true, items:["No fire access road layout.","No sections with dimensions.","Not all floor plans are provided.","Stair separation not shown — 1/3 of the diagonal (sprinklered) or 1/2 (non-sprinklered).","No separation at the level of exit discharge.","At least half of the stairs do not discharge directly outside or through a protected corridor.","Stair and step details not on a dedicated page.","No fire lift in a dedicated shaft (high-rise buildings).","No fire lift lobby (super high-rise buildings).","No generator room (high-rise and super high-rise buildings).","Pump room and water tank locations, sections and details not shown.","Underground pump room without a hatch, cat ladder or spiral stair.","Fire ratings not shown for corridors, stairs, LV rooms, substations, generator, plant, hazardous storage and pump rooms."]},
+        {h:"iii. Fire alarm", red:true, items:["Not superimposed on the life safety drawings.","No legend.","Wiring not shown.","Not all floor plans are provided.","No sounder-base detectors in bedrooms.","Detectors above false ceilings without remote indicators.","No sounders / speakers with flashers in parking, basements, plant rooms and outdoor areas.","FACP / FARP locations not shown.","No riser diagrams.","No voice evacuation speakers (high-rise and super high-rise buildings)."]},
+        {h:"iv. Emergency lighting", red:true, items:["Not superimposed on the life safety drawings.","No legend.","Wiring not shown.","Not all floor plans are provided.","No cross zoning for central battery systems.","Control panel locations not shown.","No riser diagram."]},
+        {h:"v. Fire protection", red:true, items:["Not superimposed on the life safety drawings.","No legend showing the sprinkler types.","Piping not shown.","Not all floor plans are provided.","Pipe sizes not shown.","Pump and tank capacities not shown on the riser.","No riser diagram.","No vertical turbine pumps where the suction is negative."]},
+        {h:"vi. Smoke control", red:true, items:["Combined with HVAC drawings instead of a separate smoke control file.","Not superimposed on the life safety drawings.","No legend.","Ducting not shown.","Floor plans not provided.","Supply / return air direction arrows not shown.","Control panel locations not shown.","No riser diagram.","No fan, duct and smoke curtain details."]},
+        {h:"vii. LPG", red:true, items:["Not superimposed on the life safety drawings.","No legend.","Piping not shown.","Piping routed through stairs, lift lobbies or garbage rooms.","Tank locations, sizes, capacity and separation distances not shown.","Filling line not shown.","PRDP not shown.","Floor plans not provided.","No tank installation details.","Gas detectors and control panel not shown.","No riser diagram."]}
+      ]},
+      {id:"consultant", t:"Consultant's submissions", sub:"New buildings — all five system files", ref:"Annexure 2 · A2.3 · Table A2.2", groups:[
+        {h:"1 · Life safety file (one combined file)", items:["Cover page","Setting-out plan","Fire access road layout","Floor plans — one per floor","Two sections","Stair details","Curtain wall / cladding / roofing details","Door schedule"]},
+        {h:"2 · Life safety colour coding", items:[{c:SW.pink,s:"Fire access road — pink"},{c:SW.green,s:"Stairs — green"},{c:SW.lgreen,s:"Corridors and exit passageways — light green"},{c:SW.red,s:"2-hour fire-rated walls — red"},{c:SW.blue,s:"1-hour fire-rated walls — blue"},{c:SW.red,s:"90-minute fire doors — red"},{c:SW.blue,s:"60-minute fire doors — blue"},"Show on each floor: travel distance, diagonal distance, stair separation, dead ends, room names, occupant load factors and occupant loads, stair details and pump room details."]},
+        {h:"3 · Fire alarm & voice evacuation file (one file)", items:["Floor plans showing detectors, manual call points, speakers, emergency lighting units, interfaces and the FACP","Riser diagrams for fire alarm, emergency lighting and voice evacuation","Legend on each page"]},
+        {h:"4 · Fire alarm colour coding", items:[{c:SW.red,s:"Detectors and wiring — red"},{c:SW.crimson,s:"Speakers and wiring — crimson"},{c:SW.green,s:"Emergency lighting units and wiring — green"}]},
+        {h:"5 · Fire protection file (one file)", items:["Sprinklers, fire hose cabinets, piping and alarm check / zone control valves on each floor","Gas suppression system layout","Foam system layout","Design criteria tables","Pre-action system layout","Pipe sizes","Pump room details","Riser diagram with pump and tank capacities","Legend","Breeching inlets","Typical installation details"]},
+        {h:"6 · Fire protection colour coding", items:[{c:SW.red,s:"Sprinklers, nozzles, fire hose cabinets and valves — red"},{c:SW.blue,s:"Hose reel piping — blue"},{c:SW.green,s:"Sprinkler, gas and foam piping — green"},{c:SW.red,s:"Fire extinguishers — red"}]},
+        {h:"7 · Smoke control file (one file)", items:["Floor plans of smoke extraction, make-up air, pressurisation and corridor ducts and points","Natural ventilation sections with opening-area calculations","Duct fire rating and sizes","Design criteria","Fan specifications and locations","Riser diagram","Legend","Typical details"]},
+        {h:"8 · Smoke control colour coding", items:[{c:SW.red,s:"Supply / make-up air ducting — red"},{c:SW.crimson,s:"Smoke extraction ducting — crimson"}]},
+        {h:"9 · LPG file (one file)", items:["Floor plans showing piping, valves, supply points, gas detectors, emergency switches, control panel, filling point and PRDP","Tank location and installation details, with dimensions and separation distances","Pipe type and sizes","Shaft fire rating","Riser diagram","Legend","Typical details",{c:SW.crimson,s:"Piping and tanks — crimson"},{c:SW.red,s:"Shafts and containment — red"}]}
+      ]},
+      {id:"decor", t:"Décor / fit-out", sub:"Interior works in an existing building", ref:"Annexure 2 · A2.4 · Table A2.3", groups:[
+        {h:"1 · Life safety file (one file)", items:["Cover page","Setting-out plan / floor plan with the fit-out scope highlighted","Floor plans with furniture layouts","Sections and above-false-ceiling details","Stair details (where applicable)","Door schedule"]},
+        {h:"2 · Fire alarm & voice evacuation", items:["As for consultant's submissions: detectors, manual call points, speakers, emergency lighting units and FACP interfaces for the fit-out area","Riser diagram and legend","Same colour coding as consultant's submissions"]},
+        {h:"3 · Fire protection", items:["Sprinklers, fire hose cabinets, piping and fire extinguishers","Pipe sizes","Riser diagram","Legend","Same colour coding as consultant's submissions"]},
+        {h:"4 · Smoke control (where applicable)", items:["As for consultant's submissions, limited to the fit-out area"]},
+        {h:"5 · LPG (where applicable)", items:["As for the LPG / natural gas file — see the LPG topic"]},
+        {h:"Colour coding", items:["Use the same colour coding as consultant's submissions for every system."]}
+      ]},
+      {id:"lpg", t:"LPG / natural gas", sub:"Gas tanks, piping and detection", ref:"Annexure 2 · A2.5 · Table A2.3 (items 9–10)", groups:[
+        {h:"LPG / natural gas file (one file)", items:["Floor plans showing piping, valves, supply points, gas detectors, emergency switches, control panel, filling point and PRDP","Tank location and installation details, with dimensions and separation distances","Pipe type and sizes","Shaft fire rating","Riser diagram","Legend","Typical details"]},
+        {h:"Colour coding", items:[{c:SW.crimson,s:"Piping and tanks — crimson"},{c:SW.red,s:"Shafts and containment — red"}]},
+        {h:"No gas in the project?", items:["Submit the letter named XXXXX_LPG NOT REQUIRED."]},
+        {h:"Reasons for rejection — LPG", red:true, items:["Not superimposed on the life safety drawings, or no legend.","Piping routed through stairs, lift lobbies or garbage rooms.","Tank locations, sizes, capacity and separation distances not shown.","Filling line, PRDP, gas detectors or control panel not shown.","No tank installation details or riser diagram."]}
+      ]},
+      {id:"modification", t:"Modifications", sub:"Changes to an approved project", ref:"Annexure 2 · A2.6 · Table A2.4", groups:[
+        {h:"Drawings", items:[{c:"#F5D90A",s:"As-approved drawings — affected areas clouded in yellow"},{c:SW.red,s:"As-proposed drawings — changes clouded in red"},"A note next to each cloud stating the exact scope of the change."]},
+        {h:"Letter", items:["A letter on the consultant's letterhead, in Arabic and English, declaring the exact changes, with a floor-wise list of the modifications."]},
+        {h:"Also applies", items:["File format, number of files and file names as in the general requirements (A2.2).","Colour coding as in consultant's submissions (A2.3)."]}
+      ]},
+      {id:"infrastructure", t:"Infrastructure", sub:"Master plans, roads and hydrant networks", ref:"Annexure 2 · A2.7 · Table A2.5", groups:[
+        {h:"Plot usage & road network (one file)", items:["Cover page","Setting-out plan with plot usage colour-coded by building type / occupancy","Fire access road layout","Road network details — roundabouts, bridges / underpasses and road sections — per sector, phase or plot","Road sections showing the trenches for fire hydrant, fuel gas and fire alarm networks (2 pages)"]},
+        {h:"Yard hydrant / firefighting (one file)", items:["Master fire hydrant network","Hydrant details with pipe sizes, per sector","Fire pump room with pump and tank capacities","Riser of the looped hydrant network"]},
+        {h:"Gas & fire alarm networks", items:["LPG / fuel gas network","LPG tank locations and capacities","Fire alarm of commercial villas and FACP / repeater interfacing, per sector","Fire alarm network riser"]},
+        {h:"Colour coding", items:["As for the life safety colour coding (consultant's submissions)."]}
+      ]},
+      {id:"events", t:"Event proposals", sub:"Handled by the Events Department", ref:"Annexure 2 · A2.8 · Tables A2.6 & A2.7", note:"Event submissions are handled by the Events Department — events@dcd.gov.ae.", groups:[
+        {h:"NOC request letter", items:["Nature of the event and activities","Location","Date and duration","Expected number of people","Any cooking, gas, open flame, pyrotechnics, lasers or flammable materials"]},
+        {h:"Layouts (A2, in colour)", items:["Satellite image of the site","Master plan with roads, fencing and gates","Detailed layout (max. 2 pages): dimensions, seating and grandstands, exits / gates with widths and exit signs, stage, fire extinguishers, F&B / kiosks / food trucks, cooking / gas / BBQ areas, first aid, generators, Police / Ambulance / Civil Defence vehicles and assembly points","Fire & life safety systems of the venue"]},
+        {h:"Additional documents", items:["LPG approval","Flammable gas approval","Tent / membrane material certificates","Pyrotechnic / flame equipment certificates and operator qualifications"]},
+        {h:"Minimum requirements (Table A2.7)", items:["Exits at least 1.5 m wide","Up to 500 people: 2 exits · 501–1,000: 3 · 1,001–2,000: 4 · over 2,000: 6, on opposite sides","Guards where the drop exceeds 760 mm, at least 1,065 mm high","Handrails 865–965 mm high","Lighting: 10.8 lux on floors and 108 lux on stairs","Emergency lighting for 3 hours: 10.8 lux average, 1.1 lux minimum","Exit signs visible within 30 m","Fire extinguishers within 30 m, and near stages and cooking areas","No LPG or pyrotechnics without approval","Request an inspection before the event; standby fire trucks where required","Smoking / shisha in designated areas only","The organiser is responsible for compliance (Chapter 18, Section 2.21)"]}
+      ]},
+      {id:"facade", t:"Façade / cladding reports", sub:"Cladding, curtain wall and roofing", ref:"Annexure 2 · A2.9 · Table A2.8", groups:[
+        {h:"Who may submit", items:["An approved House of Expertise, the main consultant or the façade consultant (Chapter 1, Sections 4.4.7.5 and 4.4.8)."]},
+        {h:"Report contents (one PDF)", items:["Error-free PDF, so it can be watermark-stamped","Cover page","Stamped undertakings from each party, with the Civil Defence certificate and Certificate of Conformity (max. 5 pages)","Engineering evaluation stating any non-compliance (max. 3 pages)","Sectional schematics (3 pages)","Inspection report (max. 3 pages)"]},
+        {h:"Undertakings required from", items:["House of Expertise / façade consultant","Main consultant","Main contractor","Panel supplier","EIFS / ETICS supplier","Natural stone supplier","Firestopping, insulation, roofing and glazing suppliers"]},
+        {h:"Not accepted", red:true, items:["Reports that do not follow Table A2.8, or are not from approved parties","Catalogues, generic fire-spread descriptions or test method details","Missing stamps or signatures, or irrelevant attachments","Materials from unregistered suppliers","Non-compliances not highlighted, or justification of non-compliant materials"]}
+      ]}
     ]},
-  ar:{src:"ملخص من الملحق رقم 2 في كود الإمارات للحماية من الحرائق وسلامة الأرواح 2018. يرجى دائماً الرجوع إلى الكود الكامل.",open:"فتح كود الإمارات ↗",
-    blocks:[
-      {t:"صيغة الملفات وحجمها", n:"1", items:["نسخ إلكترونية بصيغة PDF (ويقبل DWF للاعتماد الإلكتروني).","حد أقصى 50 ميغابايت للملف و200 ميغابايت للمشروع.","يمكن تقسيم الملف الأكبر من 50 ميغابايت إلى جزء 1، جزء 2، جزء 3...","لا ملفات مضغوطة أو تالفة أو محمية بكلمة مرور."]},
-      {t:"عدد الملفات", n:"2", items:["من 4 إلى 6 ملفات منفصلة حسب طبيعة المشروع:","المعماري وسلامة الأرواح · كشف وإنذار الحريق · الحماية والإطفاء · الإنارة والإشارات الطارئة · التحكم بالدخان · الغاز المسال (إن وجد).","خطابات إضافية عند الحاجة: خطاب المواد / النشاط، نطاق العمل، «لا يوجد غاز مسال»، التعهدات."]},
-      {t:"أسماء الملفات", n:"3", items:["رقم الطلب_LIFE SAFETY · _FIRE ALARM SYSTEM · _FIRE PROTECTION SYSTEM · _EMERGENCY LIGHTING SYSTEM · _SMOKE CONTROL SYSTEM · _LPG SYSTEM.","أسماء مثل «Fire» أو «Civil Defence» أو «Project» أو «Untitled» أو «FF» أو «Approval» غير مقبولة ولن تُراجع."]},
-      {t:"لا تُقدَّم", n:"4", items:["مخططات التكييف، الصرف، الإنارة العادية، السباكة، الإنشائية، البلاط والأسقف، التوزيع الكهربائي أو تنسيق المواقع.","كتالوجات المنتجات أو النشرات أو مواصفات العلامات التجارية أو رخص الشركات والمنتجات."]},
-      {t:"أسباب الرفض — جميع التقديمات", n:"5", red:true, items:["نقص الملفات أو أسماء ملفات غير صحيحة.","مخططات بدون مقياس رسم أو علامة تدقيق (للتقديم الإلكتروني) أو صفحة غلاف أو أسماء الغرف والإشغال.","ترميز ألوان غير مطابق للملحق رقم 2.","عدم وجود خطاب المواد / النشاط / التخزين للمشاريع التخزينية والصناعية.","عدم وجود خطاب يوضح استخدام الغاز المسال / الطبيعي.","تعديلات بدون تحديد النطاق — سحابة صفراء للمعتمد وسحابة حمراء للمعدّل.","إرفاق كتالوجات أو نشرات أو رخص."]},
-      {t:"أسباب الرفض — مخططات سلامة الأرواح", n:"5", red:true, items:["عدم وجود مخطط طريق وصول الإطفاء أو مقاطع بأبعاد أو نقص المساقط.","عدم توضيح المسافة بين السلالم (1/3 القطر في المباني المرشوشة و1/2 في غير المرشوشة).","عدم الفصل عند مستوى التفريغ؛ عدم وجود تفاصيل السلالم والدرجات في صفحة مستقلة.","عدم وجود مصعد إطفاء في بئر مستقل (الأبراج العالية) أو ردهة مصعد الإطفاء (الأبراج الشاهقة) أو غرفة المولد.","عدم وجود تفاصيل غرفة المضخات وخزان المياه، أو عدم توضيح تصنيف مقاومة الحريق للغرف والممرات والسلالم."]},
-      {t:"ملف سلامة الأرواح للاستشاري", n:"C1", items:["ملف واحد مدمج: صفحة غلاف · مخطط الموقع · طريق وصول الإطفاء · مساقط الطوابق (صفحة لكل طابق) · مقطعان · تفاصيل السلالم · الواجهات الزجاجية / الكسوة / الأسطح · جدول الأبواب."]},
-      {t:"ترميز ألوان سلامة الأرواح", n:"C2", items:["<span class='sw' style='background:#F7A8C8'></span>طريق وصول الإطفاء — وردي","<span class='sw' style='background:#2E9E4F'></span>السلالم — أخضر","<span class='sw' style='background:#A8E6B4'></span>الممرات وممرات الخروج — أخضر فاتح","<span class='sw' style='background:#D92D20'></span>جدران ساعتين وأبواب 90 دقيقة — أحمر","<span class='sw' style='background:#2F6FD1'></span>جدران ساعة وأبواب 60 دقيقة — أزرق","وضّح مسافة الهروب، المسافة القطرية، المسافة بين السلالم، النهايات المغلقة، أسماء الغرف وحمل الإشغال لكل طابق."]},
-      {t:"تقديمات التعديل", n:"M", items:["حدّد نطاق العمل بدقة: سحابة صفراء للمعتمد وسحابة حمراء للمعدّل."]}
+  ar:{
+    pick:"اختر الموضوع", open:"فتح كود الإمارات ↗", refLbl:"المرجع في الكود",
+    src:"ملخص من الملحق رقم 2 في كود الإمارات للحماية من الحرائق وسلامة الأرواح 2018 (الصفحات 1284–1334). الكود هو المرجع المعتمد — يرجى الرجوع إليه دائماً للنص الكامل.",
+    topics:[
+      {id:"general", t:"المتطلبات العامة", sub:"صيغة الملفات وعددها وأسماؤها", ref:"الملحق 2 · A2.2 · الجدول A2.1", groups:[
+        {h:"صيغة الملفات وحجمها", items:["نسخ إلكترونية بصيغة PDF (ويقبل DWF للاعتماد الإلكتروني).","حد أقصى 50 ميغابايت للملف و200 ميغابايت للمجموع.","الملف الأكبر من 50 ميغابايت يُقسَّم ويُسمّى جزء 1، جزء 2، جزء 3...","لا تُقبل الملفات المضغوطة أو التالفة أو المحمية بكلمة مرور."]},
+        {h:"عدد الملفات", items:["من 4 إلى 6 ملفات منفصلة حسب المشروع:","1 · المعماري وسلامة الأرواح","2 · كشف وإنذار الحريق","3 · الحماية والإطفاء","4 · الإنارة والإشارات الطارئة","5 · التحكم بالدخان","6 · نظام الغاز المسال (إن وجد)","خطابات داعمة عند الحاجة: خطاب المواد والنشاط، نطاق العمل، خطاب «لا يوجد غاز مسال» والتعهدات."]},
+        {h:"أسماء الملفات", items:["رقم الطلب متبوعاً باسم النظام:","XXXXX_LIFE SAFETY","XXXXX_FIRE ALARM SYSTEM","XXXXX_FIRE PROTECTION SYSTEM","XXXXX_EMERGENCY LIGHTING SYSTEM","XXXXX_SMOKE CONTROL SYSTEM","XXXXX_LPG SYSTEM","الخطابات: XXXXX_MATERIAL AND ACTIVITY LETTER · XXXXX_SCOPE OF WORK · XXXXX_LPG NOT REQUIRED · XXXXX_UNDERTAKING"]},
+        {h:"أسماء ملفات غير مقبولة", red:true, items:["أسماء مثل Fire أو Civil Defence أو Residential أو Project أو Untitled أو FF أو Approval أو 2December أو Titlepage أو Groundfloor — لا تُراجع الملفات بهذه الأسماء."]},
+        {h:"لا تُقدَّم", red:true, items:["مخططات التكييف، الصرف، الإنارة العادية، السباكة، الإنشائية، البلاط، بلاط الأسقف، التوزيع الكهربائي أو تنسيق المواقع.","كتالوجات المنتجات ومواصفات العلامات التجارية."]},
+        {h:"مفاتيح الرموز", items:["يُوضَّح مفتاح الرموز القياسي لكل نظام في كل مخطط، وفق الأشكال A2.1.1 إلى A2.1.6."]}
+      ]},
+      {id:"rejection", t:"أسباب الرفض", sub:"العامة ولكل نظام", ref:"الملحق 2 · A2.2 · البند 5", groups:[
+        {h:"أولاً: عامة", red:true, items:["عدم تقديم العدد المطلوب من الملفات.","تسمية الملفات بخلاف المطلوب.","مخططات بدون مقياس رسم.","عدم وجود علامة التدقيق (للتقديم الإلكتروني).","عدم وجود صفحة الغلاف.","عدم توضيح أسماء الغرف والإشغال.","ترميز الألوان غير مطابق للملحق رقم 2.","عدم وجود خطاب المواد والنشاط والتخزين للمشاريع التخزينية والصناعية.","عدم وجود خطاب يوضح استخدام الغاز المسال / الطبيعي.","عدم تحديد نطاق التعديل بسحابة — صفراء للمعتمد وحمراء للمعدّل.","إرفاق كتالوجات أو نشرات أو رخص."]},
+        {h:"ثانياً: المعماري / سلامة الأرواح", red:true, items:["عدم وجود مخطط طريق وصول الإطفاء.","عدم وجود مقاطع بالأبعاد.","عدم تقديم جميع مساقط الطوابق.","عدم توضيح المسافة بين السلالم — 1/3 القطر (مرشوش) أو 1/2 (غير مرشوش).","عدم الفصل عند مستوى تفريغ المخارج.","نصف السلالم على الأقل لا تُفرغ مباشرة للخارج أو عبر ممر محمي.","تفاصيل السلالم والدرجات ليست في صفحة مستقلة.","عدم وجود مصعد إطفاء في بئر مستقل (المباني العالية).","عدم وجود ردهة مصعد الإطفاء (المباني الشاهقة).","عدم وجود غرفة المولد (المباني العالية والشاهقة).","عدم توضيح مواقع غرفة المضخات وخزان المياه ومقاطعها وتفاصيلها.","غرفة مضخات تحت الأرض بدون فتحة أو سلم بحري أو درج حلزوني.","عدم توضيح تصنيف مقاومة الحريق للممرات والسلالم وغرف الجهد المنخفض والمحطات الفرعية والمولد والمعدات والتخزين الخطر والمضخات."]},
+        {h:"ثالثاً: إنذار الحريق", red:true, items:["غير مُسقط على مخططات سلامة الأرواح.","عدم وجود مفتاح الرموز.","عدم توضيح التمديدات.","عدم تقديم جميع مساقط الطوابق.","عدم وجود كواشف بقاعدة صافرة في غرف النوم.","كواشف فوق السقف المستعار بدون مؤشرات عن بُعد.","عدم وجود صافرات / سماعات مع وماضات في المواقف والسراديب وغرف المعدات والمناطق الخارجية.","عدم توضيح مواقع لوحة الإنذار الرئيسية / الفرعية.","عدم وجود المخططات الرأسية.","عدم وجود سماعات الإخلاء الصوتي (المباني العالية والشاهقة)."]},
+        {h:"رابعاً: الإنارة الطارئة", red:true, items:["غير مُسقطة على مخططات سلامة الأرواح.","عدم وجود مفتاح الرموز.","عدم توضيح التمديدات.","عدم تقديم جميع مساقط الطوابق.","عدم وجود التقسيم المتقاطع لأنظمة البطارية المركزية.","عدم توضيح مواقع لوحات التحكم.","عدم وجود المخطط الرأسي."]},
+        {h:"خامساً: الحماية من الحريق", red:true, items:["غير مُسقطة على مخططات سلامة الأرواح.","عدم وجود مفتاح رموز يوضح أنواع الرشاشات.","عدم توضيح الأنابيب.","عدم تقديم جميع مساقط الطوابق.","عدم توضيح أقطار الأنابيب.","عدم توضيح سعة المضخات والخزانات في المخطط الرأسي.","عدم وجود المخطط الرأسي.","عدم استخدام مضخات توربينية رأسية عند السحب السالب."]},
+        {h:"سادساً: التحكم بالدخان", red:true, items:["دمجه مع مخططات التكييف بدلاً من ملف مستقل للتحكم بالدخان.","غير مُسقط على مخططات سلامة الأرواح.","عدم وجود مفتاح الرموز.","عدم توضيح مجاري الهواء.","عدم تقديم مساقط الطوابق.","عدم توضيح أسهم اتجاه هواء التغذية والراجع.","عدم توضيح مواقع لوحات التحكم.","عدم وجود المخطط الرأسي.","عدم وجود تفاصيل المراوح ومجاري الهواء وستائر الدخان."]},
+        {h:"سابعاً: الغاز المسال", red:true, items:["غير مُسقط على مخططات سلامة الأرواح.","عدم وجود مفتاح الرموز.","عدم توضيح الأنابيب.","مرور الأنابيب عبر السلالم أو ردهات المصاعد أو غرف النفايات.","عدم توضيح مواقع الخزانات وأحجامها وسعتها ومسافات الفصل.","عدم توضيح خط التعبئة.","عدم توضيح جهاز تخفيف الضغط (PRDP).","عدم تقديم مساقط الطوابق.","عدم وجود تفاصيل تركيب الخزان.","عدم توضيح كواشف الغاز ولوحة التحكم.","عدم وجود المخطط الرأسي."]}
+      ]},
+      {id:"consultant", t:"تقديمات الاستشاري", sub:"المباني الجديدة — ملفات الأنظمة الخمسة", ref:"الملحق 2 · A2.3 · الجدول A2.2", groups:[
+        {h:"1 · ملف سلامة الأرواح (ملف واحد مدمج)", items:["صفحة الغلاف","مخطط الموقع العام","مخطط طريق وصول الإطفاء","مساقط الطوابق — صفحة لكل طابق","مقطعان","تفاصيل السلالم","تفاصيل الواجهات الزجاجية / الكسوة / الأسطح","جدول الأبواب"]},
+        {h:"2 · ترميز ألوان سلامة الأرواح", items:[{c:SW.pink,s:"طريق وصول الإطفاء — وردي"},{c:SW.green,s:"السلالم — أخضر"},{c:SW.lgreen,s:"الممرات وممرات الخروج — أخضر فاتح"},{c:SW.red,s:"جدران مقاومة للحريق ساعتين — أحمر"},{c:SW.blue,s:"جدران مقاومة للحريق ساعة — أزرق"},{c:SW.red,s:"أبواب حريق 90 دقيقة — أحمر"},{c:SW.blue,s:"أبواب حريق 60 دقيقة — أزرق"},"وضّح في كل طابق: مسافة الهروب، المسافة القطرية، المسافة بين السلالم، النهايات المغلقة، أسماء الغرف، معاملات وأحمال الإشغال، تفاصيل السلالم وغرفة المضخات."]},
+        {h:"3 · ملف إنذار الحريق والإخلاء الصوتي (ملف واحد)", items:["مساقط توضح الكواشف ونقاط النداء اليدوي والسماعات ووحدات الإنارة الطارئة والربط ولوحة الإنذار","مخططات رأسية للإنذار والإنارة الطارئة والإخلاء الصوتي","مفتاح الرموز في كل صفحة"]},
+        {h:"4 · ترميز ألوان إنذار الحريق", items:[{c:SW.red,s:"الكواشف وتمديداتها — أحمر"},{c:SW.crimson,s:"السماعات وتمديداتها — قرمزي"},{c:SW.green,s:"وحدات الإنارة الطارئة وتمديداتها — أخضر"}]},
+        {h:"5 · ملف الحماية من الحريق (ملف واحد)", items:["الرشاشات وخزائن خراطيم الحريق والأنابيب وصمامات الإنذار / التحكم بالمناطق في كل طابق","مخطط نظام الإطفاء بالغاز","مخطط نظام الرغوة","جداول معايير التصميم","مخطط نظام الفعل المسبق","أقطار الأنابيب","تفاصيل غرفة المضخات","مخطط رأسي يوضح سعة المضخات والخزانات","مفتاح الرموز","مداخل الدفاع المدني (Breeching inlets)","تفاصيل التركيب النموذجية"]},
+        {h:"6 · ترميز ألوان الحماية من الحريق", items:[{c:SW.red,s:"الرشاشات والفوهات وخزائن الخراطيم والصمامات — أحمر"},{c:SW.blue,s:"أنابيب بكرات الخراطيم — أزرق"},{c:SW.green,s:"أنابيب الرشاشات والغاز والرغوة — أخضر"},{c:SW.red,s:"طفايات الحريق — أحمر"}]},
+        {h:"7 · ملف التحكم بالدخان (ملف واحد)", items:["مساقط شفط الدخان وهواء التعويض والضغط ومجاري ونقاط الممرات","مقاطع التهوية الطبيعية مع حسابات مساحة الفتحات","تصنيف مقاومة الحريق لمجاري الهواء وأحجامها","معايير التصميم","مواصفات المراوح ومواقعها","المخطط الرأسي","مفتاح الرموز","التفاصيل النموذجية"]},
+        {h:"8 · ترميز ألوان التحكم بالدخان", items:[{c:SW.red,s:"مجاري هواء التغذية / التعويض — أحمر"},{c:SW.crimson,s:"مجاري شفط الدخان — قرمزي"}]},
+        {h:"9 · ملف الغاز المسال (ملف واحد)", items:["مساقط توضح الأنابيب والصمامات ونقاط التزويد وكواشف الغاز ومفاتيح الطوارئ ولوحة التحكم ونقطة التعبئة وجهاز تخفيف الضغط","موقع الخزان وتفاصيل تركيبه مع الأبعاد ومسافات الفصل","نوع الأنابيب وأقطارها","تصنيف مقاومة الحريق للبئر","المخطط الرأسي","مفتاح الرموز","التفاصيل النموذجية",{c:SW.crimson,s:"الأنابيب والخزانات — قرمزي"},{c:SW.red,s:"الآبار والاحتواء — أحمر"}]}
+      ]},
+      {id:"decor", t:"الديكور / التشطيبات", sub:"أعمال داخلية في مبنى قائم", ref:"الملحق 2 · A2.4 · الجدول A2.3", groups:[
+        {h:"1 · ملف سلامة الأرواح (ملف واحد)", items:["صفحة الغلاف","مخطط الموقع / المسقط مع تمييز نطاق أعمال التشطيب","مساقط توضح توزيع الأثاث","مقاطع وتفاصيل ما فوق السقف المستعار","تفاصيل السلالم (إن وجدت)","جدول الأبواب"]},
+        {h:"2 · إنذار الحريق والإخلاء الصوتي", items:["كما في تقديمات الاستشاري: الكواشف ونقاط النداء والسماعات ووحدات الإنارة الطارئة والربط مع لوحة الإنذار لمنطقة التشطيب","المخطط الرأسي ومفتاح الرموز","نفس ترميز الألوان في تقديمات الاستشاري"]},
+        {h:"3 · الحماية من الحريق", items:["الرشاشات وخزائن الخراطيم والأنابيب وطفايات الحريق","أقطار الأنابيب","المخطط الرأسي","مفتاح الرموز","نفس ترميز الألوان في تقديمات الاستشاري"]},
+        {h:"4 · التحكم بالدخان (إن وجد)", items:["كما في تقديمات الاستشاري، ضمن منطقة التشطيب"]},
+        {h:"5 · الغاز المسال (إن وجد)", items:["كما في ملف الغاز المسال / الطبيعي — انظر موضوع الغاز المسال"]},
+        {h:"ترميز الألوان", items:["استخدم نفس ترميز الألوان في تقديمات الاستشاري لكل نظام."]}
+      ]},
+      {id:"lpg", t:"الغاز المسال / الطبيعي", sub:"خزانات الغاز وتمديداته وكشفه", ref:"الملحق 2 · A2.5 · الجدول A2.3 (البندان 9–10)", groups:[
+        {h:"ملف الغاز المسال / الطبيعي (ملف واحد)", items:["مساقط توضح الأنابيب والصمامات ونقاط التزويد وكواشف الغاز ومفاتيح الطوارئ ولوحة التحكم ونقطة التعبئة وجهاز تخفيف الضغط","موقع الخزان وتفاصيل تركيبه مع الأبعاد ومسافات الفصل","نوع الأنابيب وأقطارها","تصنيف مقاومة الحريق للبئر","المخطط الرأسي","مفتاح الرموز","التفاصيل النموذجية"]},
+        {h:"ترميز الألوان", items:[{c:SW.crimson,s:"الأنابيب والخزانات — قرمزي"},{c:SW.red,s:"الآبار والاحتواء — أحمر"}]},
+        {h:"لا يوجد غاز في المشروع؟", items:["قدّم الخطاب باسم XXXXX_LPG NOT REQUIRED."]},
+        {h:"أسباب الرفض — الغاز المسال", red:true, items:["غير مُسقط على مخططات سلامة الأرواح أو بدون مفتاح رموز.","مرور الأنابيب عبر السلالم أو ردهات المصاعد أو غرف النفايات.","عدم توضيح مواقع الخزانات وأحجامها وسعتها ومسافات الفصل.","عدم توضيح خط التعبئة أو جهاز تخفيف الضغط أو كواشف الغاز أو لوحة التحكم.","عدم وجود تفاصيل تركيب الخزان أو المخطط الرأسي."]}
+      ]},
+      {id:"modification", t:"التعديلات", sub:"تغييرات على مشروع معتمد", ref:"الملحق 2 · A2.6 · الجدول A2.4", groups:[
+        {h:"المخططات", items:[{c:"#F5D90A",s:"المخططات المعتمدة — المناطق المتأثرة بسحابة صفراء"},{c:SW.red,s:"المخططات المقترحة — التغييرات بسحابة حمراء"},"ملاحظة بجانب كل سحابة توضح نطاق التغيير بدقة."]},
+        {h:"الخطاب", items:["خطاب على ورق الاستشاري الرسمي، باللغتين العربية والإنجليزية، يوضح التغييرات بدقة مع قائمة بالتعديلات لكل طابق."]},
+        {h:"ينطبق أيضاً", items:["صيغة الملفات وعددها وأسماؤها كما في المتطلبات العامة (A2.2).","ترميز الألوان كما في تقديمات الاستشاري (A2.3)."]}
+      ]},
+      {id:"infrastructure", t:"البنية التحتية", sub:"المخططات الرئيسية والطرق وشبكات الحريق", ref:"الملحق 2 · A2.7 · الجدول A2.5", groups:[
+        {h:"استخدامات القطع وشبكة الطرق (ملف واحد)", items:["صفحة الغلاف","مخطط الموقع مع تلوين استخدامات القطع حسب نوع المبنى / الإشغال","مخطط طريق وصول الإطفاء","تفاصيل شبكة الطرق — الدوارات والجسور / الأنفاق ومقاطع الطرق — لكل قطاع أو مرحلة أو قطعة","مقاطع الطرق توضح خنادق شبكات الحريق والغاز والإنذار (صفحتان)"]},
+        {h:"شبكة الحريق الخارجية / الإطفاء (ملف واحد)", items:["الشبكة الرئيسية لحنفيات الحريق","تفاصيل الحنفيات مع أقطار الأنابيب لكل قطاع","غرفة مضخات الحريق مع سعة المضخات والخزانات","المخطط الرأسي لشبكة الحنفيات الحلقية"]},
+        {h:"شبكات الغاز والإنذار", items:["شبكة الغاز المسال / الوقود","مواقع خزانات الغاز وسعاتها","إنذار الحريق للفلل التجارية وربط اللوحات / المكررات لكل قطاع","المخطط الرأسي لشبكة الإنذار"]},
+        {h:"ترميز الألوان", items:["كما في ترميز ألوان سلامة الأرواح (تقديمات الاستشاري)."]}
+      ]},
+      {id:"events", t:"مقترحات الفعاليات", sub:"تتولاها إدارة الفعاليات", ref:"الملحق 2 · A2.8 · الجدولان A2.6 و A2.7", note:"تتولى إدارة الفعاليات طلبات الفعاليات — events@dcd.gov.ae.", groups:[
+        {h:"خطاب طلب عدم الممانعة", items:["طبيعة الفعالية والأنشطة","الموقع","التاريخ والمدة","العدد المتوقع للحضور","أي طبخ أو غاز أو لهب مكشوف أو ألعاب نارية أو ليزر أو مواد قابلة للاشتعال"]},
+        {h:"المخططات (مقاس A2 ملونة)", items:["صورة فضائية للموقع","المخطط العام مع الطرق والأسوار والبوابات","مخطط تفصيلي (صفحتان كحد أقصى): الأبعاد، المقاعد والمدرجات، المخارج / البوابات بعروضها وإشاراتها، المسرح، الطفايات، الأغذية / الأكشاك / عربات الطعام، مناطق الطبخ / الغاز / الشواء، الإسعافات الأولية، المولدات، مركبات الشرطة / الإسعاف / الدفاع المدني ونقاط التجمع","أنظمة الحماية وسلامة الأرواح في الموقع"]},
+        {h:"مستندات إضافية", items:["موافقة الغاز المسال","موافقة الغازات القابلة للاشتعال","شهادات مواد الخيام / الأغشية","شهادات معدات الألعاب النارية / اللهب ومؤهلات المشغلين"]},
+        {h:"الحد الأدنى من المتطلبات (الجدول A2.7)", items:["عرض المخرج 1.5 م على الأقل","حتى 500 شخص: مخرجان · 501–1000: 3 · 1001–2000: 4 · أكثر من 2000: 6 على جهات متقابلة","حواجز حيث يزيد الارتفاع عن 760 مم وبارتفاع 1065 مم على الأقل","الدرابزين بارتفاع 865–965 مم","الإضاءة: 10.8 لوكس للأرضيات و108 لوكس للسلالم","إنارة طارئة لمدة 3 ساعات: متوسط 10.8 لوكس وحد أدنى 1.1 لوكس","إشارات خروج مرئية ضمن 30 م","طفايات حريق ضمن 30 م وبالقرب من المسارح ومناطق الطبخ","لا غاز مسال ولا ألعاب نارية بدون موافقة","طلب تفتيش قبل الفعالية؛ سيارات إطفاء احتياطية عند الحاجة","التدخين / الشيشة في المناطق المخصصة فقط","المنظم مسؤول عن الالتزام (الفصل 18، البند 2.21)"]}
+      ]},
+      {id:"facade", t:"تقارير الواجهات / الكسوة", sub:"الكسوة والواجهات الزجاجية والأسطح", ref:"الملحق 2 · A2.9 · الجدول A2.8", groups:[
+        {h:"من يحق له التقديم", items:["بيت خبرة معتمد أو الاستشاري الرئيسي أو استشاري الواجهات (الفصل 1، البندان 4.4.7.5 و4.4.8)."]},
+        {h:"محتوى التقرير (ملف PDF واحد)", items:["ملف PDF خالٍ من الأخطاء ليمكن ختمه بالعلامة المائية","صفحة الغلاف","تعهدات مختومة من كل طرف مع شهادة الدفاع المدني وشهادة المطابقة (5 صفحات كحد أقصى)","تقييم هندسي يوضح أي مخالفات (3 صفحات كحد أقصى)","مقاطع تخطيطية (3 صفحات)","تقرير التفتيش (3 صفحات كحد أقصى)"]},
+        {h:"التعهدات مطلوبة من", items:["بيت الخبرة / استشاري الواجهات","الاستشاري الرئيسي","المقاول الرئيسي","مورد الألواح","مورد أنظمة EIFS / ETICS","مورد الحجر الطبيعي","موردو مانعات الحريق والعزل والأسطح والزجاج"]},
+        {h:"غير مقبول", red:true, items:["تقارير لا تتبع الجدول A2.8 أو ليست من جهات معتمدة","الكتالوجات أو الأوصاف العامة لانتشار الحريق أو تفاصيل طرق الاختبار","نقص الأختام أو التواقيع أو مرفقات غير ذات صلة","مواد من موردين غير مسجلين","عدم إبراز المخالفات أو تبرير استخدام مواد غير مطابقة"]}
+      ]}
     ]}
 };
 
@@ -969,7 +1226,7 @@ const TOUR = [
   {sel:"#catCard", en:["Inquiry type","Unlocks once your details are complete. Events, IT Support and Finance are emailed directly to those departments."], ar:["نوع الاستفسار","يظهر بعد إكمال بياناتك. الفعاليات والدعم التقني والمالية تُراسل مباشرة."]},
   {sel:"#details", en:["Request details","Required fields have *. Select ? to see what an option means."], ar:["تفاصيل الطلب","الحقول الإلزامية عليها *. اضغط ? لمعرفة معنى الخيار."]},
   {sel:"#odSideBtn", od:true, en:["Sharing files with OneDrive","Use a OneDrive folder link with “Can edit” access:"], ar:["مشاركة الملفات عبر OneDrive","استخدم رابط مجلد OneDrive بصلاحية «يمكن التعديل»:"]},
-  {sel:"#axSideBtn", en:["Annexure 2 at a glance","Submission requirements and the reasons for rejection, summarised from the UAE FLS Code 2018."], ar:["ملخص الملحق رقم 2","متطلبات التقديم وأسباب الرفض، ملخصة من كود الإمارات 2018."]},
+  {sel:"#axSideBtn", en:["Annexure 2 — Submission requirements","Choose a topic — general requirements, reasons for rejection, consultant, décor, LPG, modifications, infrastructure, events or façade — to see its complete list from the UAE FLS Code 2018."], ar:["الملحق رقم 2 — متطلبات التقديم","اختر موضوعاً — المتطلبات العامة، أسباب الرفض، الاستشاري، الديكور، الغاز، التعديلات، البنية التحتية، الفعاليات أو الواجهات — لعرض قائمته الكاملة من كود الإمارات 2018."]},
   {sel:"#declCard", en:["Confirmations","Tick each confirmation, or use “Confirm all”."], ar:["الإقرارات","أكّد كل إقرار أو استخدم «تأكيد الكل»."]},
   {sel:"#genBar", en:["Generate","Select “Generate email”. “Start over” clears the form."], ar:["إنشاء","اضغط «إنشاء البريد». «البدء من جديد» يمسح النموذج."]},
   {sel:"#tokenBox", en:["Your reference number","Unique to your email. Keep it — it is in the subject and the email, and it is used to track your request."], ar:["الرقم المرجعي","فريد لبريدك. احتفظ به — هو في الموضوع والبريد ويُستخدم لتتبع طلبك."]},
@@ -983,6 +1240,7 @@ const ICONS = {
   facade:'<rect x="4" y="3" width="16" height="18" rx="1"/><path d="M4 9h16M4 15h16M10 3v18"/>',
   special:'<path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/>',
   stamp:'<path d="M9 3h6l-1 7h-4z"/><path d="M5 14h14v3H5zM4 21h16"/>',
+  temporary:'<path d="M3 20h18"/><path d="M5 20V10l7-5 7 5v10"/><path d="M10 20v-5h4v5"/><circle cx="18.5" cy="5.5" r="2.5"/><path d="M18.5 4.5v1.2l.8.5"/>',
   event:'<path d="M3 21l3-12 12 12z"/><path d="M14 4l1 2M19 6l-2 1M20 11h-2M11 3v2"/>',
   tech:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M10 8l-2 2 2 2M14 8l2 2-2 2"/>',
   finance:'<rect x="2" y="6" width="20" height="13" rx="2"/><circle cx="12" cy="12.5" r="2.5"/><path d="M6 10v5M18 10v5"/>'
@@ -1086,10 +1344,11 @@ function fieldHTML(f){
   const common = `id="${id}" name="${f.id}" ${req?'required aria-required="true"':''} ${f.ac?`autocomplete="${f.ac}"`:''} aria-describedby="${id}_e"`;
   let ctrl;
   if (f.type === "cards"){
-    const lab2 = `<label class="l" id="${id}_l">${esc(f[lang]||f.en)}${req?' <span class="req" aria-hidden="true">*</span>':' <span class="opt">'+T[lang].optional+'</span>'}${infoBtn}</label>`;
-    const cards = `<div class="choices" role="radiogroup" aria-labelledby="${id}_l">${f.options.map((o,i)=>{ const v=optVal(o), h=optHint(o);
-      return `<label class="choice"><input type="radio" name="${f.id}" value="${esc(v)}" ${sv(f.id)===v?"checked":""}><span>${esc(optLbl(o))}${h?`<small>${esc(h)}</small>`:""}</span></label>`; }).join("")}</div>`;
-    return `<div class="f ${f.full?'full':''}" data-fid="${f.id}">${lab2}${helpTop}${infoBox}${cards}<input type="hidden" id="${id}" value="${esc(sv(f.id))}">${help}<div class="err" id="${id}_e"></div></div>`;
+    /* Dropdown list; the meaning of the selected option is shown under it */
+    const cur = f.options.find(o => optVal(o) === sv(f.id)), h = cur ? optHint(cur) : "";
+    ctrl = `<select ${common} class="dd"><option value="">${T[lang].select}</option>${f.options.map(o=>`<option value="${esc(optVal(o))}" data-h="${esc(optHint(o))}">${esc(optLbl(o))}</option>`).join("")}</select>`
+         + `<div class="opt-hint" id="${id}_h"${h?"":" hidden"}>${esc(h)}</div>`;
+    return `<div class="f ${f.full?'full':''}" data-fid="${f.id}">${lab}${helpTop}${infoBox}${ctrl}${help}<div class="err" id="${id}_e"></div></div>`;
   }
   if (f.type === "phone"){
     ctrl = `<div class="phone"><span class="cc" aria-hidden="true">🇦🇪 +971</span><input type="tel" ${common} inputmode="tel" placeholder="05X XXX XXXX" maxlength="16" dir="ltr" autocomplete="${f.id==="phone"?"tel-national":"off"}"></div>`;
@@ -1119,7 +1378,7 @@ function listHTML(f){
           placeholder="${esc((c[lang]||c.en) + (c.req?" *":""))}" aria-label="${esc((c[lang]||c.en)+" "+(i+1))}">`).join("")}
       <button type="button" class="rep-del" data-del="${f.id}" data-i="${i}" ${rows.length<=(f.min||1)?"disabled":""} aria-label="${T[lang].remove} ${i+1}">${SVG.x}</button>
     </div>`).join("");
-  const addTxt = f.id==="attendees" ? T[lang].addAtt : f.id==="agenda" ? T[lang].addPoint : T[lang].addRow;
+  const addTxt = f.id==="attendees" ? T[lang].addAtt : f.id==="agenda" ? T[lang].addPoint : f.id==="missingPages" ? T[lang].addPage : f.id==="tpCerts" ? T[lang].addCert : T[lang].addRow;
   const label = f.id!=="questions" ? `<label class="l" style="display:block;font-weight:600;font-size:14.5px;margin-bottom:7px;color:var(--navy)">${esc(f[lang]||f.en)} <span class="req">*</span></label>` : "";
   const add = rows.length < (f.max||10) ? `<button type="button" class="rep-add" data-add="${f.id}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>${addTxt}</button>` : "";
   return `<div class="full rep" data-fid="${f.id}">${label}${head}<div class="rep-rows">${body}</div>${add}<div class="err" id="f_${f.id}_e"></div></div>`;
@@ -1160,7 +1419,7 @@ function renderDetails(){
   $("#detailsSub").hidden = false; $("#genBar").hidden = false;
   let html = sectionsHTML(c.sections);
   const blk = activeBlock(c);
-  if (blk) html += `<div style="margin-top:18px">${noticeHTML("stop", L(blk) + (blk.ax ? AX_BTNS[lang] : ""))}</div>`;
+  if (blk) html += `<div style="margin-top:18px">${noticeHTML("stop", L(blk) + (blk.ax ? axBtns(blk.ax)[lang] : ""))}</div>`;
   $("#detailsBody").innerHTML = html;
   const gateOff = c.id==="status" && state.statusGate!=="Yes";
   $("#declCard").hidden = !!blk || gateOff;
@@ -1188,7 +1447,7 @@ function applyText(){
   document.documentElement.dir = lang==="ar" ? "rtl" : "ltr";
   document.querySelectorAll("[data-t]").forEach(el=>{ const k=el.dataset.t; if(typeof T[lang][k]==="string") el.textContent=T[lang][k]; });
   $("#langLbl").textContent = T[lang].lang;
-  $("#notesList").innerHTML = CONFIG.NOTES[lang].map((n,i)=>`<li class="${i>3?"more":""}">${esc(n)}</li>`).join("");
+  $("#notesList").innerHTML = CONFIG.NOTES[lang].map((n,i)=>`<li class="${i>4?"more":""}">${esc(n)}</li>`).join("");
   $("#notesMore").textContent = $("#notesBox").classList.contains("open") ? T[lang].less : T[lang].more;
   ["#flsLinkHero","#flsLinkSide"].forEach(s => { const a=$(s); if(a) a.href = FLS_LINK; });
   $("#remind").innerHTML = `<b>${T[lang].remindH}</b><ul>${T[lang].remind.map(r=>`<li>${esc(r)}</li>`).join("")}</ul>`;
@@ -1201,6 +1460,7 @@ function fieldOK(f){
   if (isReq(f) && !v) return false;
   if (v && f.pattern && !f.pattern.test(v)) return false;
   if (v && f.type==="phone" && !phoneDigits(v)) return false;
+  if (v && f.check && f.check(vals())) return false;
   return true;
 }
 const senderOK = () => visibleFields(CONFIG.SENDER).every(fieldOK);
@@ -1232,7 +1492,7 @@ $("#form").addEventListener("change", e=>{
   if (!el.name || el.name==="cat") return;
   if (el.type==="radio" && !el.checked) return;
   state[el.name] = el.value;
-  if (el.type==="radio"){ const h=document.getElementById("f_"+el.name); if(h) h.value = el.value; }
+  if (el.tagName==="SELECT"){ const h=document.getElementById(el.id+"_h"); if(h){ const o=el.options[el.selectedIndex]; h.textContent=(o&&o.dataset.h)||""; h.hidden=!h.textContent; } }
   if (el.type==="tel"){ const d = phoneDigits(el.value); if (d){ el.value = "0" + d.slice(0,2) + " " + d.slice(2,5) + " " + d.slice(5); state[el.name] = el.value; } }
   if (condFields(CONFIG.SENDER).has(el.name)) { renderSender(); const n=document.querySelector(`[name="${el.name}"]:checked`) || document.getElementById("f_"+el.name); n && n.focus({preventScroll:true}); }
   const c = getCat();
@@ -1263,7 +1523,10 @@ $("#cats").addEventListener("change", e=>{
 $("#langBtn").addEventListener("click", ()=>{ lang = lang==="en" ? "ar" : "en"; renderAll(); if(built) showOutput(); });
 document.addEventListener("click", e=>{
   if (e.target.closest("[data-od]")) { openModal("#odModal"); return; }
-  if (e.target.closest("[data-annex]")) { openModal("#axModal"); return; }
+  const ax = e.target.closest("[data-annex]");
+  if (ax) { if (ax.dataset.annex) axTopic = ax.dataset.annex; renderAnnex(); openModal("#axModal"); return; }
+  const axt = e.target.closest("[data-axt]");
+  if (axt) { axTopic = axt.dataset.axt; renderAnnex(); const v=$("#axView"); v && v.scrollIntoView({block:"start"}); const b=document.querySelector(`[data-axt="${axTopic}"]`); b && b.focus({preventScroll:true}); return; }
   if (e.target.closest("[data-guide]")) { openModal("#guide"); return; }
   if (e.target.closest("[data-tour]")) { startTour(); return; }
   if (e.target.closest("#notesMore")) { const nb=$("#notesBox"); nb.classList.toggle("open"); $("#notesMore").textContent = nb.classList.contains("open") ? T[lang].less : T[lang].more; return; }
@@ -1308,6 +1571,7 @@ function validate(){
       else if(v && f.pattern && !f.pattern.test(v)) msg = T[lang].invalid;
       else if(v && f.type==="phone" && !phoneDigits(v)) msg = T[lang].badPhone;
       else if(v && f.onedrive && !ONEDRIVE_RE.test(v)) msg = T[lang].badLink;
+      else if(v && f.check){ const m = f.check(vals()); if (m) msg = L(m); }
     }
     wrap.classList.toggle("bad", !!msg); err.textContent = msg;
     el.setAttribute("aria-invalid", msg ? "true" : "false");
@@ -1331,7 +1595,7 @@ function fmtDate(s){ if(!/^\d{4}-\d{2}-\d{2}$/.test(s)) return s; const [y,m,d] 
 function val(f){ const x = sv(f.id); if(!x) return ""; if (f.type==="date") return fmtDate(x); if (f.type==="phone"){ const d=phoneDigits(x); return d ? fmtPhone(d) : x; } return x; }
 function today(){ const d=new Date(); return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`; }
 
-const SKIP_IN_EMAIL = ["hasPrev","prevRef","statusGate","giAbout","mHasApp"];
+const SKIP_IN_EMAIL = ["hasPrev","prevRef","statusGate","giAbout","mHasApp","stampCase","stampAge","tpDuration"];
 function boxRows(c, token, followUp){
   const R = [];
   R.push({sec:"Request"});
@@ -1349,6 +1613,8 @@ function boxRows(c, token, followUp){
         if(!items.length) return;
         const lines = items.map((r,i)=>{
           if (f.id==="questions") return `${i+1}. [Chapter ${r.ch} · Section ${r.sec} · Page ${r.pg}] ${r.q}`;
+          if (f.id==="tpCerts") return `${i+1}. ${r.mat} — ${r.std}${(r.no||"").trim() ? " — certificate no. " + r.no.trim() : ""}`;
+          if (f.id==="missingPages") return `${i+1}. ${r.file} — page ${r.page}${(r.title||"").trim() ? " — " + r.title.trim() : ""}`;
           return `${i+1}. ` + f.cols.map(col=>(r[col.id]||"").trim()).filter(Boolean).join(" — ");
         });
         rows.push({k:f.el||f.en, list:lines});
@@ -1362,12 +1628,33 @@ function boxRows(c, token, followUp){
   return R;
 }
 
+/* Record block — fixed keys, one "KEY: value" per line, for the administration ledger / data-entry tools */
+function isoToday(){ const d=new Date(), p2=n=>String(n).padStart(2,"0"); return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`; }
+function recordLines(c, token, followUp){
+  const one = x => String(x||"").replace(/\s+/g," ").trim() || "-";
+  const V = Object.fromEntries(visibleFields(c.sections).map(f=>[f.id, val(f)]));
+  const ph = d => { const x = phoneDigits(sv(d)); return x ? fmtPhone(x) : sv(d); };
+  const R = [
+    ["REFERENCE", token], ["CODE", c.code], ["INQUIRY_TYPE", c.en], ["DATE", isoToday()],
+    ["FOLLOW_UP", followUp ? "YES" : "NO"], ["SENT_TO", c.to],
+    ["APPLICATION_NO", V.appNo], ["APPROVAL_DATE", V.approvalDate ? sv("approvalDate") : ""],
+    ["START_DATE", V.tpStart ? sv("tpStart") : ""], ["END_DATE", V.tpEnd ? sv("tpEnd") : ""], ["LOCATION", V.tpLocation], ["PROJECT", V.project], ["PLOT", V.plot],
+    ["CATEGORY", V.appCat], ["SYSTEM", V.system], ["SUBMISSION_TYPE", V.projKind],
+    ["SUBMISSION_STAGE", V.appStage], ["SUBJECT", V.mAbout || V.giAbout || V.saTitle || V.piType || V.dlType || V.tpType], ["ENGINEER", V.engineer || V.statusEng],
+    ["SENDER_ROLE", sv("role")], ["COMPANY", sv("company")], ["CONTACT_NAME", sv("name")], ["CONTACT_MOBILE", ph("phone")], ["CONTACT_EMAIL", sv("email")],
+    ["OWNER_NAME", sv("ownerName")], ["OWNER_MOBILE", ph("ownerPhone")], ["OWNER_EMAIL", sv("ownerEmail")],
+    ["ONEDRIVE", V.oneDrive]
+  ];
+  return R.map(([k,v]) => `${k}: ${one(v)}`);
+}
+const REC_START = "[DCD-PED-RECORD]", REC_END = "[/DCD-PED-RECORD]";
+
 function buildEmail(c, token, followUp){
   const V = Object.fromEntries(visibleFields(c.sections).map(f=>[f.id, val(f)]));
   const ph = phoneDigits(sv("phone"));
   return {greeting:CONFIG.GREETING, summary:SUMMARY[c.id](V), rows:boxRows(c, token, followUp), title:c.en, token,
     closing:CONFIG.CLOSING + (V.oneDrive ? " All files are available in the OneDrive link above (edit access)." : ""),
-    sign:"Best regards,", sigName:sv("name"), sigLine:`${sv("role")} — ${sv("company")}`, sigContact:`${ph?fmtPhone(ph):sv("phone")}  |  ${sv("email")}`};
+    sign:"Best regards,", sigName:sv("name"), sigLine:`${sv("role")} — ${sv("company")}`, sigContact:`${ph?fmtPhone(ph):sv("phone")}  |  ${sv("email")}`, record:recordLines(c, token, followUp)};
 }
 
 /* Plain text: the whole email inside one fixed frame (same order as the card) */
@@ -1383,7 +1670,8 @@ function toText(E){
     if (r.k.length >= W) { out.push(`${r.k}:`, `${"".padEnd(W)}  ${r.v}`); return; }
     out.push(`${(r.k).padEnd(W)}: ${r.v}`);
   });
-  out.push(thin, "", E.closing, "", E.sign, E.sigName, E.sigLine, E.sigContact, "", rule, `Please quote reference ${E.token} in all correspondence.`, rule);
+  out.push(thin, "", E.closing, "", E.sign, E.sigName, E.sigLine, E.sigContact, "", rule, `Please quote reference ${E.token} in all correspondence.`, rule,
+    "", "RECORD DATA (for DCD administration — please do not edit)", REC_START, ...E.record, REC_END);
   return out.join("\n");
 }
 
@@ -1393,7 +1681,7 @@ function toHTML(E){
   const FONT = "font-family:Calibri,'Segoe UI',Arial,Helvetica,sans-serif;";
   const TD = (st) => `style="${FONT}${st}"`;
   const P = `${FONT}font-size:11.5pt;color:#1F2937;line-height:1.55;`;
-  let h = `<table role="presentation" width="680" cellpadding="0" cellspacing="0" border="0" align="left" style="width:100%;max-width:680px;border-collapse:separate;border:1px solid #C9D4E2;border-radius:10px;background:#FFFFFF;${FONT}" bgcolor="#FFFFFF">`;
+  let h = `<table role="presentation" width="680" cellpadding="0" cellspacing="0" border="0" align="left" dir="ltr" style="width:680px;min-width:680px;table-layout:fixed;border-collapse:separate;border:1px solid #C9D4E2;border-radius:10px;background:#FFFFFF;${FONT}" bgcolor="#FFFFFF"><colgroup><col width="231"><col width="449"></colgroup>`;
   // header band
   h += `<tr><td colspan="2" bgcolor="#12243A" ${TD("background:#12243A;padding:14px 20px;border-radius:9px 9px 0 0;")}>
       <div ${TD("font-size:8.5pt;letter-spacing:1px;color:#AFC4DC;font-weight:bold;text-transform:uppercase;")}>Dubai Civil Defence · Preventive Engineering Department</div>
@@ -1421,7 +1709,12 @@ function toHTML(E){
       <p style="margin:0 0 12px 0;${P}">${esc(E.closing)}</p>
       <p style="margin:0;${P}">${esc(E.sign)}<br><b style="color:#12243A">${esc(E.sigName)}</b><br>${esc(E.sigLine)}<br><span style="color:#5E6E7E">${esc(E.sigContact)}</span></p></td></tr>`;
   // footer
-  h += `<tr><td colspan="2" bgcolor="#F4F6F9" ${TD("background:#F4F6F9;padding:9px 20px;border-top:1px solid #E4E9F0;border-radius:0 0 9px 9px;font-size:9pt;color:#5E6E7E;")}>Please quote reference <b style="color:#12243A;font-family:Consolas,'Courier New',monospace">${esc(E.token)}</b> in all correspondence.</td></tr>`;
+  h += `<tr><td colspan="2" bgcolor="#F4F6F9" ${TD("background:#F4F6F9;padding:9px 20px;border-top:1px solid #E4E9F0;font-size:9pt;color:#5E6E7E;")}>Please quote reference <b style="color:#12243A;font-family:Consolas,'Courier New',monospace">${esc(E.token)}</b> in all correspondence.</td></tr>`;
+  // record data (machine-readable; fixed keys)
+  const MONO = "font-family:Consolas,'Courier New',monospace;";
+  h += `<tr><td colspan="2" bgcolor="#FFFFFF" style="${MONO}background:#FFFFFF;padding:10px 20px 14px 20px;border-top:1px dashed #C9D4E2;border-radius:0 0 9px 9px;font-size:8pt;line-height:1.5;color:#475467;word-break:break-all;">` +
+       `<span style="${FONT}font-size:7.5pt;font-weight:bold;letter-spacing:.8px;color:#8A99A8;text-transform:uppercase;">Record data · for DCD administration</span><br>` +
+       [REC_START, ...E.record, REC_END].map(esc).join("<br>") + `</td></tr>`;
   return h + `</table>`;
 }
 
@@ -1441,10 +1734,27 @@ function showOutput(){
   $("#oTo").textContent = built.to;
   $("#oCc").textContent = built.cc;
   $("#oSubj").textContent = built.subject;
-  $("#oBody").innerHTML = built.html;       // built only from escaped values
+  $("#oBody").innerHTML = `<div class="sheet" id="oSheet">${built.html}</div>`;       // built only from escaped values
+
   $("#longWarn").hidden = (encodeURIComponent(built.subject).length + encodeURIComponent(built.text).length) <= 1800;
   $("#out").hidden = false;
+  fitSheet(); setTimeout(fitSheet, 80);
 }
+
+/* The email card keeps one fixed 680-px layout on every device; small screens see it scaled down (no reflow) */
+let zoomFull = false;
+function fitSheet(){
+  const box = $("#oBody"), sh = $("#oSheet"); if (!box || !sh || $("#out").hidden) return;
+  const cs = getComputedStyle(box), avail = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  const k = Math.min(1, avail / 682), zb = $("#zoomBtn");
+  zb.hidden = k >= 1; $("#zoomLbl").textContent = zoomFull ? T[lang].zoomFit : T[lang].zoomIn;
+  const s = (k < 1 && !zoomFull) ? k : 1;
+  box.classList.toggle("full", k < 1 && zoomFull);
+  sh.style.transform = s < 1 ? `scale(${s})` : "";
+  box.style.height = s < 1 ? (sh.offsetHeight * s + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)) + "px" : "";
+}
+$("#zoomBtn").addEventListener("click", () => { zoomFull = !zoomFull; fitSheet(); });
+window.addEventListener("resize", fitSheet);
 
 let generating = false;
 $("#form").addEventListener("submit", async e=>{
@@ -1525,7 +1835,7 @@ function renderGuide(){
     <h3>${G.tokenH}</h3><p style="margin:0 0 8px">${esc(G.tokenP)}</p>
     <div class="tokex">${CONFIG.TOKEN_PREFIX}-CODE-DD-MM-YY-123456<br><span style="opacity:.7">e.g. ${CONFIG.TOKEN_PREFIX}-AS-05-10-26-483920</span></div>
     <p class="help">${esc(G.tokenParts)}</p>
-    <h3>${G.rulesH}</h3><ul>${CONFIG.NOTES[lang].map((n,i)=>`<li>${i<4?"<b>":""}${esc(n)}${i<4?"</b>":""}</li>`).join("")}</ul>`;
+    <h3>${G.rulesH}</h3><ul>${CONFIG.NOTES[lang].map((n,i)=>`<li>${i<5?"<b>":""}${esc(n)}${i<5?"</b>":""}</li>`).join("")}</ul>`;
 }
 function renderOD(){
   $("#odBody").innerHTML = `<div class="odsteps">${OD_TEXT[lang].map((s,i)=>`<div class="odstep">${OD_SVG[i]}<p><b>${i+1}. ${esc(s[0])}</b><br>${esc(s[1])}</p></div>`).join("")}</div>
@@ -1537,11 +1847,26 @@ function closeModals(){ document.querySelectorAll(".modal").forEach(m=>m.hidden=
 document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click", e=>{ if(e.target===m || e.target.closest("[data-close]")) closeModals(); }));
 document.addEventListener("keydown", e=>{ if(e.key==="Escape" && [...document.querySelectorAll(".modal")].some(m=>!m.hidden)) closeModals(); });
 
-/* ---------- Annexure 2 summary ---------- */
+/* ---------- Annexure 2 — topic selector ---------- */
+let axTopic = "general";
+function axItem(it){ return typeof it === "string" ? `<li>${esc(it)}</li>` : `<li class="swl"><span class="sw" style="background:${esc(it.c)}"></span>${esc(it.s)}</li>`; }
 function renderAnnex(){
-  const A = ANNEX[lang];
-  $("#axBody").innerHTML = `<div class="ax-src"><span>${esc(A.src)}</span><a class="btn btn-s" style="min-height:38px" target="_blank" rel="noopener noreferrer" href="${esc(FLS_LINK)}">${esc(A.open)}</a></div>
-    <div class="ax-grid" style="margin-top:12px">${A.blocks.map(b=>`<div class="ax ${b.red?"red":""}"><h4><span>${esc(b.n)}</span>${esc(b.t)}</h4><ul>${b.items.map(i=>`<li>${i}</li>`).join("")}</ul></div>`).join("")}</div>`;
+  const A = ANNEX[lang], tp = A.topics.find(t => t.id === axTopic) || A.topics[0];
+  $("#axBody").innerHTML = `
+    <div class="ax-top">
+      <label class="ax-pick" for="axTopic"><span>${esc(A.pick)}</span></label>
+      <select id="axTopic" class="dd">${A.topics.map((t,i)=>`<option value="${t.id}" ${t.id===tp.id?"selected":""}>${i+1}. ${esc(t.t)}</option>`).join("")}</select>
+    </div>
+    <div class="ax-layout">
+      <nav class="ax-nav" aria-label="${esc(A.pick)}">${A.topics.map((t,i)=>`<button type="button" data-axt="${t.id}" class="${t.id===tp.id?"on":""}" ${t.id===tp.id?'aria-current="true"':""}><span class="n">${i+1}</span><span><b>${esc(t.t)}</b><small>${esc(t.sub)}</small></span></button>`).join("")}</nav>
+      <div class="ax-view" id="axView">
+        <div class="ax-head"><div><h3>${esc(tp.t)}</h3><p>${esc(tp.sub)}</p></div><div class="ax-hr"><span class="ax-ref">${esc(tp.ref)}</span><a class="btn btn-s" target="_blank" rel="noopener noreferrer" href="${esc(FLS_LINK)}">${esc(A.open)}</a></div></div>
+        ${tp.note ? `<div style="margin:0 0 12px">${noticeHTML("info", esc(tp.note))}</div>` : ""}
+        <div class="ax-grid">${tp.groups.map(g=>`<div class="ax ${g.red?"red":""}"><h4>${esc(g.h)}</h4><ul>${g.items.map(axItem).join("")}</ul></div>`).join("")}</div>
+        <p class="ax-src">${esc(A.src)}</p>
+      </div>
+    </div>`;
+  $("#axTopic").addEventListener("change", e => { axTopic = e.target.value; renderAnnex(); $("#axTopic").focus(); });
 }
 
 /* ---------- Progress (side panel) + step ticks ---------- */
