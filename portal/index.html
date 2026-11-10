@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kLqJ8aNV9G2VoO5jVo/3BZVvaxEWCj/t8l8N8dzO8ls=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-xP+FeNQBG6vQfZ8DzroXYbBks87NPmjImLAVexhf1Uo=' 'sha256-6A+TEkZbj/Zshs1FOnZTb34IPzm6q7dugBrvevi+AuI=' 'sha256-T8ardHi9xkvW4Ls8xZn23EblJ7BDPSG3YE17xc9kWHY='; style-src 'sha256-XFwt3OEusSReyQfcdSMU7Mb3r66fsZon0baA8yRel18='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kLqJ8aNV9G2VoO5jVo/3BZVvaxEWCj/t8l8N8dzO8ls=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-F6E+XThnjkApuOtqWbLTCxoJWMmStArml975jnn9bb8=' 'sha256-6A+TEkZbj/Zshs1FOnZTb34IPzm6q7dugBrvevi+AuI=' 'sha256-f3Cz/YUg+h8/fA14ELbivLMxD0dT/Nxf1v4xTffTf5g='; style-src 'sha256-XFwt3OEusSReyQfcdSMU7Mb3r66fsZon0baA8yRel18='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light dark">
@@ -1334,19 +1334,29 @@ const PORTAL = (() => {
   CONFIG.CATEGORIES.push({ id: 'hq', code: 'HQ', to: INBOX.projects, en: 'DCD HQ General', ar: 'مقر الدفاع المدني — عام', icon: 'meeting',
     subject: ['hqStaff'],
     note: { tone: 'warn', html: true,
-      en: "<b class='h'>Only for visitors at the DCD headquarters.</b>Use this form only when a DCD staff member or engineer asks you to scan the QR code. Enter their staff code, your details and your inquiry. Your reference number is your token: show it to the staff member, who will record the answer or the minutes of the meeting under it — you can read them later on the status page.",
-      ar: "<b class='h'>مخصص لزوار مقر الدفاع المدني فقط.</b>استخدم هذا النموذج فقط عندما يطلب منك أحد موظفي أو مهندسي الدفاع المدني مسح رمز QR. أدخل رمز الموظف وبياناتك واستفسارك. الرقم المرجعي هو رقم دورك: اعرضه على الموظف ليسجّل الرد أو محضر الاجتماع عليه، ويمكنك الاطلاع عليهما لاحقاً من صفحة حالة الطلب." },
+      en: "<b class='h'>Only for visitors at the DCD headquarters.</b>Use this form only when a DCD staff member or engineer asks you to scan the QR code. Enter your details, the staff member’s code and the type of inquiry. A project owner only chooses the type; a consultant or a contractor also writes the details. Your reference number is your token: show it to the staff member, who will record the answer or the minutes of the meeting under it — you can read them later on the status page.",
+      ar: "<b class='h'>مخصص لزوار مقر الدفاع المدني فقط.</b>استخدم هذا النموذج فقط عندما يطلب منك أحد موظفي أو مهندسي الدفاع المدني مسح رمز QR. أدخل بياناتك ورمز الموظف ونوع الاستفسار. يكتفي مالك المشروع باختيار النوع، أما الاستشاري أو المقاول فيكتب التفاصيل أيضاً. الرقم المرجعي هو رقم دورك: اعرضه على الموظف ليسجّل الرد أو محضر الاجتماع عليه، ويمكنك الاطلاع عليهما لاحقاً من صفحة حالة الطلب." },
     sections: [
       { en: 'Your visit', ar: 'زيارتك', fields: [
         { id: 'hqStaff', en: 'Staff code (given by the DCD staff member)', el: 'Staff code', ar: 'رمز الموظف (يعطيك إياه موظف الدفاع المدني)', type: 'text', req: true,
           ph: { en: 'e.g. M3709', ar: 'مثال: M3709' },
           check: v => (v.hqStaff && !STAFF_RE.test(v.hqStaff.trim())) ? { en: 'The code is one letter and a number, e.g. M3709.', ar: 'الرمز حرف واحد يليه رقم، مثل M3709.' } : null },
-        { id: 'hqKind', en: 'Purpose of the visit', el: 'Purpose', ar: 'الغرض من الزيارة', type: 'cards', req: true, full: true,
-          options: [['Inquiry', 'استفسار', 'Inquiry', 'A question answered at the counter', 'سؤال يُجاب عنه في الموقع'],
-            ['Meeting', 'اجتماع', 'Meeting', 'A meeting with an engineer — the minutes are recorded under this reference', 'اجتماع مع مهندس — يُسجَّل محضره على هذا الرقم المرجعي']] },
+        /* only the type: the staff member records the answer or the minutes under the reference — nothing to write or upload */
+        { id: 'hqType', en: 'Type of inquiry', el: 'Inquiry type', ar: 'نوع الاستفسار', type: 'cards', req: true, full: true,
+          options: [['Application status', 'حالة طلب', 'Application status', 'An application under review', 'طلب قيد المراجعة'],
+            ['UAE FLS Code question', 'استفسار عن كود الإمارات', 'UAE FLS Code question', 'A question on a code requirement', 'سؤال عن متطلب في الكود'],
+            ['Meeting with an engineer', 'اجتماع مع مهندس', 'Meeting with an engineer', 'The minutes are recorded under your reference number', 'يُسجَّل محضر الاجتماع على رقمك المرجعي'],
+            ['Special approval', 'موافقة خاصة', 'Special approval', 'A requirement that cannot be met', 'متطلب يتعذّر تطبيقه'],
+            ['Façade / cladding', 'الواجهات والتكسية', 'Façade / cladding', 'Façade, cladding and curtain wall', 'الواجهات والتكسية والواجهات الزجاجية'],
+            ['Missing stamp', 'ختم غير ظاهر', 'Missing stamp', 'Approved pages without the DCD stamp', 'صفحات معتمدة لا يظهر عليها ختم الدفاع المدني'],
+            ['Temporary project', 'مشروع مؤقت', 'Temporary project', 'Site offices, cabins, tents — 6 months or less', 'مكاتب المواقع والكبائن والخيام — 6 أشهر أو أقل'],
+            ['Event', 'فعالية', 'Event', 'An event or its temporary structures', 'فعالية أو منشآتها المؤقتة'],
+            ['Other', 'أخرى', 'Other', 'Tell the staff member', 'أخبر الموظف بها']] },
         { id: 'appNo', en: 'Application number (if any)', el: 'Application no.', ar: 'رقم الطلب (إن وجد)', type: 'text', req: false },
-        F.details({ id: 'hqText', en: 'Your inquiry', el: 'Inquiry', ar: 'استفسارك', ph: { en: 'Write your question or the topic of the meeting.', ar: 'اكتب سؤالك أو موضوع الاجتماع.' } }),
-        file('hqCard', 'Business card or company letter (PDF, optional)', 'بطاقة العمل أو خطاب الشركة (PDF، اختياري)', { req: false, max: 1 })] }] });
+        /* a consultant or a contractor also writes the details (a project owner or another visitor only chooses the type) */
+        F.details({ id: 'hqText', when: { f: 'role', in: ['Consultant', 'Contractor'] }, en: 'Details of your inquiry', el: 'Details', ar: 'تفاصيل استفسارك',
+          ph: { en: 'The project, the application and your question or the topic of the meeting.', ar: 'المشروع والطلب وسؤالك أو موضوع الاجتماع.' } }),
+        file('hqFiles', 'Supporting document (PDF, optional)', 'مستند داعم (PDF، اختياري)', { req: false, when: { f: 'role', in: ['Consultant', 'Contractor'] } })] }] });
 
   /* the walk-in visitor may be the owner or someone else, and confirms only two things — it is done on the spot */
   const hqCat = CONFIG.CATEGORIES.find(c => c.id === 'hq');
@@ -1490,6 +1500,8 @@ const HELP_IMG = {
       newH: 'New request', pickH: 'Which service do you need?', pickP: 'Choose the service that matches your request.',
       steps: ['Your details', 'Request', 'Review & submit'],
       s1sub: 'Only the project consultant or contractor may submit. The project owner’s details are kept with the request.',
+      hqSub: 'Your own details — the staff member helping you will see them with your request.',
+      hqSide: 'Show your reference number to the staff member helping you; the answer or the minutes appear on your status page.',
       s2sub: 'Fields marked * are required. Select ? for an explanation.',
       s3sub: 'Check your request, confirm and submit. You will receive a reference number and an access code.',
       next: 'Continue', back: 'Back', submit: 'Submit request', submitting: 'Submitting…', change: 'Change service', edit: 'Edit',
@@ -1577,6 +1589,8 @@ const HELP_IMG = {
       newH: 'طلب جديد', pickH: 'ما الخدمة التي تحتاجها؟', pickP: 'اختر الخدمة المناسبة لطلبك.',
       steps: ['بياناتك', 'الطلب', 'المراجعة والإرسال'],
       s1sub: 'يقدّم الطلب استشاري المشروع أو مقاوله فقط. تُحفظ بيانات مالك المشروع مع الطلب.',
+      hqSub: 'بياناتك أنت — يطّلع عليها الموظف الذي يساعدك مع طلبك.',
+      hqSide: 'اعرض الرقم المرجعي على الموظف الذي يساعدك، وسيظهر الرد أو محضر الاجتماع في صفحة حالة طلبك.',
       s2sub: 'الحقول المعلّمة بـ * إلزامية. اضغط ؟ لعرض الشرح.',
       s3sub: 'راجع طلبك وأكّد ثم أرسل. ستحصل على رقم مرجعي ورمز دخول.',
       next: 'متابعة', back: 'رجوع', submit: 'إرسال الطلب', submitting: 'جارٍ الإرسال…', change: 'تغيير الخدمة', edit: 'تعديل',
@@ -1915,7 +1929,7 @@ const HELP_IMG = {
     const team = PORTAL.teamOf(c);
     const side = `<aside class="side noprint"><div class="panel"><h3>${esc(t('rvService'))}</h3>
       <div class="svc"><span class="ic">${icon(c.icon)}</span><div><b>${esc(L(c))}</b><span class="muted">${esc(L(team))}</span></div></div>
-      <ul><li>${icon('key', 'sm')}<span>${esc(t('sideKeep'))}</span></li><li>${icon('calendar', 'sm')}<span>${esc(t('r2s'))}</span></li></ul>
+      <ul><li>${icon('key', 'sm')}<span>${esc(t('sideKeep'))}</span></li><li>${icon('calendar', 'sm')}<span>${esc(t(c.id === 'hq' ? 'hqSide' : 'r2s'))}</span></li></ul>
       <div class="navrow"><a class="btn sm ghost" href="#/new">${icon('back', 'sm flip')}${esc(t('change'))}</a></div></div></aside>`;
     let body = '';
     if (S.step === 1) body = stepDetails();
@@ -1938,7 +1952,7 @@ const HELP_IMG = {
 
   function stepDetails() {
     const secs = senderSecs().map(sec => `<div class="fsec"><h3>${esc(L(sec))}</h3>${sec.note ? noteHtml(sec.note) : ''}<div class="grid">${sec.fields.map(f => fieldHtml(f)).join('')}</div></div>`).join('');
-    return `<div class="panel"><h2 data-focus>${esc(t('steps')[0])}</h2><p class="desc">${esc(t('s1sub'))}</p>${secs}
+    return `<div class="panel"><h2 data-focus>${esc(t('steps')[0])}</h2><p class="desc">${esc(t(S.cat === 'hq' ? 'hqSub' : 's1sub'))}</p>${secs}
       <input class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" data-hp value="${esc(S.hp)}">
       <div class="navrow"><div class="end"><button type="button" class="btn primary lg" data-act="next">${esc(t('next'))}${icon('arrow', 'sm flip')}</button></div></div></div>`;
   }
@@ -1953,7 +1967,7 @@ const HELP_IMG = {
   function stepRequest(c) {
     const secs = c.sections.map((sec, si) => `<div class="fsec" data-sec="${si}"><h3>${esc(L(sec))}</h3>${sec.note ? noteHtml(sec.note) : ''}<div class="grid">${sec.fields.map(f => fieldHtml(f)).join('')}</div></div>`).join('');
     return `<div class="panel"><h2 data-focus>${esc(t('steps')[1])}</h2><p class="desc">${esc(t('s2sub'))}</p>
-      ${noteHtml(c.note)}${c.sections.some(sec => sec.fields.some(f => f.type === 'file')) ? `<div class="note upfirst" data-upfirst>${esc(t('upFirst'))}</div>` : ''}${c.tplName ? tplBox(c.tplName) : ''}<div data-blocks></div><div class="fsecs">${secs}</div>
+      ${noteHtml(c.note)}${c.id !== 'hq' && c.sections.some(sec => sec.fields.some(f => f.type === 'file')) ? `<div class="note upfirst" data-upfirst>${esc(t('upFirst'))}</div>` : ''}${c.tplName ? tplBox(c.tplName) : ''}<div data-blocks></div><div class="fsecs">${secs}</div>
       <div class="navrow"><button type="button" class="btn" data-act="back">${icon('back', 'sm flip')}${esc(t('back'))}</button>
         <div class="end"><button type="button" class="btn primary lg" data-act="next">${esc(t('next'))}${icon('arrow', 'sm flip')}</button></div></div></div>`;
   }
