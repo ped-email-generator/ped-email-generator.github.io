@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kLqJ8aNV9G2VoO5jVo/3BZVvaxEWCj/t8l8N8dzO8ls=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-F6E+XThnjkApuOtqWbLTCxoJWMmStArml975jnn9bb8=' 'sha256-6A+TEkZbj/Zshs1FOnZTb34IPzm6q7dugBrvevi+AuI=' 'sha256-f3Cz/YUg+h8/fA14ELbivLMxD0dT/Nxf1v4xTffTf5g='; style-src 'sha256-XFwt3OEusSReyQfcdSMU7Mb3r66fsZon0baA8yRel18='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kLqJ8aNV9G2VoO5jVo/3BZVvaxEWCj/t8l8N8dzO8ls=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-F6E+XThnjkApuOtqWbLTCxoJWMmStArml975jnn9bb8=' 'sha256-6A+TEkZbj/Zshs1FOnZTb34IPzm6q7dugBrvevi+AuI=' 'sha256-ugt+nJsDf38QucbHxF4oCltWHoNEVnD6y7ZnY9PqyOU='; style-src 'sha256-vexKFUyn5UHdKx/nSJrc7yGJ7ERxvutz78vlQ/tdy4Q='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light dark">
@@ -451,6 +451,10 @@ footer a { color: var(--muted); }
 @media (max-width: 640px) { .help-svcs dl { grid-template-columns: 1fr; gap: 2px; } .help-svcs dd { margin-bottom: 10px; } }
 .help-cta { margin: 18px 0 32px; }
 .note.upfirst { font-weight: 500; }
+/* Documents returned by DCD and meeting minutes on the status page. */
+.minutes-title { margin: 0 0 8px; font-size: 1rem; }
+.dcd-file { flex-wrap: wrap; gap: 10px; }
+.dcd-file .nm { min-width: 0; overflow-wrap: anywhere; }
 </style>
 </head>
 <body>
@@ -1564,6 +1568,8 @@ const HELP_IMG = {
       tl_meeting: 'Meeting scheduled', tl_meetingCancelled: 'Meeting cancelled', tl_emailSent: 'Email sent to you', tl_followup: 'Follow-up (urgent)',
       tl_withdrawn: 'Withdrawn', tl_replaced: 'Replaced by a new request', tl_replaces: 'Replaces an earlier request', tl_closed: 'Closed',
       tl_newcode: 'A new access code was issued',
+      dcdFilesH: 'Documents from DCD', minutesH: 'Minutes of meeting', tl_dcdfiles: 'Documents from DCD added',
+      dcdFileErr: 'The document could not be downloaded. Please try again.',
       annexOpen: 'View in Annexure 2', tplVer: 'Version {v} · updated {date}', tplDl: 'Download', tplNone: 'The department will publish the template here.', tplErr: 'The template could not be downloaded. Please try again.', tplLoading: 'Checking for the latest version…',
       tplListErr: 'The current template could not be checked.', tplRetry: 'Try again', tplDownloading: 'Downloading…',
       tplBusy: 'The template service is busy — please try again in a few minutes.',
@@ -1653,6 +1659,8 @@ const HELP_IMG = {
       tl_meeting: 'حُدد اجتماع', tl_meetingCancelled: 'أُلغي الاجتماع', tl_emailSent: 'أُرسل إليك بريد', tl_followup: 'متابعة (عاجل)',
       tl_withdrawn: 'سُحب الطلب', tl_replaced: 'استُبدل بطلب جديد', tl_replaces: 'يحل محل طلب سابق', tl_closed: 'أُغلق',
       tl_newcode: 'صدر رمز دخول جديد',
+      dcdFilesH: 'مستندات من الدفاع المدني', minutesH: 'محضر الاجتماع', tl_dcdfiles: 'أُضيفت مستندات من الدفاع المدني',
+      dcdFileErr: 'تعذّر تنزيل المستند. يُرجى إعادة المحاولة.',
       annexOpen: 'عرض في الملحق رقم 2', tplVer: 'الإصدار {v} · حُدّث في {date}', tplDl: 'تنزيل', tplNone: 'ستنشر الإدارة النموذج هنا.', tplErr: 'تعذّر تنزيل النموذج. يرجى المحاولة مرة أخرى.', tplLoading: 'جارٍ التحقق من أحدث إصدار…',
       tplListErr: 'تعذّر التحقق من النموذج الحالي.', tplRetry: 'إعادة المحاولة', tplDownloading: 'جارٍ التنزيل…',
       tplBusy: 'خدمة النماذج مشغولة — يرجى المحاولة بعد دقائق.',
@@ -2195,7 +2203,7 @@ const HELP_IMG = {
   }
 
   /* ---------------- the service ---------------- */
-  const WITH_SID = ['status', 'followup', 'withdraw', 'upload', 'submit'];   // the calls the service counts per page session
+  const WITH_SID = ['status', 'dcdfile', 'followup', 'withdraw', 'upload', 'submit'];   // the calls the service counts per page session
   async function api(body, ms = 60000) {
     if (!CFG.endpoint) { const e = new Error('noservice'); e.code = 'noservice'; throw e; }
     const send = WITH_SID.includes(body.action) ? { ...body, sid: SID } : body;
@@ -2464,7 +2472,7 @@ const HELP_IMG = {
       ${m.note ? `<div class="muted pre" dir="auto">${esc(m.note)}</div>` : ''}${m.mode !== 'online' ? `<div class="note warn mt10">${esc(t('hqRule'))}</div>` : ''}
       <div class="btns">${m.mode === 'online' && teamsOk(m.link) ? `<a class="btn primary" href="${esc(m.link)}" target="_blank" rel="noopener noreferrer">${icon('video', 'sm')}${esc(t('join'))}</a>` : ''}
       <button type="button" class="btn" data-act="ics">${icon('calendar', 'sm')}${esc(t('ics'))}</button></div></div>` : '';
-    const reps = replies.length ? replies.map(r => `<div class="reply"><span class="av" aria-hidden="true">${esc(initials(r.by))}</span><div><div class="who"><b><bdi>${esc(r.by || '')}</bdi></b> · <bdi>${esc(fmt(r.at))}</bdi></div><div class="txt" dir="auto">${esc(r.text)}</div></div></div>`).join('')
+    const reps = replies.length ? replies.map(r => `<div class="reply"><span class="av" aria-hidden="true">${esc(initials(r.by))}</span><div>${r.minutes === true ? `<h3 class="minutes-title">${esc(t('minutesH'))}</h3>` : ''}<div class="who"><b><bdi>${esc(r.by || '')}</bdi></b> · <bdi>${esc(fmt(r.at))}</bdi></div><div class="txt" dir="auto">${esc(r.text)}</div></div></div>`).join('')
       : `<div class="empty">${esc(t('noReplies'))}</div>`;
     const tlh = tl.map(x => `<li class="k-${esc(x.kind)}"><b>${esc(t('tl_' + x.kind))}</b><span><bdi>${esc(fmt(x.at))}</bdi>${x.by ? ' · <bdi>' + esc(x.by) + '</bdi>' : ''}</span>${x.text && x.kind !== 'reply' ? `<q dir="auto">${esc(x.kind === 'closed' && TX.en['oc_' + x.text] ? t('oc_' + x.text) : x.text)}</q>` : ''}</li>`).join('');
     const fu = q.followUp || {};
@@ -2480,6 +2488,7 @@ const HELP_IMG = {
       <div class="cols"><div>
         ${meet ? `<div class="panel"><h2>${esc(t('meetH'))}</h2><div class="mt10">${meet}</div></div>` : ''}
         <div class="panel"><h2>${esc(t('repliesH'))}</h2><div class="mt8">${reps}</div>${q.emailSent ? `<div class="note ok mt10">${icon('mail', 'sm')} ${esc(t('emailSentL', { date: fmt(q.emailSent.at) }))}</div>` : ''}</div>
+        ${(q.dcdFiles || []).length ? `<div class="panel"><h2>${esc(t('dcdFilesH'))}</h2><div class="files">${q.dcdFiles.map(f => `<div class="file dcd-file"><span class="pdf" aria-hidden="true">PDF</span><span class="nm"><b dir="auto">${esc(f.name)}</b><span>${esc(sizeTxt(f.size || 0))} · ${esc(fmt(f.at))}</span></span><button type="button" class="btn sm noprint" data-dcdfile="${esc(f.fileId)}" aria-label="${esc(t('tplDl') + ': ' + f.name)}">${icon('download', 'sm')}${esc(t('tplDl'))}</button></div>`).join('')}</div></div>` : ''}
         <div class="panel"><h2>${esc(t('tlH'))}</h2><ul class="tl mt12">${tlh}</ul></div>
       </div><div>
         <div class="panel"><h2>${esc(t('detailsH'))}</h2><div class="facts-l mt10">
@@ -2503,6 +2512,25 @@ const HELP_IMG = {
   /* follow-up, withdraw and refresh: one call at a time; an answer that comes late, after the client went to another
      page, changes nothing */
   const setStatusButtons = (off) => $$('[data-act="followup"],[data-act="withdraw"],[data-act="refresh"]').forEach(b => { b.disabled = off; });
+  async function downloadDcdFile(fileId, btn) {
+    const st = S.st;
+    if (!st || !(st.req.dcdFiles || []).some(f => f.fileId === fileId)) return;
+    btn.disabled = true;
+    try {
+      const res = await api({ action: 'dcdfile', ref: st.ref, pin: st.pin, fileId }, 300000);
+      if (S.st !== st || route().name !== 'status') return;
+      if (!res.ok) {
+        if (res.error === 'locked' || res.error === 'nomatch') statusTrouble(res, st);
+        else toast(t('dcdFileErr'));
+        return;
+      }
+      const bin = atob(res.b64), bytes = new Uint8Array(bin.length);
+      if (!bin.length || bin.length !== res.size) throw new Error('size');
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      saveBlob(new Blob([bytes], { type: 'application/pdf' }), String(res.name || 'document.pdf').replace(/[\\/:*?"<>|]+/g, '_'));
+    } catch (e) { if (S.st === st) toast(t('dcdFileErr')); }
+    finally { if (D.body.contains(btn)) btn.disabled = false; }
+  }
   async function statusCall(action) {
     const st = S.st; if (!st || S.stBusy) return null;
     S.stBusy = true; setStatusButtons(true);
@@ -2605,9 +2633,10 @@ const HELP_IMG = {
 
   /* ---------------- events ---------------- */
   D.addEventListener('click', ev => {
-    const el = ev.target.closest('[data-act],[data-step],[data-add],[data-del],[data-rmfile],[data-q],[data-annex],[data-switch],[data-copy],[data-decl],[data-tpldl],[data-tplretry]');
+    const el = ev.target.closest('[data-act],[data-step],[data-add],[data-del],[data-rmfile],[data-q],[data-annex],[data-switch],[data-copy],[data-decl],[data-tpldl],[data-tplretry],[data-dcdfile]');
     if (!el) return;
     if (el.hasAttribute('data-tpldl')) { downloadTemplate(el.getAttribute('data-tpldl'), el); return; }
+    if (el.hasAttribute('data-dcdfile')) { downloadDcdFile(el.getAttribute('data-dcdfile'), el); return; }
     if (el.hasAttribute('data-tplretry')) { loadTemplates(true); return; }
     if (el.hasAttribute('data-annex')) { ev.preventDefault(); openAnnex(el.getAttribute('data-annex')); return; }
     if (el.hasAttribute('data-switch')) { ev.preventDefault(); const to = el.getAttribute('data-switch'); S.cat = null; go('#/new/' + to); return; }
