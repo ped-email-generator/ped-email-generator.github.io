@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kLqJ8aNV9G2VoO5jVo/3BZVvaxEWCj/t8l8N8dzO8ls=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-xQq75VHN+w79xJDcj9gbCOPOESRhTrmb6WW5OHoKmGk=' 'sha256-s7S+60u8yHnypg/Pg+H8b/LkJlGnzIAEVIMlu9e+bro=' 'sha256-6A+TEkZbj/Zshs1FOnZTb34IPzm6q7dugBrvevi+AuI=' 'sha256-ri6kcaQeXoVc1v41Zg2kQB3KKea02MRb9t6z0zKmE84=' 'sha256-7c6zvpEbhyP2ExqCjhXmPr5dS/hNeyNufL0QYCcYMFw='; style-src 'sha256-fVGu9+Zk5lj9X5ES2t76N1bFnJecJXxHoJnzfm9Q39o='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kLqJ8aNV9G2VoO5jVo/3BZVvaxEWCj/t8l8N8dzO8ls=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-xtRuiml9Wu90kXrrF6Y7onUiwCcN9dZ8gaLWulC0BII=' 'sha256-Ed57EDSoDRF1fbZtdGh7JIohD3unniXbfACyNHOf6pM=' 'sha256-6A+TEkZbj/Zshs1FOnZTb34IPzm6q7dugBrvevi+AuI=' 'sha256-ri6kcaQeXoVc1v41Zg2kQB3KKea02MRb9t6z0zKmE84=' 'sha256-BauRF6YYtLdLdWTZYDRLRurFQ+CabAtRPyr2/AZWlmg='; style-src 'sha256-fVGu9+Zk5lj9X5ES2t76N1bFnJecJXxHoJnzfm9Q39o='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light dark">
@@ -1219,7 +1219,10 @@ const PORTAL = (() => {
     id: 'portalEng', req: false,
     en: 'DCD engineer handling your application (if known)', ar: 'مهندس الدفاع المدني المسؤول عن طلبك (إن كان معروفاً)',
     help: { en: 'Optional. The department uses this name to route your request when a matching engineer is available.', ar: 'اختياري. تستخدم الإدارة هذا الاسم لتوجيه الطلب إلى المهندس المعني عند تطابق الاسم وتوفّره.' }, ...o });
-  const either = { en: 'Upload the PDF here, or paste a OneDrive link below if it is larger than 20 MB.', ar: 'ارفع ملف PDF هنا، أو الصق رابط OneDrive أدناه إذا كان أكبر من 20 ميغابايت.' };
+  /* (16 Nov 2026, Mohamed) every service's main documents must be uploaded, so they reach Admin Ledger / Review Ledger;
+     a OneDrive link is only an optional extra, never instead of the uploads */
+  const either = { en: 'Upload the PDF here — up to 20 MB per file and up to 3 files. Split a larger set of drawings into parts.', ar: 'ارفع ملف PDF هنا — حتى 20 ميغابايت للملف الواحد وحتى 3 ملفات. قسّم المخططات الأكبر إلى أجزاء.' };
+  const odExtra = { en: 'Optional, in addition to the uploads above — one folder shared with “Can edit”.', ar: 'اختياري، إضافةً إلى الملفات المرفوعة أعلاه — مجلد واحد بصلاحية «يمكن التعديل».' };
   const files = v => (v && v._files) || {};
 
   /* ---- Your details: the owner is kept with the request (there is no e-mail to copy them on) ---- */
@@ -1252,9 +1255,9 @@ const PORTAL = (() => {
   const mrFiles = mr.sections.find(s => s.fields.some(f => f.id === 'oneDrive'));
   const needSupport = v => v.reqByEng === 'Yes' || v.mAbout === 'Unclear comment';
   mrFiles.fields = [
-    file('mFiles', 'Engineer’s comment or email (PDF)', 'ملاحظة المهندس أو بريده (PDF)', { req: false, reqIf: v => needSupport(v) && !v.oneDrive, help: either, od: true }),
-    F.oneDrive({ req: false, reqIf: v => needSupport(v) && !(files(v).mFiles > 0),
-      help: { en: 'Required when the engineer requested the meeting or for an unclear comment — unless you uploaded the PDF above.', ar: 'إلزامي إذا طلب المهندس الاجتماع أو للملاحظة غير الواضحة — ما لم ترفع ملف PDF أعلاه.' } })];
+    file('mFiles', 'Engineer’s comment or email (PDF)', 'ملاحظة المهندس أو بريده (PDF)', { req: false, reqIf: v => needSupport(v),
+      help: { en: 'Required when the engineer requested the meeting or for an unclear comment.', ar: 'إلزامي إذا طلب المهندس الاجتماع أو للملاحظة غير الواضحة.' } }),
+    F.oneDrive({ req: false, help: odExtra })];
 
   /* ---- Façade: the engineer if known, and the façade template (published by the admins from Admin Ledger) ---- */
   /* the façade register (سجلات البريد › الواجهات) keeps the area; the drawings, the filled template and the material
@@ -1273,12 +1276,11 @@ const PORTAL = (() => {
     F.num('fcHeight', 'Building height (m)', 'ارتفاع المبنى (م)', { req: false, ph: { en: 'e.g. 45', ar: 'مثال: 45' } }));
   fcSec.fields.push(eng());
   fc.sections.push({ en: 'Drawings & documents', ar: 'المخططات والمستندات', fields: [
-    file('fcDrawings', 'Façade drawings (one combined PDF)', 'مخططات الواجهات (ملف PDF واحد مجمّع)', { req: false, reqIf: v => !v.oneDrive, help: either, od: true }),
-    file('fcTemplate', 'The façade template, filled in (PDF)', 'نموذج الواجهات بعد تعبئته (PDF)', { req: false, max: 1,
+    file('fcDrawings', 'Façade drawings (one combined PDF)', 'مخططات الواجهات (ملف PDF واحد مجمّع)', { help: either }),
+    file('fcTemplate', 'The façade template, filled in (PDF)', 'نموذج الواجهات بعد تعبئته (PDF)', { max: 1,
       help: { en: 'Download the current template at the top of this form.', ar: 'نزّل النموذج الحالي من أعلى هذا النموذج.' } }),
-    file('fcCerts', 'Material test reports and certificates (PDF)', 'تقارير فحص المواد وشهاداتها (PDF)', { req: false, max: 5 }),
-    { ...fcOd, req: false, reqIf: v => !(files(v).fcDrawings > 0),
-      help: { en: 'Only if the files are larger than 20 MB — one folder shared with “Can edit” (e.g. 01-Elevations, 02-Material test reports, 03-Certificates).', ar: 'فقط إذا كانت الملفات أكبر من 20 ميغابايت — مجلد واحد بصلاحية «يمكن التعديل» (مثال: 01-الواجهات، 02-تقارير فحص المواد، 03-الشهادات).' } }] });
+    file('fcCerts', 'Material test reports and certificates (PDF)', 'تقارير فحص المواد وشهاداتها (PDF)', { max: 5 }),
+    { ...fcOd, req: false, reqIf: undefined, help: odExtra }] });
 
   /* ---- Special Approval: drawings and letters uploaded, the code reference, why it cannot be met ---- */
   const sa = cat('special');
@@ -1295,9 +1297,8 @@ const PORTAL = (() => {
     { ...byId('saJust'), en: 'Why the requirement cannot be met (justification)', ar: 'سبب تعذّر تطبيق المتطلب (المبررات)' },
     byId('saSol')];
   sa.sections.push({ en: 'Documents', ar: 'المستندات', fields: [
-    file('saDrawings', 'Drawings (one combined PDF)', 'المخططات (ملف PDF واحد مجمّع)', { req: false, reqIf: v => !v.oneDrive, help: either, od: true }),
-    F.oneDrive({ req: false, reqIf: v => !(files(v).saDrawings > 0),
-      help: { en: 'Only if the drawings are larger than 20 MB — shared with “Can edit”.', ar: 'فقط إذا كانت المخططات أكبر من 20 ميغابايت — بصلاحية «يمكن التعديل».' } }),
+    file('saDrawings', 'Drawings (one combined PDF)', 'المخططات (ملف PDF واحد مجمّع)', { help: either }),
+    F.oneDrive({ req: false, help: odExtra }),
     file('saUndertaking', 'Consultant’s undertaking letter (PDF)', 'خطاب تعهد الاستشاري (PDF)', { max: 2, full: false }),
     file('saOwnerLetter', 'Owner’s letter (PDF)', 'خطاب المالك (PDF)', { max: 2, full: false }),
     file('saContractorLetter', 'Contractor’s letter (PDF, if any)', 'خطاب المقاول (PDF، إن وجد)', { req: false, max: 2 })] });
@@ -1307,11 +1308,10 @@ const PORTAL = (() => {
   ms.sections[1].fields.push(eng());
   const msOd = ms.sections[2].fields.find(f => f.id === 'oneDrive');
   ms.sections[2].fields.splice(ms.sections[2].fields.length - 1, 0,
-    file('msPages', 'Only the pages without the stamp (PDF)', 'الصفحات غير المختومة فقط (PDF)', { req: false, reqIf: v => !v.oneDrive, od: true,
+    file('msPages', 'Only the pages without the stamp (PDF)', 'الصفحات غير المختومة فقط (PDF)', {
       help: { en: 'Upload only the pages that did not receive the stamp — not the whole set of drawings.', ar: 'ارفع الصفحات التي لم يظهر عليها الختم فقط، وليس مجموعة المخططات كاملة.' } }),
     file('msApproval', 'Final approval letter (PDF)', 'خطاب الاعتماد النهائي (PDF)', { max: 1 }));
-  if (msOd) Object.assign(msOd, { req: false, reqIf: v => !(files(v).msPages > 0),
-    help: { en: 'Only if the pages are larger than 20 MB — a folder with those pages, shared with “Can edit”.', ar: 'فقط إذا كانت الصفحات أكبر من 20 ميغابايت — مجلد يحتوي هذه الصفحات بصلاحية «يمكن التعديل».' } });
+  if (msOd) Object.assign(msOd, { req: false, reqIf: undefined, help: odExtra });
 
   /* ---- Temporary Project: the drawings and the duration letter are uploaded (6 months or less) ---- */
   const tpDocs = cat('temporary').sections.find(s => s.fields.some(f => f.id === 'tpDocNote'));
@@ -1321,12 +1321,13 @@ const PORTAL = (() => {
     ar: 'ارفع: (1) المخططات — صفحة الغلاف ومخطط الموقع الذي يبيّن المنشآت بأبعادها ومسافات الفصل (الجدول 12.3.a) والمخارج وأنظمة الكشف والحماية من الحريق وطفايات الحريق (الجدول 12.3، البند 4)؛ (2) خطاباً على ورق الشركة الرسمي يبيّن المشروع والموقع والاستخدام وتاريخي البدء والانتهاء — ويجب أن تكون المدة 6 أشهر (180 يوماً) أو أقل؛ (3) شهادات فحص المواد المذكورة أعلاه.' });
   const tpOd = tpDocs.fields.find(f => f.id === 'oneDrive');
   tpDocs.fields.splice(tpDocs.fields.indexOf(tpOd), 0,
-    file('tpDrawings', 'Drawings: cover page and layout (one combined PDF)', 'المخططات: صفحة الغلاف ومخطط الموقع (ملف PDF واحد مجمّع)', { req: false, reqIf: v => !v.oneDrive, help: either, od: true }),
+    file('tpDrawings', 'Drawings: cover page and layout (one combined PDF)', 'المخططات: صفحة الغلاف ومخطط الموقع (ملف PDF واحد مجمّع)', { help: either }),
     file('tpLetter', 'Duration letter on company letterhead (PDF)', 'خطاب المدة على ورق الشركة الرسمي (PDF)', { max: 1,
       help: { en: 'It states the start and end dates — 6 months (180 days) or less, the same dates as above.', ar: 'يبيّن تاريخي البدء والانتهاء — 6 أشهر (180 يوماً) أو أقل، وبالتاريخين نفسيهما المذكورين أعلاه.' } }),
-    file('tpCertFiles', 'Material test certificates (PDF)', 'شهادات فحص المواد (PDF)', { req: false, max: 5 }));
-  Object.assign(tpOd, { req: false, reqIf: v => !(files(v).tpDrawings > 0),
-    help: { en: 'Only if the drawings are larger than 20 MB — one folder shared with “Can edit”.', ar: 'فقط إذا كانت المخططات أكبر من 20 ميغابايت — مجلد واحد بصلاحية «يمكن التعديل».' } });
+    file('tpCertFiles', 'Material test certificates (PDF)', 'شهادات فحص المواد (PDF)', { max: 5 }));
+  Object.assign(tpOd, { req: false, reqIf: undefined, help: odExtra });
+  /* the generator's TP confirmation speaks of a OneDrive folder; on the portal the documents are uploaded */
+  cat('temporary').decl = [{ id: 'dTpDocs', en: 'The uploaded cover page, duration letter, layout drawing and material test certificates are complete and belong to this project.', ar: 'صفحة الغلاف وخطاب المدة ومخطط الموقع وشهادات فحص المواد المرفوعة مكتملة وتخص هذا المشروع.' }];
 
   /* ---- Events: online now — the details, the drawing on the template, recorded in the Events register ---- */
   const evIdx = CONFIG.CATEGORIES.findIndex(c => c.id === 'event');
@@ -1372,26 +1373,29 @@ const PORTAL = (() => {
           help: { en: 'Leave it empty for a new event.', ar: 'اتركه فارغاً لفعالية جديدة.' } },
         F.details({ id: 'evDetails', en: 'Event description', ar: 'وصف الفعالية', ph: { en: 'What will happen, the opening hours and any activities such as cooking or generators.', ar: 'ما الذي سيقام، وساعات العمل، وأي أنشطة مثل الطبخ أو المولدات.' } })] },
       { en: 'Drawing & documents', ar: 'المخطط والمستندات', fields: [
-        file('evDrawing', 'Event drawing on the template (PDF)', 'مخطط الفعالية على النموذج (PDF)', { req: false, reqIf: v => !v.oneDrive, help: { en: 'Download the department’s event template above and complete it in Adobe Acrobat Reader. Then save a final copy with Print → “Microsoft Print to PDF” (A3, landscape) and upload that copy here: a form that still contains its scripts is refused. For larger drawings, use the OneDrive field below.', ar: 'نزّل نموذج الفعاليات المعتمد أعلاه وأكمله في برنامج Adobe Acrobat Reader، ثم احفظ نسخة نهائية عبر «طباعة» ← «Microsoft Print to PDF» بمقاس A3 أفقي وارفع هذه النسخة هنا، لأن النموذج الذي ما زال يحتوي على برمجياته يُرفض. وللمخططات الأكبر استخدم خانة OneDrive أدناه.' }, od: true }),
-        F.oneDrive({ req: false, reqIf: v => !(files(v).evDrawing > 0),
-          help: { en: 'Only if the drawing is larger than 20 MB — shared with “Can edit”.', ar: 'فقط إذا كان المخطط أكبر من 20 ميغابايت — بصلاحية «يمكن التعديل».' } }),
+        file('evDrawing', 'Event drawing on the template (PDF)', 'مخطط الفعالية على النموذج (PDF)', { help: { en: 'Download the department’s event template above and complete it in Adobe Acrobat Reader. Then save a final copy with Print → “Microsoft Print to PDF” (A3, landscape) and upload that copy here: a form that still contains its scripts is refused. Up to 20 MB per file and up to 3 files.', ar: 'نزّل نموذج الفعاليات المعتمد أعلاه وأكمله في برنامج Adobe Acrobat Reader، ثم احفظ نسخة نهائية عبر «طباعة» ← «Microsoft Print to PDF» بمقاس A3 أفقي وارفع هذه النسخة هنا، لأن النموذج الذي ما زال يحتوي على برمجياته يُرفض. حتى 20 ميغابايت للملف الواحد وحتى 3 ملفات.' } }),
+        F.oneDrive({ req: false, help: odExtra }),
         file('evDocs', 'Other documents, e.g. material certificates (PDF, optional)', 'مستندات أخرى، مثل شهادات المواد (PDF، اختياري)', { req: false, max: 5 })] }] };
 
   /* ---- DCD HQ General (walk-in): only at DCD headquarters, when a DCD staff member asks the visitor to scan the QR code.
-     The staff code (first letter of the name + GRP number, e.g. M3709) puts the request on that person's list in Admin
-     Ledger / Review Ledger; the reference works like a token: staff mark it "answered on the spot" with their comment, or
-     write the minutes of the meeting under it, and the visitor reads them on the status page. ---- */
-  const STAFF_RE = /^[A-Za-z]\s*-?\s*\d{3,5}$/;
+     The staff code (16 Nov 2026: a 6-digit number Admin Ledger / Review Ledger generate for each of their users — never
+     the GRP number) puts the request on that person's list; the reference works like a token: staff mark it "answered
+     on the spot" with their comment, or write the minutes of the meeting under it, and the visitor reads them on the
+     status page. ---- */
+  const STAFF_RE = /^\d{6}$/;
+  const staffNorm = s => String(s || '').replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[\s-]+/g, '');
   CONFIG.CATEGORIES.push({ id: 'hq', code: 'HQ', to: INBOX.projects, en: 'DCD HQ General', ar: 'مقر الدفاع المدني — عام', icon: 'meeting',
     subject: ['hqStaff'],
     note: { tone: 'warn', html: true,
-      en: "<b class='h'>Only for visitors at the DCD headquarters.</b>Use this form only when a DCD staff member or engineer asks you to scan the QR code. Enter your details, the staff member’s code and the type of inquiry. A project owner only chooses the type; a consultant or a contractor also writes the details. Your reference number is your token: show it to the staff member, who will record the answer or the minutes of the meeting under it — you can read them later on the status page.",
-      ar: "<b class='h'>مخصص لزوار مقر الدفاع المدني فقط.</b>استخدم هذا النموذج فقط عندما يطلب منك أحد موظفي أو مهندسي الدفاع المدني مسح رمز QR. أدخل بياناتك ورمز الموظف ونوع الاستفسار. يكتفي مالك المشروع باختيار النوع، أما الاستشاري أو المقاول فيكتب التفاصيل أيضاً. الرقم المرجعي هو رقم دورك: اعرضه على الموظف ليسجّل الرد أو محضر الاجتماع عليه، ويمكنك الاطلاع عليهما لاحقاً من صفحة حالة الطلب." },
+      en: "<b class='h'>Only for visitors at the DCD headquarters.</b>Use this form only when a DCD staff member or engineer asks you to scan the QR code. Enter your details and the type of inquiry, and the staff member’s code if you were given one. A project owner only chooses the type; a consultant or a contractor also writes the details. Your reference number is your token: show it to the staff member, who will record the answer or the minutes of the meeting under it — you can read them later on the status page.",
+      ar: "<b class='h'>مخصص لزوار مقر الدفاع المدني فقط.</b>استخدم هذا النموذج فقط عندما يطلب منك أحد موظفي أو مهندسي الدفاع المدني مسح رمز QR. أدخل بياناتك ونوع الاستفسار، ورمز الموظف إن أُعطيت رمزاً. يكتفي مالك المشروع باختيار النوع، أما الاستشاري أو المقاول فيكتب التفاصيل أيضاً. الرقم المرجعي هو رقم دورك: اعرضه على الموظف ليسجّل الرد أو محضر الاجتماع عليه، ويمكنك الاطلاع عليهما لاحقاً من صفحة حالة الطلب." },
     sections: [
       { en: 'Your visit', ar: 'زيارتك', fields: [
-        { id: 'hqStaff', en: 'Staff code (given by the DCD staff member)', el: 'Staff code', ar: 'رمز الموظف (يعطيك إياه موظف الدفاع المدني)', type: 'text', req: true,
-          ph: { en: 'e.g. M3709', ar: 'مثال: M3709' },
-          check: v => (v.hqStaff && !STAFF_RE.test(v.hqStaff.trim())) ? { en: 'The code is one letter and a number, e.g. M3709.', ar: 'الرمز حرف واحد يليه رقم، مثل M3709.' } : null },
+        /* optional (16 Nov 2026, Mohamed): a visitor is never forced to give a staff code; without one the request
+           reaches the admins' list and they assign it */
+        { id: 'hqStaff', en: 'Staff code (optional — only if a DCD staff member gave you one)', el: 'Staff code', ar: 'رمز الموظف (اختياري — فقط إذا أعطاك إياه أحد موظفي الدفاع المدني)', type: 'text', req: false, inputmode: 'numeric',
+          help: { en: 'Leave it empty if you were not given a code.', ar: 'اتركه فارغاً إذا لم تُعطَ رمزاً.' },
+          check: v => (v.hqStaff && String(v.hqStaff).trim() && !STAFF_RE.test(staffNorm(v.hqStaff))) ? { en: 'The staff code is 6 digits.', ar: 'رمز الموظف مكوّن من 6 أرقام.' } : null },
         /* only the type: the staff member records the answer or the minutes under the reference — nothing to write or upload */
         { id: 'hqType', en: 'Type of inquiry', el: 'Inquiry type', ar: 'نوع الاستفسار', type: 'cards', req: true, full: true,
           options: [['Application status', 'حالة طلب', 'Application status', 'An application under review', 'طلب قيد المراجعة'],
@@ -1420,6 +1424,21 @@ const PORTAL = (() => {
   const hqCompany = HQ_SENDER.fields.find(f => f.id === 'company');
   if (hqCompany) Object.assign(hqCompany, { en: 'Company or organisation / visitor name', ar: 'اسم الشركة أو الجهة / اسم الزائر', ph: { en: 'Your company, or your own name if none', ar: 'اسم شركتك، أو اسمك إذا لم تكن تتبع شركة' }, help: { en: 'A project owner or other visitor without a company enters their own name here.', ar: 'يكتب مالك المشروع أو الزائر الذي لا يتبع شركة اسمه هنا.' } });
 
+  /* a referral number is <staff code>-<yymmdd>-<4 characters>; the staff code is the 6-digit app code (16 Nov 2026), or
+     the older letter + number form of numbers already sent before that day */
+  const REFERRAL_RE = /^(?:\d{6}|[A-Z]\d{3,5})-\d{6}-[A-HJKMNP-Z2-9]{4}$/;
+  const refNorm = s => String(s || '').replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/\s+/g, '').toUpperCase();
+  const DR_SENDER = {...HQ_SENDER, fields:HQ_SENDER.fields.map(f => f.id === 'role' ? {...f,type:'radio'} : {...f})};
+  CONFIG.CATEGORIES.push({id:'dcdreply', code:'DR', to:INBOX.projects, icon:'mail',
+    en:'Reply to a DCD request', ar:'الرد على طلب من الدفاع المدني', subject:['referral'], declOnly:['dPortal','dTrue'],
+    sections:[{en:'Your reply', ar:'ردّك', fields:[
+      {id:'referral',type:'text',req:true,en:'Referral number',ar:'الرقم المرجعي للطلب',
+        help:{en:'Use the referral number written in the e-mail you received from the department.',ar:'استخدم الرقم المرجعي المكتوب في البريد الذي وصلك من الإدارة.'},
+        check:v => REFERRAL_RE.test(refNorm(v.referral)) ? null : {en:'Enter the referral number exactly as it is written in the e-mail you received from the department.',ar:'أدخل الرقم المرجعي كما هو مكتوب في البريد الذي وصلك من الإدارة.'}},
+      {id:'appNo',type:'text',req:false,en:'Application number (optional)',ar:'رقم المعاملة (اختياري)'},
+      {id:'drReply',type:'textarea',req:true,full:true,maxLength:4000,en:'Your reply',ar:'ردّك'},
+      file('drFiles','Supporting PDFs (optional)','ملفات PDF داعمة (اختياري)',{req:false,max:10})]}]});
+
   /* an event request comes from the event organiser (no consultant, contractor or project owner): the organiser's own
      details only — the rest of the event's details are in the department's template the organiser uploads */
   const pick = id => CONFIG.SENDER[0].fields.find(f => f.id === id);
@@ -1443,8 +1462,9 @@ const PORTAL = (() => {
     d('dTrue')];
 
   /* ---- The services on the home page, in this order ---- */
-  const ORDER = ['status', 'general', 'meeting', 'special', 'facade', 'stamp', 'temporary', 'event', 'hq'];
+  const ORDER = ['status', 'general', 'meeting', 'special', 'facade', 'stamp', 'temporary', 'event', 'hq', 'dcdreply'];
   const DESC = {
+    dcdreply: {en:'Use the referral number written in the e-mail you received from the department.',ar:'استخدم الرقم المرجعي المكتوب في البريد الذي وصلك من الإدارة.'},
     status: { en: 'Ask about an application that is under review.', ar: 'استفسر عن طلب قيد المراجعة.' },
     general: { en: 'Questions on a specific UAE FLS Code 2018 requirement.', ar: 'أسئلة حول متطلب محدد في كود الإمارات 2018.' },
     meeting: { en: 'Meet the engineer about an existing application.', ar: 'اجتماع مع المهندس بخصوص طلب قائم.' },
@@ -1501,7 +1521,7 @@ const PORTAL = (() => {
       { en: 'Send each request once, here only — do not send the same request by e-mail as well.', ar: 'أرسل كل طلب مرة واحدة ومن هنا فقط، ولا ترسل الطلب نفسه بالبريد الإلكتروني أيضاً.' },
       { en: 'For a follow-up on the same request, use “Follow up” on its status page — do not open a new request.', ar: 'لمتابعة الطلب نفسه استخدم «متابعة» في صفحة حالته، ولا تفتح طلباً جديداً.' },
       { en: '“DCD HQ General” is only for visitors at the DCD headquarters, when a staff member asks them to scan the QR code.', ar: 'خدمة «مقر الدفاع المدني — عام» مخصصة لزوار مقر الدفاع المدني فقط، عندما يطلب منهم أحد الموظفين مسح رمز QR.' }] };
-  return { ORDER, DESC, DECL, TEMPLATES, teamOf, ABOUT, HELP, HQ_SENDER, EV_SENDER, STAFF_RE, MAX_MB: 20 };
+  return { ORDER, DESC, DECL, TEMPLATES, teamOf, ABOUT, HELP, HQ_SENDER, DR_SENDER, EV_SENDER, STAFF_RE, REFERRAL_RE, MAX_MB: 20 };
 })();
 </script>
 <script>'use strict';
@@ -1513,6 +1533,9 @@ const GUIDE = (() => {
     ar: 'يُدخل الاستشاري أو المقاول مقدّم الطلب بيانات التواصل الخاصة به واسم مالك المشروع ورقم هاتفه وبريده الإلكتروني. ويزوّد المالك مقدّم الطلب بهذه البيانات وبخطاب المالك عند طلبه.'
   };
   const services = {
+    dcdreply: {who:{en:'The recipient of a DCD request',ar:'متلقّي طلب الدفاع المدني'},
+      roles:{en:'Consultants and contractors provide their own details and the project owner’s details. Owners and other visitors provide their own details only.',ar:'يُدخل الاستشاري أو المقاول بياناته وبيانات مالك المشروع. ويُدخل المالك أو الزائر بصفة أخرى بياناته فقط.'},
+      task:{en:'Enter the referral number from the department’s email and write your reply. The application number and PDF attachments are optional.',ar:'أدخل الرقم المرجعي من بريد الإدارة واكتب ردّك. رقم المعاملة ومرفقات PDF اختيارية.'}},
     status: { who: project, roles: owner,
       task: { en: 'Enter the application number, submission stage and submission date. State your question and name the DCD engineer if known.', ar: 'أدخل رقم المعاملة ومرحلة تقديمه وتاريخ التقديم، ووضّح استفسارك واسم مهندس الدفاع المدني إن كان معروفاً.' } },
     general: { who: project, roles: owner,
@@ -1532,7 +1555,7 @@ const GUIDE = (() => {
       task: { en: 'Download the department’s event template, fill it in Adobe Acrobat Reader and insert the required letters and drawings. Before uploading, save a final copy with Print → “Microsoft Print to PDF” (A3, landscape): a form that still contains its scripts is refused. Enter the same event summary and dates in the online form and upload that PDF.', ar: 'نزّل نموذج الفعاليات المعتمد لدى الإدارة، وعبّئه في برنامج Adobe Acrobat Reader وأدرج الخطابات والمخططات المطلوبة. وقبل الرفع احفظ نسخة نهائية عبر «طباعة» ← «Microsoft Print to PDF» بمقاس A3 أفقي، لأن النموذج الذي ما زال يحتوي على برمجياته يُرفض. أدخل ملخص الفعالية والتواريخ نفسها في النموذج الإلكتروني وارفع ملف PDF هذا.' } },
     hq: { who: { en: 'Walk-in visitor assisted by DCD staff', ar: 'زائر المقر بمساعدة موظف الدفاع المدني' },
       roles: { en: 'The visitor enters their own contact details and selects their role. In the organisation field, a visitor without a company can enter their own name. No separate project owner details are requested.', ar: 'يُدخل الزائر بيانات التواصل الخاصة به ويختار صفته. وفي خانة الجهة، يمكن للزائر الذي لا يتبع شركة كتابة اسمه. ولا تُطلب بيانات مستقلة لمالك المشروع.' },
-      task: { en: 'Enter the staff code and choose the inquiry type. A project owner or other visitor only chooses the type; a consultant or contractor also writes the details. Show your reference to the staff member, then read the answer or minutes on the status page.', ar: 'أدخل رمز الموظف واختر نوع الاستفسار. يكتفي مالك المشروع أو الزائر بصفة أخرى باختيار النوع؛ ويكتب الاستشاري أو المقاول التفاصيل أيضاً. اعرض الرقم المرجعي على الموظف، ثم اقرأ الرد أو محضر الاجتماع في صفحة حالة الطلب.' } },
+      task: { en: 'Choose the inquiry type, and enter the staff code if you were given one (it is optional). A project owner or other visitor only chooses the type; a consultant or contractor also writes the details. Show your reference to the staff member, then read the answer or minutes on the status page.', ar: 'اختر نوع الاستفسار، وأدخل رمز الموظف إن أُعطيت رمزاً (وهو اختياري). يكتفي مالك المشروع أو الزائر بصفة أخرى باختيار النوع؛ ويكتب الاستشاري أو المقاول التفاصيل أيضاً. اعرض الرقم المرجعي على الموظف، ثم اقرأ الرد أو محضر الاجتماع في صفحة حالة الطلب.' } },
     technical: { who: { en: 'The user experiencing the eServices system issue', ar: 'مستخدم نظام الخدمات الإلكترونية الذي يواجه المشكلة' } },
     financial: { who: { en: 'The applicant or representative handling the payment inquiry', ar: 'مقدّم الطلب أو ممثله المسؤول عن الاستفسار المالي' } },
   };
@@ -1609,6 +1632,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       steps: ['Your details', 'Request', 'Review & submit'],
       s1sub: 'Only the project consultant or contractor may submit. The project owner’s details are kept with the request.',
       hqSub: 'Your own details — the staff member helping you will see them with your request.',
+      drSub: 'Enter your contact details. Consultants and contractors also provide the project owner’s details.',
       evSub: 'The event organiser’s details. The other details of the event are in the department’s template, which you upload in the next step.',
       hqSide: 'Show your reference number to the staff member helping you; the answer or the minutes appear on your status page.',
       s2sub: 'Fields marked * are required. Select ? for an explanation.',
@@ -1621,7 +1645,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       dropT: 'Drop a PDF here or choose a file', dropS: 'PDF only · up to 20 MB each · up to {files}',
       upFirst: 'Uploading files comes after the details: fill in the details below first, then scroll down to the boxes “Drop a PDF here or choose a file” near the end of this form. PDF only, up to 20 MB each.',
       checking: 'Checking…', uploading: 'Uploading…', uploaded: 'Uploaded', removeFile: 'Remove file',
-      fNotPdf: 'This is not a PDF file.', fTooBig: 'This file is larger than 20 MB — use a OneDrive link instead.',
+      fNotPdf: 'This is not a PDF file.', fTooBig: 'This file is larger than 20 MB — split it into smaller PDF files and upload them.',
       fTooBigNoLink: 'This file is larger than 20 MB — please make it smaller and upload it again.',
       fActive: 'This PDF contains scripts, attachments or media. Please save it again with “Microsoft Print to PDF” and upload the new file.',
       fEncrypted: 'This PDF is password-protected. Please upload a file without a password.',
@@ -1673,6 +1697,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       tl_meeting: 'Meeting scheduled', tl_meetingCancelled: 'Meeting cancelled', tl_emailSent: 'Email sent to you', tl_followup: 'Follow-up (urgent)',
       tl_withdrawn: 'Withdrawn', tl_replaced: 'Replaced by a new request', tl_replaces: 'Replaces an earlier request', tl_closed: 'Closed',
       tl_newcode: 'A new access code was issued',
+      referralL:'Referral', momSubmit:'Submit minutes', momClient:'Client', momHint:'Up to 10 entries per request, 4000 characters and 3 PDFs per entry.', momText:'Minutes (required)', momSaved:'Minutes of meeting submitted.', momLimit:'The limit for minutes has been reached. Try again later if the hourly limit applies.', momFull:'This request has no room for more minutes. Please contact the department.', tl_mom:'Minutes of meeting submitted', tl_momComment:'DCD commented on the minutes',
       dcdFilesH: 'Documents from DCD', minutesH: 'Minutes of meeting', tl_dcdfiles: 'Documents from DCD added',
       dcdFileErr: 'The document could not be downloaded. Please try again.',
       annexOpen: 'View in Annexure 2', tplVer: 'Version {v} · updated {date}', tplDl: 'Download', tplNone: 'The department will publish the template here.', tplErr: 'The template could not be downloaded. Please try again.', tplLoading: 'Checking for the latest version…',
@@ -1701,6 +1726,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       steps: ['بياناتك', 'الطلب', 'المراجعة والإرسال'],
       s1sub: 'يقدّم الطلب استشاري المشروع أو مقاوله فقط. تُحفظ بيانات مالك المشروع مع الطلب.',
       hqSub: 'بياناتك أنت — يطّلع عليها الموظف الذي يساعدك مع طلبك.',
+      drSub: 'أدخل بيانات التواصل الخاصة بك. ويُدخل الاستشاري أو المقاول بيانات مالك المشروع أيضاً.',
       evSub: 'بيانات الجهة المنظِّمة للفعالية. أما بقية تفاصيل الفعالية فهي في نموذج الإدارة الذي ترفعه في الخطوة التالية.',
       hqSide: 'اعرض الرقم المرجعي على الموظف الذي يساعدك، وسيظهر الرد أو محضر الاجتماع في صفحة حالة طلبك.',
       s2sub: 'الحقول المعلّمة بـ * إلزامية. اضغط ؟ لعرض الشرح.',
@@ -1713,7 +1739,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       dropT: 'اسحب ملف PDF هنا أو اختر ملفاً', dropS: 'PDF فقط · حتى 20 ميغابايت للملف · حتى {files}',
       upFirst: 'رفع الملفات يأتي بعد إدخال البيانات: أدخل البيانات أدناه أولاً، ثم انزل إلى خانات «اسحب ملف PDF هنا أو اختر ملفاً» في آخر هذا النموذج. صيغة PDF فقط، وحتى 20 ميغابايت للملف.',
       checking: 'جارٍ الفحص…', uploading: 'جارٍ الرفع…', uploaded: 'تم الرفع', removeFile: 'حذف الملف',
-      fNotPdf: 'هذا ليس ملف PDF.', fTooBig: 'الملف أكبر من 20 ميغابايت — استخدم رابط OneDrive بدلاً منه.',
+      fNotPdf: 'هذا ليس ملف PDF.', fTooBig: 'الملف أكبر من 20 ميغابايت — قسّمه إلى ملفات PDF أصغر وارفعها.',
       fTooBigNoLink: 'الملف أكبر من 20 ميغابايت — يرجى تصغير حجمه ثم رفعه مرة أخرى.',
       fActive: 'يحتوي ملف PDF على نصوص برمجية أو مرفقات أو وسائط. يرجى حفظه مجدداً عبر «Microsoft Print to PDF» ورفع الملف الجديد.',
       fEncrypted: 'ملف PDF محمي بكلمة مرور. يرجى رفع ملف بدون كلمة مرور.',
@@ -1765,6 +1791,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       tl_meeting: 'حُدد اجتماع', tl_meetingCancelled: 'أُلغي الاجتماع', tl_emailSent: 'أُرسل إليك بريد', tl_followup: 'متابعة (عاجل)',
       tl_withdrawn: 'سُحب الطلب', tl_replaced: 'استُبدل بطلب جديد', tl_replaces: 'يحل محل طلب سابق', tl_closed: 'أُغلق',
       tl_newcode: 'صدر رمز دخول جديد',
+      referralL:'الرقم المرجعي للطلب', momSubmit:'إرسال المحضر', momClient:'المتعامل', momHint:'حتى ١٠ مشاركات لكل طلب، و٤٠٠٠ حرف و٣ ملفات PDF لكل مشاركة.', momText:'المحضر (مطلوب)', momSaved:'تم إرسال محضر الاجتماع.', momLimit:'تم بلوغ الحد المسموح للمحاضر. حاول لاحقاً إذا كان الحد بالساعة.', momFull:'لا توجد مساحة لمحضر إضافي في هذا الطلب. يرجى التواصل مع الإدارة.', tl_mom:'أرسل المتعامل محضر الاجتماع', tl_momComment:'علّق الدفاع المدني على المحضر',
       dcdFilesH: 'مستندات من الدفاع المدني', minutesH: 'محضر الاجتماع', tl_dcdfiles: 'أُضيفت مستندات من الدفاع المدني',
       dcdFileErr: 'تعذّر تنزيل المستند. يُرجى إعادة المحاولة.',
       annexOpen: 'عرض في الملحق رقم 2', tplVer: 'الإصدار {v} · حُدّث في {date}', tplDl: 'تنزيل', tplNone: 'ستنشر الإدارة النموذج هنا.', tplErr: 'تعذّر تنزيل النموذج. يرجى المحاولة مرة أخرى.', tplLoading: 'جارٍ التحقق من أحدث إصدار…',
@@ -1812,7 +1839,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   // a DCD HQ walk-in visitor names no project owner (the service does not ask for one either)
   // the walk-in (DCD HQ General) asks only the visitor's own details, and the visitor may also be the owner or another person
   // an event comes from its organiser (no consultant/contractor, no project owner)
-  const senderSecs = () => { const cat = (typeof S !== 'undefined' && S) ? S.cat : null; return cat === 'hq' ? [PORTAL.HQ_SENDER] : cat === 'event' ? [PORTAL.EV_SENDER] : CONFIG.SENDER.slice(0, 2); };
+  const senderSecs = () => { const cat = (typeof S !== 'undefined' && S) ? S.cat : null; return cat === 'dcdreply' ? [PORTAL.DR_SENDER].concat(['Consultant','Contractor'].includes(S.v.role) ? [CONFIG.SENDER[1]] : []) : cat === 'hq' ? [PORTAL.HQ_SENDER] : cat === 'event' ? [PORTAL.EV_SENDER] : CONFIG.SENDER.slice(0, 2); };
   const nameOfCode = code => { const c = CONFIG.CATEGORIES.find(x => x.code === code); return c ? L(c) : code; };
   const catOfCode = code => CONFIG.CATEGORIES.find(x => x.code === code);
   /* "an Application Status request", "a Meeting Request" (English); the service name alone in Arabic */
@@ -1896,7 +1923,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     if (f.type === 'email' && !(f.pattern || EMAIL_RE).test(s)) return t('badEmail');
     if (f.type === 'url' || f.onedrive) { if (s.length > LIM.url || !okLink(s)) return t('badLink'); }
     else if (f.pattern && !f.pattern.test(s)) return t('invalid');
-    const max = f.type === 'textarea' ? LIM.textarea : LIM.text;
+    const max = f.maxLength || (f.type === 'textarea' ? LIM.textarea : LIM.text);
     if (s.length > max) return t('tooLong', { n: max });
     if (typeof f.check === 'function') { const r = f.check(v); if (r) return L(r); }
     return null;
@@ -2038,10 +2065,11 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
 
   /* ---------------- new request ---------------- */
   function renderNew(arg, extra) {
-    // a staff member's own QR code (#/new/hq/M3709) fills in the staff code, so the request is registered as assisted by them
+    // a staff member's own QR code (#/new/hq/<6-digit app code>) fills in the staff code, so the request is registered
+    // as assisted by them; anything else in the link (e.g. an older card's letter + number) is ignored
     if (arg === 'hq' && extra) {
-      const code = decodeURIComponent(String(extra)).replace(/[\s-]+/g, '').toUpperCase();
-      if (PORTAL.STAFF_RE.test(code) && code.length <= 6) S.v.hqStaff = code;
+      let code = ''; try { code = decodeURIComponent(String(extra)).replace(/[\s-]+/g, ''); } catch (e) { code = ''; }
+      if (PORTAL.STAFF_RE.test(code)) S.v.hqStaff = code;
     }
     if (arg && catById(arg) && !catById(arg).direct) {
       if (S.cat !== arg) { S.cat = arg; S.step = senderOk() ? 2 : 1; S.decl = {}; S.token = newToken(); }
@@ -2080,7 +2108,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
 
   function stepDetails() {
     const secs = senderSecs().map(sec => `<div class="fsec"><h3>${esc(L(sec))}</h3>${sec.note ? noteHtml(sec.note) : ''}<div class="grid">${sec.fields.map(f => fieldHtml(f)).join('')}</div></div>`).join('');
-    return `<div class="panel"><h2 data-focus>${esc(t('steps')[0])}</h2><p class="desc">${esc(t(S.cat === 'hq' ? 'hqSub' : S.cat === 'event' ? 'evSub' : 's1sub'))}</p>${secs}
+    return `<div class="panel"><h2 data-focus>${esc(t('steps')[0])}</h2><p class="desc">${esc(t(S.cat === 'dcdreply' ? 'drSub' : S.cat === 'hq' ? 'hqSub' : S.cat === 'event' ? 'evSub' : 's1sub'))}</p>${secs}
       <input class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" data-hp value="${esc(S.hp)}">
       <div class="navrow"><div class="end"><button type="button" class="btn primary lg" data-act="next">${esc(t('next'))}${icon('arrow', 'sm flip')}</button></div></div></div>`;
   }
@@ -2119,7 +2147,11 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     const common = `id="f_${esc(id)}" data-in="${esc(id)}" aria-describedby="${described}"${f.inputmode ? ` inputmode="${esc(f.inputmode)}"` : ''}${f.ac ? ` autocomplete="${esc(f.ac)}"` : ''}`;
     let input = '';
     switch (f.type) {
-      case 'textarea': input = `<textarea class="input" ${common}${ph} maxlength="${LIM.textarea}">${esc(v)}</textarea>`; break;
+      case 'textarea': input = `<textarea class="input" ${common}${ph} maxlength="${f.maxLength || LIM.textarea}">${esc(v)}</textarea>`; break;
+      case 'radio': {
+        input = `<div role="radiogroup" aria-label="${esc(lbl)}">${optList(f).map(o => `<label class="gate"><input type="radio" name="${esc(id)}" data-in="${esc(id)}" value="${esc(o.v)}"${o.v === v ? ' checked' : ''}><span>${esc(lang === 'ar' ? o.ar : o.en)}</span></label>`).join('')}</div>`;
+        break;
+      }
       case 'select': case 'cards': {
         const opts = optList(f).map(o => `<option value="${esc(o.v)}"${o.v === v ? ' selected' : ''}>${esc(lang === 'ar' ? o.ar : o.en)}</option>`).join('');
         input = `<select class="select" ${common}><option value="">${esc(t('select'))}</option>${opts}</select>` +
@@ -2157,8 +2189,16 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   }
 
   const sizeTxt = n => (n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB');
+  function fileList(id) {
+    if (id === 'momFiles') {
+      if (!S.st) return [];
+      S.st.momDraft = S.st.momDraft || {text:'',files:[]};
+      return S.st.momDraft.files;
+    }
+    return S.files[id] = S.files[id] || [];
+  }
   function filesHtml(id) {
-    return (S.files[id] || []).map((x, i) => {
+    return fileList(id).map((x, i) => {
       const st = x.status === 'done' ? `${sizeTxt(x.size)} · ${t('uploaded')}` : x.status === 'error' ? x.error : x.status === 'checking' ? t('checking') : t('uploading');
       return `<div class="file ${x.status === 'done' ? 'ok' : x.status === 'error' ? 'bad' : ''}"><span class="pdf" aria-hidden="true">PDF</span><span class="nm"><b>${esc(x.name)}</b><span>${esc(st)}</span>` +
         (x.status === 'uploading' || x.status === 'checking' ? '<div class="bar"></div>' : '') + `</span>` +
@@ -2324,7 +2364,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   }
 
   /* ---------------- the service ---------------- */
-  const WITH_SID = ['status', 'dcdfile', 'followup', 'withdraw', 'upload', 'submit'];   // the calls the service counts per page session
+  const WITH_SID = ['status', 'dcdfile', 'followup', 'withdraw', 'upload', 'submit', 'mom'];   // the calls the service counts per page session
   async function api(body, ms = 60000) {
     if (!CFG.endpoint) { const e = new Error('noservice'); e.code = 'noservice'; throw e; }
     const send = WITH_SID.includes(body.action) ? { ...body, sid: SID } : body;
@@ -2359,7 +2399,9 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     }
     if (c.id === 'event') form.evOrganizer = String(S.v.company || '').trim();   // the organiser is the sender (Events register column)
     const sender = { by: c.id === 'event' ? 'Organizer' : (S.v.role || ''), company: String(S.v.company || '').trim(), person: String(S.v.name || '').trim(), mobile: normPhone(S.v.phone) || '', email: String(S.v.email || '').trim().toLowerCase() };
-    const owner = ['event', 'hq'].includes(c.id) ? {} : { name: String(S.v.ownerName || '').trim(), mobile: normPhone(S.v.ownerPhone) || '', email: String(S.v.ownerEmail || '').trim().toLowerCase() };
+    const owner = (['event', 'hq'].includes(c.id) || (c.id === 'dcdreply' && !['Consultant','Contractor'].includes(S.v.role))) ? {} : { name: String(S.v.ownerName || '').trim(), mobile: normPhone(S.v.ownerPhone) || '', email: String(S.v.ownerEmail || '').trim().toLowerCase() };
+    if (c.id === 'dcdreply' && form.referral) form.referral = asciiDigits(form.referral).replace(/\s+/g, '').toUpperCase();
+    if (c.id === 'hq' && form.hqStaff) form.hqStaff = asciiDigits(form.hqStaff).replace(/[\s-]+/g, '');
     const engineer = form.engineer || form.statusEng || form.portalEng || '';
     // the template version this client downloaded during this visit — not known when it was downloaded another time
     const tv = c.tplName && S.tplFiles[c.tplName] ? S.tplFiles[c.tplName].version || null : null;
@@ -2472,15 +2514,16 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   const toB64 = file => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).replace(/^data:[^,]*,/, '')); r.onerror = () => rej(r.error); r.readAsDataURL(file); });
 
   async function addFiles(id, list) {
-    const c = cur(); const e = model(c).fmap.get(id); if (!e) return;
+    if (id === 'momFiles' && (!S.st || S.stBusy)) return;
+    const c = cur(); const e = id === 'momFiles' ? {f:{max:3}} : model(c).fmap.get(id); if (!e) return;
     const f = e.f, max = f.max || 3;
     const orLink = f.od ? t('fOrLink') : '';   // only where a OneDrive link can be given instead
-    S.files[id] = S.files[id] || [];
+    const bucket = fileList(id);
     for (const file of Array.from(list)) {
-      const live = S.files[id].filter(x => x.status !== 'error');
+      const live = bucket.filter(x => x.status !== 'error');
       if (live.length >= max) { toast(t('fMax', { files: counted('file', max) })); break; }
       const x = { name: file.name, size: file.size, status: 'checking' };
-      S.files[id].push(x); paintFiles(id);
+      bucket.push(x); paintFiles(id);
       try {
         if (!/\.pdf$/i.test(file.name) && file.type !== 'application/pdf') throw t('fNotPdf');
         if (file.size > MAX_FILE) throw f.od ? t('fTooBig') : t('fTooBigNoLink');
@@ -2501,7 +2544,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   }
   function paintFiles(id) {
     const z = $(`[data-files="${CSS.escape(id)}"]`); if (z) z.innerHTML = filesHtml(id);
-    showErr(id, null); applyVis();
+    showErr(id, null); if (id !== 'momFiles') applyVis();
   }
 
   /* ---------------- receipt ---------------- */
@@ -2525,7 +2568,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   }
 
   /* ---------------- status ---------------- */
-  const REF_RE = /^PS-PED-(AS|GI|MR|FC|SA|MS|TP|EV)-\d{2}-\d{2}-\d{2}-\d{6}[A-Z]{0,3}$/;
+  const REF_RE = /^PS-PED-(AS|GI|MR|FC|SA|MS|TP|EV|HQ|DR)-\d{2}-\d{2}-\d{2}-\d{6}[A-Z]{0,3}$/;
   const normRef = s => asciiDigits(s).toUpperCase().replace(/\s+/g, '').replace(/[‐-―−]/g, '-');
   const normPin = s => asciiDigits(s).toUpperCase().replace(/[^A-Z0-9]/g, '');
   /* a closed request: status "closed" with its outcome (SPEC §3) — "withdrawn" / "replaced" as a status are read the same way */
@@ -2594,20 +2637,23 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       ${m.note ? `<div class="muted pre" dir="auto">${esc(m.note)}</div>` : ''}${m.mode !== 'online' ? `<div class="note warn mt10">${esc(t('hqRule'))}</div>` : ''}
       <div class="btns">${m.mode === 'online' && teamsOk(m.link) ? `<a class="btn primary" href="${esc(m.link)}" target="_blank" rel="noopener noreferrer">${icon('video', 'sm')}${esc(t('join'))}</a>` : ''}
       <button type="button" class="btn" data-act="ics">${icon('calendar', 'sm')}${esc(t('ics'))}</button></div></div>` : '';
-    const reps = replies.length ? replies.map(r => `<div class="reply"><span class="av" aria-hidden="true">${esc(initials(r.by))}</span><div>${r.minutes === true ? `<h3 class="minutes-title">${esc(t('minutesH'))}</h3>` : ''}<div class="who"><b><bdi>${esc(r.by || '')}</bdi></b> · <bdi>${esc(fmt(r.at))}</bdi></div><div class="txt" dir="auto">${esc(r.text)}</div></div></div>`).join('')
+    const ordinaryReplies = replies.filter(r => !r.minutes);
+    const reps = ordinaryReplies.length ? ordinaryReplies.map(r => `<div class="reply"><span class="av" aria-hidden="true">${esc(initials(r.by))}</span><div>${r.minutes === true ? `<h3 class="minutes-title">${esc(t('minutesH'))}</h3>` : ''}<div class="who"><b><bdi>${esc(r.by || '')}</bdi></b> · <bdi>${esc(fmt(r.at))}</bdi></div><div class="txt" dir="auto">${esc(r.text)}</div></div></div>`).join('')
       : `<div class="empty">${esc(t('noReplies'))}</div>`;
     const tlh = tl.map(x => `<li class="k-${esc(x.kind)}"><b>${esc(t('tl_' + x.kind))}</b><span><bdi>${esc(fmt(x.at))}</bdi>${x.by ? ' · <bdi>' + esc(x.by) + '</bdi>' : ''}</span>${x.text && x.kind !== 'reply' ? `<q dir="auto">${esc(x.kind === 'closed' && TX.en['oc_' + x.text] ? t('oc_' + x.text) : x.text)}</q>` : ''}</li>`).join('');
     const fu = q.followUp || {};
+    const mom = momHtml(q);
     const actions = open ? `<div class="panel noprint"><div class="stack">
         ${fu.can ? `<button type="button" class="btn primary block" data-act="followup">${icon('bolt', 'sm')}${esc(t('fuBtn'))}</button>` : (fu.availableAt ? `<div class="hint muted fs13">${icon('clock', 'sm')} ${esc(t('fuNotYet', { date: fmt(fu.availableAt, { weekday: true }) }))}</div>` : '')}
         <button type="button" class="btn ghost danger block" data-act="withdraw">${icon('x', 'sm')}${esc(t('wdBtn'))}</button></div></div>` : '';
     app.innerHTML = `<div class="wrap page">
       <div class="crumbs">${crumbHome()}<span>/</span><span>${esc(t('stH'))}</span></div>
-      <div class="panel"><div class="st-head"><span class="ic">${icon(c ? c.icon : 'file', 'lg')}</span><div><h1 class="ref" data-focus>${esc(q.ref)}</h1><div class="meta">${esc(c ? L(c) : q.code)} · ${esc(t('submittedLbl'))}: <bdi>${esc(fmt(q.created))}</bdi></div></div>
+      <div class="panel"><div class="st-head"><span class="ic">${icon(c ? c.icon : 'file', 'lg')}</span><div><h1 class="ref" data-focus>${esc(q.ref)}</h1><div class="meta">${esc(c ? L(c) : q.code)}${q.referral ? ' · ' + esc(t('referralL')) + ' <bdi>' + esc(q.referral) + '</bdi>' : ''} · ${esc(t('submittedLbl'))}: <bdi>${esc(fmt(q.created))}</bdi></div></div>
         <div class="end">${q.urgent && open ? `<span class="pill urgent">${esc(t('urgent'))}</span>` : ''}<span class="pill ${esc(pillClass(q))}">${esc(statusName(q))}</span>
         <button type="button" class="btn sm noprint" data-act="refresh">${icon('refresh', 'sm')}${esc(t('refresh'))}</button></div></div>
         ${track}${open ? '' : `<div class="note ${q.outcome === 'rejected' ? 'bad' : 'ok'} mt12">${esc(t('closedP'))}</div>`}</div>
       <div class="cols"><div>
+        ${mom}
         ${meet ? `<div class="panel"><h2>${esc(t('meetH'))}</h2><div class="mt10">${meet}</div></div>` : ''}
         <div class="panel"><h2>${esc(t('repliesH'))}</h2><div class="mt8">${reps}</div>${q.emailSent ? `<div class="note ok mt10">${icon('mail', 'sm')} ${esc(t('emailSentL', { date: fmt(q.emailSent.at) }))}</div>` : ''}</div>
         ${(q.dcdFiles || []).length ? `<div class="panel"><h2>${esc(t('dcdFilesH'))}</h2><div class="files">${q.dcdFiles.map(f => `<div class="file dcd-file"><span class="pdf" aria-hidden="true">PDF</span><span class="nm"><b dir="auto">${esc(f.name)}</b><span>${esc(sizeTxt(f.size || 0))} · ${esc(fmt(f.at))}</span></span><button type="button" class="btn sm noprint" data-dcdfile="${esc(f.fileId)}" aria-label="${esc(t('tplDl') + ': ' + f.name)}">${icon('download', 'sm')}${esc(t('tplDl'))}</button></div>`).join('')}</div></div>` : ''}
@@ -2621,6 +2667,44 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
         <div class="navrow noprint"><button type="button" class="btn block" data-act="another">${icon('search', 'sm')}${esc(t('another'))}</button></div>
       </div></div></div>`;
   }
+  function momHtml(q) {
+    const thread = (q.mom || []).slice();
+    (q.replies || []).forEach((r,i) => { if (r.minutes && !thread.some(m => m.id === 'minutes-' + i)) thread.push({id:'minutes-'+i,at:r.at,by:'dcd',name:r.by,text:r.text}); });
+    thread.sort((a,b) => String(a.at).localeCompare(String(b.at)));
+    const eligible = ['MR','HQ'].includes(q.code) || !!q.meeting;
+    if (!eligible && !thread.length) return '';
+    const draft = S.st.momDraft = S.st.momDraft || {text:'',files:[]};
+    const can = eligible && !isClosed(q) && thread.filter(m => m.by === 'client').length < 10;
+    return `<section class="panel" data-mom><h2 class="minutes-title">${esc(t('minutesH'))}</h2>
+      ${thread.map(m => `<article class="reply" data-mom-id="${esc(m.id)}"><div><div class="who"><bdi>${esc(m.by === 'client' ? t('momClient') : m.name || 'DCD')}</bdi> · <bdi>${esc(fmt(m.at))}</bdi></div><div class="txt" dir="auto">${esc(m.text)}</div>${(m.files || []).map(f => `<div class="hint" dir="auto">${esc(f.original || f.name)}</div>`).join('')}</div></article>`).join('')}
+      ${can ? `<div class="noprint"><p class="hint">${esc(t('momHint'))}</p><label for="momText">${esc(t('momText'))}</label><textarea id="momText" class="input" maxlength="4000" dir="auto">${esc(draft.text)}</textarea>
+        <label class="drop" data-drop="momFiles"><span>${esc(t('dropT'))} · PDF · 20 MB</span><input type="file" data-file="momFiles" accept="application/pdf,.pdf" multiple aria-label="${esc(t('filesH'))}"></label>
+        <div class="files" data-files="momFiles" aria-live="polite">${filesHtml('momFiles')}</div><button type="button" class="btn primary" data-act="mom">${esc(t('momSubmit'))}</button></div>` : ''}</section>`;
+  }
+  async function submitMom() {
+    const st = S.st; if (!st || S.stBusy) return;
+    const draft = st.momDraft, text = draft.text.trim(), files = draft.files;
+    if (!text || text.length > 4000) { toast(!text ? t('required') : t('tooLong',{n:4000})); return; }
+    if (files.some(f => ['checking','uploading'].includes(f.status))) { toast(t('fWait')); return; }
+    if (files.some(f => f.status !== 'done' || Date.now() - f.at > UPLOAD_FRESH_MS)) { toast(t('badFile')); return; }
+    const payload = {text,files:files.map(f => ({fileId:f.fileId,field:'momFiles'}))};
+    const fingerprint = JSON.stringify(payload);
+    if (draft.fingerprint !== fingerprint) {
+      const b = new Uint8Array(16); crypto.getRandomValues(b);
+      draft.token = Array.from(b,x => x.toString(16).padStart(2,'0')).join(''); draft.fingerprint = fingerprint;
+    }
+    S.stBusy = true; setStatusButtons(true);
+    try {
+      const res = await api({action:'mom',ref:st.ref,pin:st.pin,...payload,token:draft.token});
+      if (S.st !== st || route().name !== 'status') return;
+      if (res.ok) { st.req = res.request; st.momDraft = {text:'',files:[]}; renderStatusView(); toast(t('momSaved')); }
+      else if (res.error === 'limit') toast(t('momLimit'));
+      else if (res.error === 'full') toast(t('momFull'));
+      else if (res.error === 'badfile') { files.forEach(f => { if (!res.badFiles || !res.badFiles.length || res.badFiles.includes(f.fileId)) {f.status='error'; f.error=t('fRedo');} }); paintFiles('momFiles'); toast(t('badFile')); }
+      else statusTrouble(res,st);
+    } catch(e) { if (S.st === st) toast(errText(e)); }
+    finally { S.stBusy = false; if (S.st === st) setStatusButtons(false); }
+  }
   /* the reply's avatar: two initials of the name (letters only, without a title such as Eng. or م.); the department → DCD */
   const DEPT_RE = /preventive engineering|الهندسة الوقائية|الوقاية الهندسية|civil defen[cs]e|الدفاع المدني/i;
   const TITLE_RE = /^(eng|dr|mr|mrs|ms|prof)\.?$|^[مد]\.?$/i;
@@ -2633,7 +2717,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
 
   /* follow-up, withdraw and refresh: one call at a time; an answer that comes late, after the client went to another
      page, changes nothing */
-  const setStatusButtons = (off) => $$('[data-act="followup"],[data-act="withdraw"],[data-act="refresh"]').forEach(b => { b.disabled = off; });
+  const setStatusButtons = (off) => $$('[data-act="followup"],[data-act="withdraw"],[data-act="refresh"],[data-act="mom"],#momText,[data-file="momFiles"]').forEach(b => { b.disabled = off; });
   async function downloadDcdFile(fileId, btn) {
     const st = S.st;
     if (!st || !(st.req.dcdFiles || []).some(f => f.fileId === fileId)) return;
@@ -2774,7 +2858,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     if (el.hasAttribute('data-step')) { S.step = +el.getAttribute('data-step'); render(); return; }
     if (el.hasAttribute('data-add')) { const id = el.getAttribute('data-add'); (S.v[id] = S.v[id] || []).push({}); const f = model(cur()).fmap.get(id); if (f) { $(`[data-list="${CSS.escape(id)}"]`).innerHTML = listRows(f.f); afterRender(); } return; }
     if (el.hasAttribute('data-del')) { const id = el.getAttribute('data-del'); S.v[id].splice(+el.getAttribute('data-row'), 1); const f = model(cur()).fmap.get(id); if (f) { $(`[data-list="${CSS.escape(id)}"]`).innerHTML = listRows(f.f); afterRender(); } return; }
-    if (el.hasAttribute('data-rmfile')) { const id = el.getAttribute('data-rmfile'); S.files[id].splice(+el.getAttribute('data-i'), 1); paintFiles(id); return; }
+    if (el.hasAttribute('data-rmfile')) { const id = el.getAttribute('data-rmfile'); if (id === 'momFiles' && S.stBusy) return; fileList(id).splice(+el.getAttribute('data-i'), 1); paintFiles(id); return; }
     const a = el.getAttribute('data-act');
     if (a === 'lang') { lang = lang === 'ar' ? 'en' : 'ar'; const u = new URL(location.href); if (lang === 'ar') u.searchParams.set('lang', 'ar'); else u.searchParams.delete('lang'); history.replaceState(null, '', u.pathname + u.search + u.hash); focusAfter = '[data-act="lang"]'; render(); }
     else if (a === 'next') { if (validateStep(S.step)) { S.step = Math.min(3, S.step + 1); render(); } }
@@ -2786,6 +2870,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     else if (a === 'lookup') lookup();
     else if (a === 'lost') { const p = $('[data-lost]'); p.classList.toggle('hidden'); el.setAttribute('aria-expanded', String(!p.classList.contains('hidden'))); }
     else if (a === 'refresh') refreshStatus();
+    else if (a === 'mom') submitMom();
     else if (a === 'followup') statusAction('followup');
     else if (a === 'withdraw') confirmWithdraw();   // a dialog: a double click cannot withdraw by accident
     else if (a === 'another') { S.st = null; go('#/status'); }
@@ -2793,6 +2878,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   });
   D.addEventListener('input', ev => {
     const el = ev.target;
+    if (el.id === 'momText' && S.st) { S.st.momDraft.text = el.value; return; }
     if (el.hasAttribute('data-hp')) { S.hp = el.value; return; }
     const id = el.getAttribute('data-in');
     if (id) { S.v[id] = el.type === 'checkbox' ? (el.checked ? 'Yes' : '') : el.value; showErr(id, null); applyVis(); return; }
@@ -2807,7 +2893,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       const oh = $(`[data-ohint="${CSS.escape(id)}"]`);
       if (oh) { const e = (model(cur()).fmap.get(id) || {}).f || senderSecs().flatMap(s => s.fields).find(f => f.id === id); const h = e ? optHint(e, el.value) : ''; oh.textContent = h; oh.classList.toggle('hidden', !h); }
       if (el.type === 'tel') { const n = normPhone(el.value); if (n) { el.value = n.replace(/^\+971 /, ''); S.v[id] = el.value; } }
-      applyVis();
+      if (id === 'role' && S.cat === 'dcdreply') render(); else applyVis();
     }
     const fid = el.getAttribute('data-file');
     if (fid && el.files && el.files.length) { addFiles(fid, el.files); el.value = ''; }
