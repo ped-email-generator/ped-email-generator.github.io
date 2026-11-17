@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kLqJ8aNV9G2VoO5jVo/3BZVvaxEWCj/t8l8N8dzO8ls=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-hBaBxPW+RjVB9G/Q6oHpQstHZ66fwiJ9EAxbpqXg1c0=' 'sha256-Ed57EDSoDRF1fbZtdGh7JIohD3unniXbfACyNHOf6pM=' 'sha256-KruUFOKVoqf4eugP4HMYcnb7/ATz0zUeYk8Y3CdJIAY=' 'sha256-ri6kcaQeXoVc1v41Zg2kQB3KKea02MRb9t6z0zKmE84=' 'sha256-WmiPNTnwDX0CMUuv5/xhPQf7v0bBhawtbMNROea22AI='; style-src 'sha256-LV1kzuaslR+ys2MBrQLGOi7IbYLYIUU/CNxrB1tCdMk='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-gRMNjHtcUVE2SQq9sc6muXLoVmC7aBUidoNQuns5HgU=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-hBaBxPW+RjVB9G/Q6oHpQstHZ66fwiJ9EAxbpqXg1c0=' 'sha256-Ed57EDSoDRF1fbZtdGh7JIohD3unniXbfACyNHOf6pM=' 'sha256-KruUFOKVoqf4eugP4HMYcnb7/ATz0zUeYk8Y3CdJIAY=' 'sha256-ri6kcaQeXoVc1v41Zg2kQB3KKea02MRb9t6z0zKmE84=' 'sha256-he0U8wkHGVqwm9Y97w/53vduhyX6GZ/6fE86VDcoR58='; style-src 'sha256-LV1kzuaslR+ys2MBrQLGOi7IbYLYIUU/CNxrB1tCdMk='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light dark">
@@ -570,7 +570,7 @@ footer a { color: var(--muted); }
 <footer><div class="wrap" id="foot"></div></footer>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <dialog id="dlg"></dialog>
-<script>window.PORTAL_CONFIG = {"endpoint":"https://script.google.com/macros/s/AKfycby3AP9DAplS7gSiNv7RtJP-HBRPGnCcjZpOxnQpt1lGAcGUyFDMdhlTChBI16VjofTB8Q/exec","generator":"https://ped-email-generator.github.io/"};</script>
+<script>window.PORTAL_CONFIG = {"endpoint":"https://script.google.com/macros/s/AKfycby3AP9DAplS7gSiNv7RtJP-HBRPGnCcjZpOxnQpt1lGAcGUyFDMdhlTChBI16VjofTB8Q/exec","generator":""};</script>
 <script>"use strict";
 /* ==========================================================
    CONFIG — all editable settings. No need to touch the code below.
@@ -1674,7 +1674,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       blocked: 'This request cannot be submitted here — please see the notice above.',
       noService: 'The online service is not connected yet.', netErr: 'We could not reach the service. Your answers are still here — please try again.',
       limit: 'Too many requests were sent today with this email or mobile number. Please follow your existing requests on the status page.',
-      pausedH: 'New requests are paused', paused: 'The department has paused new online requests for a short while. Requests already sent can still be checked on the status page. Please try again later, or prepare the same request as an email with the email generator.',
+      pausedH: 'New requests are paused', paused: 'The department has paused new online requests for a short while. Requests already sent can still be checked on the status page. Please try again later.',
       botErr: 'Please take a moment to check your answers, then submit again.', serverInvalid: 'Some answers were not accepted — please check the highlighted fields.',
       badFile: 'An uploaded file has expired — please upload the marked files again.',
       dupH: 'An open request already exists', dupP: 'You already have an open {cat} with the same details, sent on {date}. Please follow it on the status page with its reference number and access code.',
@@ -1693,7 +1693,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       stRef: 'Reference number', stCode: 'Access code', stGo: 'Show my request', stLost: 'Lost your access code?',
       stNoMatch: 'No request matches this reference number and access code.', stLocked: 'Too many attempts. Please try again in {mins}.',
       stBusy: 'The service is busy. Please try again in a moment.',
-      lostP: 'For your security, the access code cannot be shown again here. Send a follow-up email with your reference number using the email generator (choose “{opt}”). The department will send a new code to the email address used in the request.',
+      lostP: 'For your security, the access code cannot be shown again here. Email your reference number to Projconf@dcd.gov.ae from the email address used in the request. The department will send a new code to that email address.',
       lostGen: 'Open the email generator',
       refBad: 'Please enter the reference as it appears on your receipt, e.g. PS-PED-AS-08-11-26-000123.', codeBad: 'The access code has 6 characters, e.g. K7Q-4MZ.',
       st_received: 'Submitted', st_inreview: 'Received by DCD', st_replied: 'Replied', st_meeting: 'Meeting scheduled',
@@ -1773,7 +1773,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       blocked: 'لا يمكن إرسال هذا الطلب من هنا — يرجى الاطلاع على الملاحظة أعلاه.',
       noService: 'الخدمة الإلكترونية غير متصلة بعد.', netErr: 'تعذّر الوصول إلى الخدمة. إجاباتك ما زالت هنا — يرجى المحاولة مرة أخرى.',
       limit: 'أُرسل عدد كبير من الطلبات اليوم بهذا البريد أو رقم الهاتف. يرجى متابعة طلباتك الحالية من صفحة الحالة.',
-      pausedH: 'استقبال الطلبات الجديدة متوقف مؤقتاً', paused: 'أوقفت الإدارة استقبال الطلبات الإلكترونية الجديدة لفترة قصيرة. يمكن متابعة الطلبات المرسلة سابقاً من صفحة الحالة. يرجى المحاولة لاحقاً، أو تجهيز الطلب نفسه كبريد عبر منشئ البريد.',
+      pausedH: 'استقبال الطلبات الجديدة متوقف مؤقتاً', paused: 'أوقفت الإدارة استقبال الطلبات الإلكترونية الجديدة لفترة قصيرة. يمكن متابعة الطلبات المرسلة سابقاً من صفحة الحالة. يرجى المحاولة لاحقاً.',
       botErr: 'يرجى مراجعة إجاباتك ثم الإرسال مرة أخرى.', serverInvalid: 'لم تُقبل بعض الإجابات — يرجى التحقق من الحقول المظللة.',
       badFile: 'انتهت صلاحية ملف مرفوع — يرجى رفع الملفات المعلّمة مرة أخرى.',
       dupH: 'يوجد طلب مفتوح بالفعل', dupP: 'لديك بالفعل طلب مفتوح لخدمة «{cat}» بالبيانات نفسها، أُرسل في {date}. يرجى متابعته من صفحة الحالة برقمه المرجعي ورمز الدخول الخاص به.',
@@ -1792,7 +1792,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       stRef: 'الرقم المرجعي', stCode: 'رمز الدخول', stGo: 'عرض طلبي', stLost: 'فقدت رمز الدخول؟',
       stNoMatch: 'لا يوجد طلب مطابق لهذا الرقم المرجعي ورمز الدخول.', stLocked: 'محاولات كثيرة. يرجى المحاولة بعد {mins}.',
       stBusy: 'الخدمة مشغولة حالياً. يرجى المحاولة مرة أخرى بعد قليل.',
-      lostP: 'حفاظاً على أمانك، لا يمكن عرض رمز الدخول مرة أخرى هنا. أرسل بريد متابعة برقمك المرجعي عبر منشئ البريد (اختر «{opt}»)، وسترسل الإدارة رمزاً جديداً إلى البريد الإلكتروني المستخدم في الطلب.',
+      lostP: 'حفاظاً على أمانك، لا يمكن عرض رمز الدخول مرة أخرى هنا. أرسل رقمك المرجعي بالبريد الإلكتروني إلى Projconf@dcd.gov.ae من البريد الإلكتروني المستخدم في الطلب، وسترسل الإدارة رمزاً جديداً إلى ذلك البريد.',
       lostGen: 'فتح منشئ البريد',
       refBad: 'يرجى إدخال الرقم المرجعي كما في الإيصال، مثال: PS-PED-AS-08-11-26-000123.', codeBad: 'يتكون رمز الدخول من 6 خانات، مثال: K7Q-4MZ.',
       st_received: 'تم الإرسال', st_inreview: 'استلمته الإدارة', st_replied: 'تم الرد', st_meeting: 'حُدد موعد الاجتماع',
