@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-gRMNjHtcUVE2SQq9sc6muXLoVmC7aBUidoNQuns5HgU=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-hBaBxPW+RjVB9G/Q6oHpQstHZ66fwiJ9EAxbpqXg1c0=' 'sha256-Ed57EDSoDRF1fbZtdGh7JIohD3unniXbfACyNHOf6pM=' 'sha256-KruUFOKVoqf4eugP4HMYcnb7/ATz0zUeYk8Y3CdJIAY=' 'sha256-ri6kcaQeXoVc1v41Zg2kQB3KKea02MRb9t6z0zKmE84=' 'sha256-he0U8wkHGVqwm9Y97w/53vduhyX6GZ/6fE86VDcoR58='; style-src 'sha256-LV1kzuaslR+ys2MBrQLGOi7IbYLYIUU/CNxrB1tCdMk='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-eu9rp5WMs1SoyvSusn+807uiPL9y7df/CQs2LnSk5Gw=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-0sPP1W14gmbzJBKULRLvEPaRKDNIv813GlGXiQY7irY=' 'sha256-Ed57EDSoDRF1fbZtdGh7JIohD3unniXbfACyNHOf6pM=' 'sha256-KruUFOKVoqf4eugP4HMYcnb7/ATz0zUeYk8Y3CdJIAY=' 'sha256-ri6kcaQeXoVc1v41Zg2kQB3KKea02MRb9t6z0zKmE84=' 'sha256-3+mm2J78grsKS/kF61G5FgxAv0idq7Q88h7t1m2Dw0o='; style-src 'sha256-3U+QDYMpLTpTuKbpnbLKeclXxv0ND3E+U8RZzQZ3dL8='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light dark">
@@ -245,6 +245,21 @@ input[type="date"].input { min-height: 42px; }
 .note ul { margin: 6px 0 0; padding-inline-start: 20px; } .note li { margin: 2px 0; }
 .note .nbtns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .note + .note, .note + .fsec, .fsec + .note { margin-top: 14px; }
+/* (18 Nov 2026) red notes: choose the correct service; save the reference and code in two places */
+.note.bad > strong { color: var(--bad); }
+.right-svc { margin: 14px 0 18px; border: 1px solid color-mix(in srgb, var(--bad) 35%, transparent); border-inline-start-width: 4px; }
+.right-svc > strong { display: flex; align-items: center; gap: 6px; font-size: 15px; }
+.note ul.right-list { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 6px; }
+.right-list li { display: flex; gap: 8px; align-items: flex-start; margin: 0; }
+.right-list li .i { flex: none; margin-top: 3px; }
+.right-list li.do .i { color: var(--ok); } .right-list li.dont .i { color: var(--bad); }
+.right-list li.dont span { color: var(--ink); font-weight: 600; }
+.code-is { margin: 10px 0 0; font-size: 13.5px; color: var(--ink2); }
+.note[data-keep] { margin-top: 12px; border: 1px solid color-mix(in srgb, var(--bad) 35%, transparent); border-inline-start-width: 4px; font-size: 14px; }
+.note[data-keep] > strong { display: flex; align-items: center; gap: 6px; font-size: 15px; margin: 2px 0 4px; }
+.note[data-wrong] { margin-bottom: 14px; }
+.note[data-wrong] p { color: var(--ink); font-weight: 600; }
+@media print { .note[data-keep] { border-color: #a33b33; } }
 
 /* templates published by the admins */
 .tplbox { display: flex; align-items: center; gap: 12px; padding: 12px 14px; margin-top: 12px; border: 1px solid color-mix(in srgb, var(--gold) 45%, var(--line)); border-radius: var(--r-sm); background: var(--gold-soft); }
@@ -511,6 +526,15 @@ footer a { color: var(--muted); }
 .sa-note { color: var(--bad); font-weight: 700; overflow-wrap: anywhere; }
 .card .sa-note { font-size: 13px; line-height: 1.55; }
 .main-col > .sa-note { margin-bottom: 14px; }
+
+/* (18 Nov 2026) maintenance notice on every page (PORTAL_CONFIG.maintenance) */
+#maintbar { background: var(--bad-soft); border-bottom: 2px solid var(--bad); color: var(--ink); }
+#maintbar .wrap { display: flex; gap: 10px; align-items: flex-start; padding-top: 12px; padding-bottom: 12px; }
+#maintbar .wrap > .i { color: var(--bad); flex: none; margin-top: 2px; }
+#maintbar b { display: block; color: var(--bad); font-size: 15px; }
+#maintbar span { display: block; font-size: 13.5px; line-height: 1.6; }
+.maint-box { margin: 18px 0; border: 1px solid color-mix(in srgb, var(--bad) 35%, transparent); border-inline-start-width: 4px; font-size: 14px; }
+.maint-box > strong { font-size: 15px; }
 </style>
 </head>
 <body>
@@ -570,7 +594,7 @@ footer a { color: var(--muted); }
 <footer><div class="wrap" id="foot"></div></footer>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <dialog id="dlg"></dialog>
-<script>window.PORTAL_CONFIG = {"endpoint":"https://script.google.com/macros/s/AKfycby3AP9DAplS7gSiNv7RtJP-HBRPGnCcjZpOxnQpt1lGAcGUyFDMdhlTChBI16VjofTB8Q/exec","generator":""};</script>
+<script>window.PORTAL_CONFIG = {"endpoint":"https://script.google.com/macros/s/AKfycby3AP9DAplS7gSiNv7RtJP-HBRPGnCcjZpOxnQpt1lGAcGUyFDMdhlTChBI16VjofTB8Q/exec","generator":"","maintenance":true};</script>
 <script>"use strict";
 /* ==========================================================
    CONFIG — all editable settings. No need to touch the code below.
@@ -1470,7 +1494,50 @@ const PORTAL = (() => {
   const DECL = [d('dFls'), d('dAnx'), d('dEng'), { ...d('dLink'), whenLink: true },
     { id: 'dPortal', en: 'I will follow this request on its status page with the reference and access code, and will not send the same request by email.',
       ar: 'سأتابع هذا الطلب من صفحة حالته بالرقم المرجعي ورمز الدخول، ولن أرسل الطلب نفسه بالبريد الإلكتروني.' },
+    { id: 'dRight', en: 'I chose the correct service for this request. I understand that a request sent under the wrong service will be cancelled, and that sending it again delays it.',
+      ar: 'اخترت الخدمة الصحيحة لهذا الطلب، وأعلم أن الطلب المرسل تحت خدمة غير صحيحة يُلغى، وأن إعادة إرساله تؤخره.' },
     d('dTrue')];
+
+  /* ---- (18 Nov 2026, the department's request) maintenance: built with --maintenance (PORTAL_CONFIG.maintenance) the
+     page shows this on every page, closes new requests and keeps "Check a request" ---- */
+  const MAINT = {
+    h: { en: 'The system is under maintenance — we apologise for the inconvenience.', ar: 'النظام قيد الصيانة — نعتذر عن الإزعاج.' },
+    p: { en: 'Our emails and the system are affected. We will keep you updated. All responses are expected to resume approximately by Monday, 23 November 2026.',
+      ar: 'تأثر البريد الإلكتروني والنظام، وسنوافيكم بالمستجدات. ومن المتوقع أن تعود جميع الردود تقريباً بحلول يوم الاثنين 23 نوفمبر 2026.' },
+    closed: { en: 'New requests are paused during the maintenance. You can still check a request you have already sent.',
+      ar: 'استقبال الطلبات الجديدة متوقف أثناء الصيانة. ما زال بإمكانك متابعة طلب أرسلته سابقاً.' },
+    stP: { en: 'Enter the reference number and the access code of your request.', ar: 'أدخل الرقم المرجعي ورمز الدخول الخاصين بطلبك.' },
+    codeBad: { en: 'Please check the access code.', ar: 'يرجى التحقق من رمز الدخول.' },
+    r3s: { en: 'You need both to follow your request.', ar: 'تحتاجهما معاً لمتابعة طلبك.' }
+  };
+
+  /* ---- (18 Nov 2026, the department's request) choose the correct service: wrong requests are cancelled ---- */
+  const RIGHT = {
+    h: { en: 'Choose the correct service', ar: 'اختر الخدمة الصحيحة' },
+    p: { en: 'A request sent under the wrong service will be cancelled. You will have to send it again, and this delays your request.',
+      ar: 'يُلغى الطلب المرسل تحت خدمة غير صحيحة، وسيلزمك إرساله مرة أخرى، مما يؤخر طلبك.' },
+    items: [
+      { ok: true, en: 'To ask about an application under review — its status or a follow-up — choose “Application Status”.',
+        ar: 'للاستفسار عن طلب قيد المراجعة — حالته أو متابعته — اختر «حالة الطلب».' },
+      { ok: false, en: 'Do not use “Meeting Request” to follow up an application. A meeting is only to discuss an unclear comment, or to present a clarification, on an existing application.',
+        ar: 'لا تستخدم «طلب اجتماع» لمتابعة طلب. الاجتماع مخصص فقط لمناقشة ملاحظة غير واضحة، أو لتقديم توضيح، على طلب قائم.' },
+      { ok: true, en: '“General Inquiry” is only for questions on a specific UAE FLS Code 2018 requirement.',
+        ar: '«استفسار عام» مخصص فقط للأسئلة حول متطلب محدد في كود الإمارات 2018.' },
+      { ok: true, en: 'To follow up a request you already sent on this page, use “Check a request” — do not send a new request.',
+        ar: 'لمتابعة طلب أرسلته من هذه الصفحة، استخدم «متابعة طلب» — ولا ترسل طلباً جديداً.' },
+      { ok: false, en: 'Do not send the same request twice, or under more than one service.',
+        ar: 'لا ترسل الطلب نفسه مرتين، ولا تحت أكثر من خدمة.' }],
+    form: { en: 'Check that this is the correct service for your request. A request sent under the wrong service will be cancelled and delayed.',
+      ar: 'تأكد أن هذه هي الخدمة الصحيحة لطلبك. الطلب المرسل تحت خدمة غير صحيحة يُلغى ويتأخر.' },
+    // per service: what clients wrongly use it for, and the service to use instead
+    wrong: {
+      meeting: { to: 'status', en: 'Do not use “Meeting Request” to follow up an application or to ask about its status — use “Application Status”.',
+        ar: 'لا تستخدم «طلب اجتماع» لمتابعة طلب أو للاستفسار عن حالته — استخدم «حالة الطلب».',
+        btn: { en: 'Switch to Application Status', ar: 'الانتقال إلى حالة الطلب' } },
+      general: { to: 'status', en: 'Do not use “General Inquiry” to follow up an application or to ask about its status — use “Application Status”.',
+        ar: 'لا تستخدم «استفسار عام» لمتابعة طلب أو للاستفسار عن حالته — استخدم «حالة الطلب».',
+        btn: { en: 'Switch to Application Status', ar: 'الانتقال إلى حالة الطلب' } } }
+  };
 
   /* ---- The services on the home page, in this order ---- */
   const ORDER = ['status', 'general', 'meeting', 'special', 'facade', 'stamp', 'temporary', 'event', 'hq', 'dcdreply'];
@@ -1520,7 +1587,7 @@ const PORTAL = (() => {
       { t: { en: 'Check and send', ar: 'راجع وأرسل' }, img: { en: 'review_en', ar: 'review_ar' },
         s: { en: 'On the last step, check everything, tick the confirmations and press Submit.', ar: 'في الخطوة الأخيرة راجع جميع البيانات، وضع علامة على الإقرارات، ثم اضغط «إرسال».' } },
       { t: { en: 'Keep the reference number and the access code', ar: 'احتفظ بالرقم المرجعي ورمز الدخول' }, img: { en: 'receipt_en', ar: 'receipt_ar' },
-        s: { en: 'You receive a reference number and an access code. Keep both — print the page or save it as PDF. If you lose the code, the department can send a new one to your e-mail.', ar: 'تحصل على رقم مرجعي ورمز دخول. احتفظ بهما — اطبع الصفحة أو احفظها بصيغة PDF. وإذا فقدت الرمز يمكن للإدارة إرسال رمز جديد إلى بريدك الإلكتروني.' } },
+        s: { en: 'You receive a reference number. Your access code is your mobile number followed by the first letter of your name. Save both in two places — print the page or save it as PDF, and also copy them or take a screenshot. If you lose the reference number, finding your request takes a long time.', ar: 'تحصل على رقم مرجعي. ورمز الدخول هو رقم هاتفك المتحرك متبوعاً بالحرف الأول من اسمك. احفظهما في مكانين — اطبع الصفحة أو احفظها بصيغة PDF، وانسخهما أيضاً أو التقط صورة للشاشة. وإذا فقدت الرقم المرجعي فإن العثور على طلبك يستغرق وقتاً طويلاً.' } },
       { t: { en: 'Follow your request', ar: 'تابع طلبك' }, img: { en: 'status_en', ar: 'status_ar' },
         s: { en: 'Press “Check a request” and enter the reference number and access code. Read the status, replies, minutes, appointments and final result. Download approved or stamped PDFs under “Documents from DCD”.', ar: 'اضغط «متابعة طلب» وأدخل الرقم المرجعي ورمز الدخول. اطّلع على الحالة والردود ومحاضر الاجتماعات والمواعيد والنتيجة النهائية. نزّل ملفات PDF المعتمدة أو المختومة من قسم «مستندات من الدفاع المدني».' } }],
     svcH: { en: 'Which service to choose', ar: 'أي خدمة تختار' },
@@ -1532,7 +1599,7 @@ const PORTAL = (() => {
       { en: 'Send each request once, here only — do not send the same request by e-mail as well.', ar: 'أرسل كل طلب مرة واحدة ومن هنا فقط، ولا ترسل الطلب نفسه بالبريد الإلكتروني أيضاً.' },
       { en: 'No reply after 3 working days? Use “Follow up” on the status page once — the request is then marked urgent.', ar: 'لم يصل رد بعد 3 أيام عمل؟ استخدم «متابعة» في صفحة الحالة مرة واحدة — ويُعلَّم الطلب عندها كعاجل.' },
       { en: '“DCD HQ General” is only for visitors at the DCD headquarters, when a staff member asks them to scan the QR code.', ar: 'خدمة «مقر الدفاع المدني — عام» مخصصة لزوار مقر الدفاع المدني فقط، عندما يطلب منهم أحد الموظفين مسح رمز QR.' }] };
-  return { ORDER, DESC, DECL, TEMPLATES, teamOf, ABOUT, HELP, HQ_SENDER, DR_SENDER, EV_SENDER, STAFF_RE, REFERRAL_RE, MAX_MB: 20 };
+  return { ORDER, DESC, DECL, RIGHT, MAINT, TEMPLATES, teamOf, ABOUT, HELP, HQ_SENDER, DR_SENDER, EV_SENDER, STAFF_RE, REFERRAL_RE, MAX_MB: 20 };
 })();
 </script>
 <script>'use strict';
@@ -1638,8 +1705,8 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       rulesH: 'Good to know',
       r1t: 'All requests are online', r1s: 'Submit and follow requests here. Use DCD HQ General only when a staff member assists you at headquarters.',
       r2t: 'Visits by appointment only', r2s: 'Come to DCD HQ only when your meeting is approved, at the time shown on your request.',
-      r3t: 'Keep your reference and access code', r3s: 'You need both to follow your request. The access code is shown only once.',
-      sideKeep: 'Keep your reference number and access code — you need both to follow your request. The access code is shown only once.',
+      r3t: 'Keep your reference and access code', r3s: 'You need both to follow your request. Your access code is your mobile number followed by the first letter of your name.',
+      sideKeep: 'Keep your reference number and access code — you need both to follow your request. Your access code is your mobile number followed by the first letter of your name.',
       otherH: 'Other departments', otherP: 'Handled outside this page — please email them directly.', writeMail: 'Write email',
       emailAlt: 'Prefer email? Use the email generator', fls: 'UAE FLS Code 2018',
       privacy: 'Your details are used only to handle your request, and are removed from the online service once the department has received them.',
@@ -1684,18 +1751,18 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       recH: 'You sent a request recently', recP: 'You sent {a} {cat} for this application on {date}. If you chose the wrong service, replace it; otherwise you can keep both.',
       recKeep: 'Keep both', recReplace: 'Replace it', reqWord: 'request',
       rcH: 'Request submitted', rcP: 'Your request has reached the online service. The department will collect it and reply on its status page.',
-      rcRef: 'Reference number', rcCode: 'Access code', rcKeep: 'Keep the reference number and the access code. The access code is shown only once — print this page or save it as PDF now. If you lose it, the department can send a new code to your email address.',
+      rcRef: 'Reference number', rcCode: 'Access code', rcKeepH: 'Save your reference number and access code now — in two places.', rcCodeIs: 'Your access code is your mobile number followed by the first letter of your name, as you entered them in this request.', rcKeep: 'For example, print this page or save it as PDF, and also copy them or take a screenshot. If you lose your reference number, finding your request takes a long time and delays it.',
       copy: 'Copy', copyRef: 'Copy the reference number', copyCode: 'Copy the access code', copied: 'Copied', print: 'Print / save as PDF', rcCheck: 'Check status', rcNew: 'New request', rcNextH: 'What happens next',
       rcNext: ['The department receives your request — the status changes to “Received by DCD”.', 'The engineer reviews it and replies on the status page.',
         'For meetings, the date, time and place (online or DCD HQ) appear on the status page.', 'No reply after 3 working days? Use “Follow up” on the status page once — the request is then marked urgent.'],
       rcAt: 'Submitted on', rcSvc: 'Service',
-      stH: 'Check a request', stP: 'Enter the reference number and the access code you received when you submitted the request.',
+      stH: 'Check a request', stP: 'Enter the reference number you received when you submitted the request, and your access code: your mobile number followed by the first letter of your name, e.g. 0501234567A.',
       stRef: 'Reference number', stCode: 'Access code', stGo: 'Show my request', stLost: 'Lost your access code?',
       stNoMatch: 'No request matches this reference number and access code.', stLocked: 'Too many attempts. Please try again in {mins}.',
       stBusy: 'The service is busy. Please try again in a moment.',
-      lostP: 'For your security, the access code cannot be shown again here. Email your reference number to Projconf@dcd.gov.ae from the email address used in the request. The department will send a new code to that email address.',
+      lostP: 'Your access code is the mobile number you entered in the request, followed by the first letter of your name as you entered it, e.g. 0501234567A. If it still does not work, email your reference number to Projconf@dcd.gov.ae from the email address used in the request — this takes longer.',
       lostGen: 'Open the email generator',
-      refBad: 'Please enter the reference as it appears on your receipt, e.g. PS-PED-AS-08-11-26-000123.', codeBad: 'The access code has 6 characters, e.g. K7Q-4MZ.',
+      refBad: 'Please enter the reference as it appears on your receipt, e.g. PS-PED-AS-08-11-26-000123.', codeBad: 'Your access code is your mobile number followed by the first letter of your name, e.g. 0501234567A.',
       st_received: 'Submitted', st_inreview: 'Received by DCD', st_replied: 'Replied', st_meeting: 'Meeting scheduled',
       oc_approved: 'Approved', oc_rejected: 'Rejected', oc_answered: 'Answered', oc_closed: 'Closed', oc_withdrawn: 'Withdrawn', oc_replaced: 'Replaced',
       track: ['Submitted', 'Received by DCD', 'Reply / meeting', 'Closed'], urgent: 'Urgent',
@@ -1737,8 +1804,8 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       rulesH: 'من المهم معرفته',
       r1t: 'جميع الطلبات إلكترونية', r1s: 'قدّم الطلبات وتابعها من هنا. استخدم خدمة «مقر الدفاع المدني — عام» فقط عندما يساعدك موظف في المقر.',
       r2t: 'الزيارة بموعد فقط', r2s: 'احضر إلى المقر الرئيسي فقط بعد اعتماد اجتماعك، وفي الموعد الظاهر في طلبك.',
-      r3t: 'احتفظ بالرقم المرجعي ورمز الدخول', r3s: 'تحتاجهما معاً لمتابعة طلبك. يظهر رمز الدخول مرة واحدة فقط.',
-      sideKeep: 'احتفظ بالرقم المرجعي ورمز الدخول — تحتاجهما معاً لمتابعة طلبك. يظهر رمز الدخول مرة واحدة فقط.',
+      r3t: 'احتفظ بالرقم المرجعي ورمز الدخول', r3s: 'تحتاجهما معاً لمتابعة طلبك. رمز الدخول هو رقم هاتفك المتحرك متبوعاً بالحرف الأول من اسمك.',
+      sideKeep: 'احتفظ بالرقم المرجعي ورمز الدخول — تحتاجهما معاً لمتابعة طلبك. رمز الدخول هو رقم هاتفك المتحرك متبوعاً بالحرف الأول من اسمك.',
       otherH: 'إدارات أخرى', otherP: 'تُعالج خارج هذه الصفحة — يرجى مراسلتها مباشرة.', writeMail: 'كتابة بريد',
       emailAlt: 'هل تفضّل البريد الإلكتروني؟ استخدم منشئ البريد', fls: 'كود الإمارات 2018',
       privacy: 'تُستخدم بياناتك فقط لمعالجة طلبك، وتُحذف من الخدمة الإلكترونية بعد أن تستلمها الإدارة.',
@@ -1783,18 +1850,18 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       recH: 'أرسلت طلباً مؤخراً', recP: 'أرسلتَ طلباً لخدمة «{cat}» لرقم الطلب نفسه في {date}. إذا كنت قد اخترت خدمة غير مناسبة فاستبدل ذلك الطلب بهذا الطلب، وإلا فيمكنك الإبقاء على الطلبين.',
       recKeep: 'الإبقاء على الطلبين', recReplace: 'استبدله',
       rcH: 'تم إرسال الطلب', rcP: 'وصل طلبك إلى الخدمة الإلكترونية. ستستلمه الإدارة وترد عليه في صفحة حالته.',
-      rcRef: 'الرقم المرجعي', rcCode: 'رمز الدخول', rcKeep: 'احتفظ بالرقم المرجعي ورمز الدخول. يظهر رمز الدخول مرة واحدة فقط — اطبع هذه الصفحة أو احفظها بصيغة PDF الآن. إذا فقدته، يمكن للإدارة إرسال رمز جديد إلى بريدك الإلكتروني.',
+      rcRef: 'الرقم المرجعي', rcCode: 'رمز الدخول', rcKeepH: 'احفظ الرقم المرجعي ورمز الدخول الآن — في مكانين.', rcCodeIs: 'رمز الدخول هو رقم هاتفك المتحرك متبوعاً بالحرف الأول من اسمك، كما أدخلتهما في هذا الطلب.', rcKeep: 'مثلاً: اطبع هذه الصفحة أو احفظها بصيغة PDF، وانسخهما أيضاً أو التقط صورة للشاشة. وإذا فقدت الرقم المرجعي فإن العثور على طلبك يستغرق وقتاً طويلاً ويؤخره.',
       copy: 'نسخ', copyRef: 'نسخ الرقم المرجعي', copyCode: 'نسخ رمز الدخول', copied: 'تم النسخ', print: 'طباعة / حفظ PDF', rcCheck: 'متابعة الحالة', rcNew: 'طلب جديد', rcNextH: 'ما الذي يحدث بعد ذلك',
       rcNext: ['تستلم الإدارة طلبك — وتتغير الحالة إلى «استلمته الإدارة».', 'يراجعه المهندس ويرد عليه في صفحة الحالة.',
         'للاجتماعات، يظهر الموعد والوقت والمكان (عن بُعد أو في المقر الرئيسي) في صفحة الحالة.', 'لم يصل رد بعد 3 أيام عمل؟ استخدم «متابعة» في صفحة الحالة مرة واحدة — ويُعلَّم الطلب عندها كعاجل.'],
       rcAt: 'تاريخ الإرسال', rcSvc: 'الخدمة',
-      stH: 'متابعة طلب', stP: 'أدخل الرقم المرجعي ورمز الدخول اللذين حصلت عليهما عند إرسال الطلب.',
+      stH: 'متابعة طلب', stP: 'أدخل الرقم المرجعي الذي حصلت عليه عند إرسال الطلب، ورمز الدخول: رقم هاتفك المتحرك متبوعاً بالحرف الأول من اسمك، مثال: 0501234567A.',
       stRef: 'الرقم المرجعي', stCode: 'رمز الدخول', stGo: 'عرض طلبي', stLost: 'فقدت رمز الدخول؟',
       stNoMatch: 'لا يوجد طلب مطابق لهذا الرقم المرجعي ورمز الدخول.', stLocked: 'محاولات كثيرة. يرجى المحاولة بعد {mins}.',
       stBusy: 'الخدمة مشغولة حالياً. يرجى المحاولة مرة أخرى بعد قليل.',
-      lostP: 'حفاظاً على أمانك، لا يمكن عرض رمز الدخول مرة أخرى هنا. أرسل رقمك المرجعي بالبريد الإلكتروني إلى Projconf@dcd.gov.ae من البريد الإلكتروني المستخدم في الطلب، وسترسل الإدارة رمزاً جديداً إلى ذلك البريد.',
+      lostP: 'رمز الدخول هو رقم الهاتف المتحرك الذي أدخلته في الطلب، متبوعاً بالحرف الأول من اسمك كما أدخلته، مثال: 0501234567A. وإذا لم يعمل، أرسل رقمك المرجعي بالبريد الإلكتروني إلى Projconf@dcd.gov.ae من البريد الإلكتروني المستخدم في الطلب — ويستغرق ذلك وقتاً أطول.',
       lostGen: 'فتح منشئ البريد',
-      refBad: 'يرجى إدخال الرقم المرجعي كما في الإيصال، مثال: PS-PED-AS-08-11-26-000123.', codeBad: 'يتكون رمز الدخول من 6 خانات، مثال: K7Q-4MZ.',
+      refBad: 'يرجى إدخال الرقم المرجعي كما في الإيصال، مثال: PS-PED-AS-08-11-26-000123.', codeBad: 'رمز الدخول هو رقم هاتفك المتحرك متبوعاً بالحرف الأول من اسمك، مثال: 0501234567A.',
       st_received: 'تم الإرسال', st_inreview: 'استلمته الإدارة', st_replied: 'تم الرد', st_meeting: 'حُدد موعد الاجتماع',
       oc_approved: 'معتمد', oc_rejected: 'مرفوض', oc_answered: 'تمت الإجابة', oc_closed: 'مغلق', oc_withdrawn: 'مسحوب', oc_replaced: 'مستبدل',
       track: ['أُرسل', 'استلمته الإدارة', 'رد / اجتماع', 'مغلق'], urgent: 'عاجل',
@@ -1952,6 +2019,10 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
 
   /* ---------------- rendering helpers ---------------- */
   const app = $('#app');
+  /* (18 Nov 2026) maintenance: PORTAL_CONFIG.maintenance (build --maintenance) — a notice on every page, new requests
+     closed, "Check a request" kept; the texts that describe the access code stay neutral */
+  const MAINT = !!CFG.maintenance;
+  const tm = k => (MAINT && PORTAL.MAINT[k] ? L(PORTAL.MAINT[k]) : t(k));
   const toastEl = $('#toast');
   let toastT = 0;
   /* a message stays long enough to be read (at least 4 s, longer for a long one) */
@@ -1969,10 +2040,15 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     const r = route().name;
     const here = n => (r === n ? ' class="on" aria-current="page"' : '');
     $('#nav').innerHTML =
-      `<a href="#/new"${here('new')}>${icon('plus')}<span class="lbl">${esc(t('navNew'))}</span></a>` +
+      (MAINT ? '' : `<a href="#/new"${here('new')}>${icon('plus')}<span class="lbl">${esc(t('navNew'))}</span></a>`) +
       `<a href="#/status"${here('status')}>${icon('search')}<span class="lbl">${esc(t('navStatus'))}</span></a>` +
       `<a href="#/help"${here('help')}>${icon('globe')}<span class="lbl">${esc(L(PORTAL.HELP.h))}</span></a>` +
       `<button type="button" class="lang" data-act="lang" lang="${lang === 'ar' ? 'en' : 'ar'}">${esc(t('langBtn'))}</button>`;
+    if (MAINT) {
+      let mb = $('#maintbar');
+      if (!mb) { mb = D.createElement('div'); mb.id = 'maintbar'; mb.setAttribute('role', 'status'); app.parentNode.insertBefore(mb, app); }
+      mb.innerHTML = `<div class="wrap">${icon('alert')}<div><b>${esc(L(PORTAL.MAINT.h))}</b><span>${esc(L(PORTAL.MAINT.p))}</span></div></div>`;
+    }
     const dev = $('#devbar');
     if (CFG.dev) { dev.classList.remove('hidden'); dev.innerHTML = `<div class="wrap">${icon('alert', 'sm')}<span>${esc(t('dev'))}</span><a href="/staff" target="_blank" rel="noopener">${esc(t('devStaff'))} ↗</a></div>`; }
     $('#foot').innerHTML = `<span>${esc(t('foot'))}</span><span class="muted">${esc(t('privacy'))}</span>` +
@@ -1999,11 +2075,12 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   function render() {
     const r = route();
     chrome(titleOf(r));
-    if (r.name === 'new') renderNew(r.arg, r.extra);
+    if (r.name === 'new' && MAINT) renderMaint();
+    else if (r.name === 'new') renderNew(r.arg, r.extra);
     else if (r.name === 'status') renderStatus();
     else if (r.name === 'receipt') renderReceipt();
     else if (r.name === 'help') renderHelp();
-    else renderHome();
+    else { renderHome(); if (MAINT) maintHome(); }
     window.scrollTo(0, 0);
     if (!firstRender) focusView();
     firstRender = false;
@@ -2028,6 +2105,19 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     return `<div class="${card ? '' : 'note bad '}sa-note" data-sa-note>${icon('alert', 'sm')} <strong>${esc(L(c.submissionNote))}</strong></div>`;
   }
 
+  /* (18 Nov 2026) choose the correct service — a request under the wrong service is cancelled */
+  function rightHtml() {
+    const R = PORTAL.RIGHT;
+    return `<div class="note bad right-svc" data-right><strong>${icon('alert', 'sm')} ${esc(L(R.h))}</strong><p class="mt2">${esc(L(R.p))}</p>` +
+      `<ul class="right-list">${R.items.map(i => `<li class="${i.ok ? 'do' : 'dont'}">${icon(i.ok ? 'check' : 'x', 'sm')}<span>${esc(L(i))}</span></li>`).join('')}</ul></div>`;
+  }
+  function wrongNotice(c) {
+    const R = PORTAL.RIGHT, w = c && R.wrong[c.id];
+    if (!c || c.id === 'hq' || c.id === 'dcdreply') return '';
+    return `<div class="note bad" data-wrong>${icon('alert', 'sm')} <strong>${esc(L(R.form))}</strong>` +
+      (w ? `<p class="mt2">${esc(L(w))}</p><div class="nbtns"><button type="button" class="btn btn-s" data-switch="${esc(w.to)}">${esc(L(w.btn))}</button></div>` : '') + '</div>';
+  }
+
   function renderHome() {
     const cards = PORTAL.ORDER.map(id => catById(id)).filter(Boolean).map(c => {
       const team = PORTAL.teamOf(c);
@@ -2050,12 +2140,13 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
         <div class="rule about"><span class="ic">${icon('globe')}</span><div><b>${esc(L(PORTAL.ABOUT.t))}</b><span>${esc(L(PORTAL.ABOUT.s))}</span><span><a href="#/help">${esc(L(PORTAL.ABOUT.help))}</a></span></div></div>
         ${submissionNotice()}
         <div class="sec-h"><div><h2>${esc(t('svcH'))}</h2><p>${esc(t('svcP'))}</p></div></div>
+        ${rightHtml()}
         <div class="cards">${cards}</div>
         <div class="sec-h"><h2>${esc(t('rulesH'))}</h2></div>
         <div class="rules">
           <div class="rule"><span class="ic">${icon('globe')}</span><div><b>${esc(t('r1t'))}</b><span>${esc(t('r1s'))}</span></div></div>
           <div class="rule"><span class="ic">${icon('calendar')}</span><div><b>${esc(t('r2t'))}</b><span>${esc(t('r2s'))}</span></div></div>
-          <div class="rule"><span class="ic">${icon('key')}</span><div><b>${esc(t('r3t'))}</b><span>${esc(t('r3s'))}</span></div></div>
+          <div class="rule"><span class="ic">${icon('key')}</span><div><b>${esc(t('r3t'))}</b><span>${esc(CFG.maintenance ? L(PORTAL.MAINT.r3s) : t('r3s'))}</span></div></div>
         </div>
         <div class="sec-h"><div><h2>${esc(t('otherH'))}</h2><p>${esc(t('otherP'))}</p></div></div>
         <div class="other">${direct}</div>
@@ -2125,14 +2216,28 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     app.innerHTML = `<div class="wrap page">
       <div class="crumbs">${crumbHome()}<span>/</span><a href="#/new">${esc(t('newH'))}</a><span>/</span><span>${esc(L(c))}</span></div>
       <div class="page-head"><h1>${esc(L(c))}</h1></div>
-      ${stepper}<div class="layout"><div class="main-col">${saNotice(c)}${responsibilityHtml(c.id)}${body}</div>${side}</div></div>`;
+      ${stepper}<div class="layout"><div class="main-col">${wrongNotice(c)}${saNotice(c)}${responsibilityHtml(c.id)}${body}</div>${side}</div></div>`;
     afterRender();
+  }
+
+  function maintBox() {
+    return `<div class="note bad maint-box" data-maint>${icon('alert', 'sm')} <strong>${esc(L(PORTAL.MAINT.h))}</strong><p class="mt2">${esc(L(PORTAL.MAINT.p))}</p><p class="mt2">${esc(L(PORTAL.MAINT.closed))}</p>` +
+      `<div class="nbtns"><a class="btn primary" href="#/status">${icon('search', 'sm')}${esc(t('actStT'))}</a></div></div>`;
+  }
+  function renderMaint() {
+    app.innerHTML = `<div class="wrap page"><div class="page-head"><h1>${esc(t('newH'))}</h1></div>${maintBox()}</div>`;
+  }
+  function maintHome() {
+    const a = app.querySelector('a.action[href="#/new"]'); if (a) a.remove();
+    const cards = app.querySelector('.cards'), right = app.querySelector('[data-right]');
+    if (right) right.remove();
+    if (cards) { const h = cards.previousElementSibling; if (h && h.classList.contains('sec-h')) h.remove(); cards.insertAdjacentHTML('beforebegin', maintBox()); cards.remove(); }
   }
 
   function renderPick() {
     const cards = PORTAL.ORDER.map(id => catById(id)).filter(Boolean).map(c => `<a class="card" href="#/new/${esc(c.id)}"><span class="ic">${icon(c.icon)}</span><b>${esc(L(c))}</b><p>${esc(L(PORTAL.DESC[c.id]))}</p>${whoHtml(c.id)}` +
       `<span class="foot"><span class="chip navy">${esc(L(PORTAL.teamOf(c)))}</span>${c.tag ? `<span class="chip">${esc(L(c.tag))}</span>` : ''}</span></a>`).join('');
-    app.innerHTML = `<div class="wrap page"><div class="page-head"><h1>${esc(t('pickH'))}</h1><p>${esc(t('pickP'))}</p></div><div class="cards">${cards}</div></div>`;
+    app.innerHTML = `<div class="wrap page"><div class="page-head"><h1>${esc(t('pickH'))}</h1><p>${esc(t('pickP'))}</p></div>${rightHtml()}<div class="cards">${cards}</div></div>`;
   }
 
   const senderOk = () => { const m = model(null); const v = m.values(); return senderSecs().every(sec => sec.fields.every(f => !checkField(f, m, v))); };
@@ -2529,11 +2634,11 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     const a = await dialog({ icon: 'key', title: t('replH'), text: t('replP'),
       body: `<div class="grid one">
         <div class="field"><label for="dlgRef">${esc(t('stRef'))}</label><input class="input mono ltr" id="dlgRef" dir="ltr" autocomplete="off" spellcheck="false" maxlength="40" placeholder="PS-PED-AS-08-11-26-000123" value="${esc(p.ref || '')}"></div>
-        <div class="field"><label for="dlgPin">${esc(t('stCode'))}</label><input class="input mono ltr" id="dlgPin" dir="ltr" autocomplete="off" spellcheck="false" maxlength="9" placeholder="ABC-234" value="${esc(pin.length === 6 ? pin.slice(0, 3) + '-' + pin.slice(3) : pin)}"></div></div>
+        <div class="field"><label for="dlgPin">${esc(t('stCode'))}</label><input class="input mono ltr" id="dlgPin" dir="ltr" autocomplete="off" spellcheck="false" maxlength="24" placeholder="0501234567A" value="${esc(/^[A-HJ-NP-Z2-9]{6}$/.test(pin) ? pin.slice(0, 3) + '-' + pin.slice(3) : pin)}"></div></div>
         <div class="note bad mt10${error ? '' : ' hidden'}" data-dlgerr role="alert">${esc(error)}</div>`,
       buttons: [{ k: 'cancel', label: t('cancel') }, { k: 'go', label: t('replBtn'), cls: 'primary' }],
       read: () => ({ ref: normRef(($('#dlgRef') || {}).value), pin: normPin(($('#dlgPin') || {}).value) }),
-      check: (k, v) => (!REF_RE.test(v.ref) ? t('refBad') : v.pin.length !== 6 ? t('codeBad') : '') });
+      check: (k, v) => (!REF_RE.test(v.ref) ? t('refBad') : !pinOk(v.pin) ? tm('codeBad') : '') });
     if (a && a.k === 'go') submit({ ...base, replace: { ref: a.value.ref, pin: a.value.pin } });
   }
 
@@ -2590,7 +2695,8 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
         <div class="key"><label>${esc(t('rcRef'))}</label><span class="v" data-ref>${esc(r.ref)}</span><button type="button" class="btn sm noprint" data-copy="${esc(r.ref)}" aria-label="${esc(t('copyRef'))}">${icon('copy', 'sm')}${esc(t('copy'))}</button></div>
         <div class="key code"><label>${esc(t('rcCode'))}</label><span class="v" data-pin>${esc(r.pin)}</span><button type="button" class="btn sm noprint" data-copy="${esc(r.pin)}" data-copypin aria-label="${esc(t('copyCode'))}">${icon('copy', 'sm')}${esc(t('copy'))}</button></div>
       </div>
-      <div class="note warn">${icon('alert', 'sm')} ${esc(t('rcKeep'))}</div>
+      <p class="code-is" data-codeis>${esc(t('rcCodeIs'))}</p>
+      <div class="note bad" data-keep><strong>${icon('alert', 'sm')}<span>${esc(t('rcKeepH'))}</span></strong> ${esc(t('rcKeep'))}</div>
       <div class="kv mt14"><div class="k">${esc(t('rcSvc'))}</div><div>${esc(c ? L(c) : r.code)}</div><div class="k">${esc(t('rcAt'))}</div><div>${esc(fmt(r.created, { weekday: true }))}</div>
         ${r.project ? `<div class="k">${esc(t('project'))}</div><div><bdi>${esc(r.project)}</bdi></div>` : ''}${r.engineer ? `<div class="k">${esc(t('engLbl'))}</div><div><bdi>${esc(r.engineer)}</bdi></div>` : ''}</div>
       <div class="navrow noprint"><button type="button" class="btn" data-act="print">${icon('print', 'sm')}${esc(t('print'))}</button>
@@ -2603,7 +2709,11 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   /* ---------------- status ---------------- */
   const REF_RE = /^PS-PED-(AS|GI|MR|FC|SA|MS|TP|EV|HQ|DR)-\d{2}-\d{2}-\d{2}-\d{6}[A-Z]{0,3}$/;
   const normRef = s => asciiDigits(s).toUpperCase().replace(/\s+/g, '').replace(/[‐-―−]/g, '-');
-  const normPin = s => asciiDigits(s).toUpperCase().replace(/[^A-Z0-9]/g, '');
+  /* (1.1.5) the access code: the client's mobile number + the first letter of their name (any script, one letter),
+     or the 6-character code of an older request. Digits, '+' and letters are kept; spaces, dashes and the rest go. */
+  const PIN_KEEP = (() => { try { return new RegExp('[^\\p{L}0-9+]', 'gu'); } catch (e) { return /[^A-Z0-9+ء-يٱ-ۓÀ-ɏ]/g; } })();
+  const normPin = s => asciiDigits(String(s || '')).toUpperCase().replace(PIN_KEEP, '');
+  const pinOk = p => /^[A-HJ-NP-Z2-9]{6}$/.test(p) || (() => { let l = 0, d = ''; for (const ch of p) { if (/[0-9+]/.test(ch)) d += ch; else l++; } return l <= 1 && /^\+?\d{8,15}$/.test(d); })();
   /* a closed request: status "closed" with its outcome (SPEC §3) — "withdrawn" / "replaced" as a status are read the same way */
   const CLOSED_AS = ['closed', 'withdrawn', 'replaced', 'approved', 'rejected', 'answered'];
   const isClosed = q => q.open === false || CLOSED_AS.includes(q.status);
@@ -2615,12 +2725,12 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     if (S.st && S.st.req) { renderStatusView(); return; }
     const pre = S.prefill || {};
     app.innerHTML = `<div class="wrap page"><div class="lookup">
-      <div class="page-head"><h1>${esc(t('stH'))}</h1><p>${esc(t('stP'))}</p></div>
+      <div class="page-head"><h1>${esc(t('stH'))}</h1><p>${esc(tm('stP'))}</p></div>
       <div class="panel" data-lookup><div class="grid">
         <div class="field" data-f="sref"><label for="sref">${esc(t('stRef'))}</label><input class="input mono ltr" id="sref" dir="ltr" autocomplete="off" spellcheck="false" placeholder="PS-PED-AS-08-11-26-000123" maxlength="40" aria-describedby="e_sref" value="${esc(pre.ref || '')}"><div class="err" id="e_sref" data-err="sref"></div></div>
-        <div class="field" data-f="spin"><label for="spin">${esc(t('stCode'))}</label><input class="input mono ltr" id="spin" dir="ltr" autocomplete="off" spellcheck="false" placeholder="ABC-234" maxlength="9" aria-describedby="e_spin" value="${esc(pre.pin || '')}"><div class="err" id="e_spin" data-err="spin"></div></div>
+        <div class="field" data-f="spin"><label for="spin">${esc(t('stCode'))}</label><input class="input mono ltr" id="spin" dir="ltr" autocomplete="off" spellcheck="false" placeholder="${MAINT ? '' : '0501234567A'}" maxlength="24" aria-describedby="e_spin" value="${esc(pre.pin || '')}"><div class="err" id="e_spin" data-err="spin"></div></div>
       </div>
-      <div class="navrow"><button type="button" class="link" data-act="lost" aria-expanded="false" aria-controls="lostPanel">${esc(t('stLost'))}</button><div class="end"><button type="button" class="btn primary lg" data-act="lookup">${icon('search', 'sm')}${esc(t('stGo'))}</button></div></div>
+      <div class="navrow"><button type="button" class="link${MAINT ? ' hidden' : ''}" data-act="lost" aria-expanded="false" aria-controls="lostPanel">${esc(t('stLost'))}</button><div class="end"><button type="button" class="btn primary lg" data-act="lookup">${icon('search', 'sm')}${esc(t('stGo'))}</button></div></div>
       </div>
       <div class="panel hidden" id="lostPanel" data-lost><h2>${esc(t('stLost'))}</h2><p class="desc">${esc(t('lostP', { opt: followUpLabel() }))}</p>
         ${CFG.generator ? `<div class="navrow"><a class="btn" href="${esc(CFG.generator)}" target="_blank" rel="noopener noreferrer">${icon('mail', 'sm')}${esc(t('lostGen'))} ↗</a></div>` : ''}</div>
@@ -2639,9 +2749,9 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     if (S.stBusy) return;
     const ref = normRef($('#sref').value), pin = normPin($('#spin').value);
     showErr('sref', REF_RE.test(ref) ? null : t('refBad'));
-    showErr('spin', pin.length === 6 ? null : t('codeBad'));
+    showErr('spin', pinOk(pin) ? null : tm('codeBad'));
     if (!REF_RE.test(ref)) { $('#sref').focus(); return; }
-    if (pin.length !== 6) { $('#spin').focus(); return; }
+    if (!pinOk(pin)) { $('#spin').focus(); return; }
     const btn = $('[data-act="lookup"]'); btn.disabled = true; S.stBusy = true;
     let res; try { res = await api({ action: 'status', ref, pin }); } catch (e) { toast(errText(e)); }
     S.stBusy = false;
