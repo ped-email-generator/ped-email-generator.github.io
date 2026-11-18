@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-eu9rp5WMs1SoyvSusn+807uiPL9y7df/CQs2LnSk5Gw=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-0sPP1W14gmbzJBKULRLvEPaRKDNIv813GlGXiQY7irY=' 'sha256-Ed57EDSoDRF1fbZtdGh7JIohD3unniXbfACyNHOf6pM=' 'sha256-KruUFOKVoqf4eugP4HMYcnb7/ATz0zUeYk8Y3CdJIAY=' 'sha256-ri6kcaQeXoVc1v41Zg2kQB3KKea02MRb9t6z0zKmE84=' 'sha256-3+mm2J78grsKS/kF61G5FgxAv0idq7Q88h7t1m2Dw0o='; style-src 'sha256-3U+QDYMpLTpTuKbpnbLKeclXxv0ND3E+U8RZzQZ3dL8='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-/t+/3EBRc+sy/P+jlnH4XacynbqeJDu82g+pbdeQcTc=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-rS5YjUK9m3CQYOTcluOU6hVesnsChOH1fXeFGHjv5ho=' 'sha256-Ed57EDSoDRF1fbZtdGh7JIohD3unniXbfACyNHOf6pM=' 'sha256-KruUFOKVoqf4eugP4HMYcnb7/ATz0zUeYk8Y3CdJIAY=' 'sha256-ri6kcaQeXoVc1v41Zg2kQB3KKea02MRb9t6z0zKmE84=' 'sha256-QHJAXVIVZrjlzVCyh4yGtSQ0a0GwnNcuhBRt4UHoCjo='; style-src 'sha256-3U+QDYMpLTpTuKbpnbLKeclXxv0ND3E+U8RZzQZ3dL8='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light dark">
@@ -594,7 +594,7 @@ footer a { color: var(--muted); }
 <footer><div class="wrap" id="foot"></div></footer>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <dialog id="dlg"></dialog>
-<script>window.PORTAL_CONFIG = {"endpoint":"https://script.google.com/macros/s/AKfycby3AP9DAplS7gSiNv7RtJP-HBRPGnCcjZpOxnQpt1lGAcGUyFDMdhlTChBI16VjofTB8Q/exec","generator":"","maintenance":true};</script>
+<script>window.PORTAL_CONFIG = {"endpoint":"https://script.google.com/macros/s/AKfycby3AP9DAplS7gSiNv7RtJP-HBRPGnCcjZpOxnQpt1lGAcGUyFDMdhlTChBI16VjofTB8Q/exec","generator":"https://ped-email-generator.github.io/","maintenance":true,"only":["event"]};</script>
 <script>"use strict";
 /* ==========================================================
    CONFIG — all editable settings. No need to touch the code below.
@@ -1508,7 +1508,18 @@ const PORTAL = (() => {
       ar: 'استقبال الطلبات الجديدة متوقف أثناء الصيانة. ما زال بإمكانك متابعة طلب أرسلته سابقاً.' },
     stP: { en: 'Enter the reference number and the access code of your request.', ar: 'أدخل الرقم المرجعي ورمز الدخول الخاصين بطلبك.' },
     codeBad: { en: 'Please check the access code.', ar: 'يرجى التحقق من رمز الدخول.' },
-    r3s: { en: 'You need both to follow your request.', ar: 'تحتاجهما معاً لمتابعة طلبك.' }
+    r3s: { en: 'You need both to follow your request.', ar: 'تحتاجهما معاً لمتابعة طلبك.' },
+    // (18 Nov 2026, later) only some services open (PORTAL_CONFIG.only, build --only event): the others are paused and
+    // go by e-mail through the Email Generator
+    onlyH: { en: 'For now, only Event requests are received on this page — we apologise for the inconvenience.',
+      ar: 'حالياً تُستقبل طلبات الفعاليات فقط عبر هذه الصفحة — نعتذر عن الإزعاج.' },
+    onlyP: { en: 'All other services are paused for now. Please send other requests by email using the Email Generator. You can still check a request you have already sent.',
+      ar: 'جميع الخدمات الأخرى متوقفة مؤقتاً. يرجى إرسال الطلبات الأخرى بالبريد الإلكتروني عبر منشئ البريد. وما زال بإمكانك متابعة طلب أرسلته سابقاً.' },
+    paused: { en: 'This service is paused on this page for now. Please send your request by email using the Email Generator.',
+      ar: 'هذه الخدمة متوقفة مؤقتاً في هذه الصفحة. يرجى إرسال طلبك بالبريد الإلكتروني عبر منشئ البريد.' },
+    genBtn: { en: 'Open the Email Generator', ar: 'افتح منشئ البريد' },
+    help4: { en: 'You receive a reference number and an access code. Save both in two places — print the page or save it as PDF, and also copy them or take a screenshot.',
+      ar: 'تحصل على رقم مرجعي ورمز دخول. احفظهما في مكانين — اطبع الصفحة أو احفظها بصيغة PDF، وانسخهما أيضاً أو التقط صورة للشاشة.' }
   };
 
   /* ---- (18 Nov 2026, the department's request) choose the correct service: wrong requests are cancelled ---- */
@@ -2022,6 +2033,8 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   /* (18 Nov 2026) maintenance: PORTAL_CONFIG.maintenance (build --maintenance) — a notice on every page, new requests
      closed, "Check a request" kept; the texts that describe the access code stay neutral */
   const MAINT = !!CFG.maintenance;
+  const ONLY = MAINT && Array.isArray(CFG.only) && CFG.only.length ? CFG.only : null;   // only these services stay open
+  const isOpen = id => !MAINT || (ONLY && ONLY.includes(id));
   const tm = k => (MAINT && PORTAL.MAINT[k] ? L(PORTAL.MAINT[k]) : t(k));
   const toastEl = $('#toast');
   let toastT = 0;
@@ -2040,14 +2053,15 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     const r = route().name;
     const here = n => (r === n ? ' class="on" aria-current="page"' : '');
     $('#nav').innerHTML =
-      (MAINT ? '' : `<a href="#/new"${here('new')}>${icon('plus')}<span class="lbl">${esc(t('navNew'))}</span></a>`) +
+      (MAINT && !ONLY ? '' : `<a href="#/new"${here('new')}>${icon('plus')}<span class="lbl">${esc(t('navNew'))}</span></a>`) +
       `<a href="#/status"${here('status')}>${icon('search')}<span class="lbl">${esc(t('navStatus'))}</span></a>` +
       `<a href="#/help"${here('help')}>${icon('globe')}<span class="lbl">${esc(L(PORTAL.HELP.h))}</span></a>` +
       `<button type="button" class="lang" data-act="lang" lang="${lang === 'ar' ? 'en' : 'ar'}">${esc(t('langBtn'))}</button>`;
     if (MAINT) {
       let mb = $('#maintbar');
       if (!mb) { mb = D.createElement('div'); mb.id = 'maintbar'; mb.setAttribute('role', 'status'); app.parentNode.insertBefore(mb, app); }
-      mb.innerHTML = `<div class="wrap">${icon('alert')}<div><b>${esc(L(PORTAL.MAINT.h))}</b><span>${esc(L(PORTAL.MAINT.p))}</span></div></div>`;
+      const M = PORTAL.MAINT, gen = ONLY && CFG.generator ? ` <a class="maint-gen" href="${esc(CFG.generator)}">${esc(L(M.genBtn))} ↗</a>` : '';
+      mb.innerHTML = `<div class="wrap">${icon('alert')}<div><b>${esc(L(ONLY ? M.onlyH : M.h))}</b><span>${esc(L(ONLY ? M.onlyP : M.p))}${gen}</span></div></div>`;
     }
     const dev = $('#devbar');
     if (CFG.dev) { dev.classList.remove('hidden'); dev.innerHTML = `<div class="wrap">${icon('alert', 'sm')}<span>${esc(t('dev'))}</span><a href="/staff" target="_blank" rel="noopener">${esc(t('devStaff'))} ↗</a></div>`; }
@@ -2075,12 +2089,14 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   function render() {
     const r = route();
     chrome(titleOf(r));
-    if (r.name === 'new' && MAINT) renderMaint();
+    if (r.name === 'new' && MAINT && !ONLY) renderMaint();
+    else if (r.name === 'new' && ONLY && r.arg && !isOpen(r.arg)) renderPaused(r.arg);
     else if (r.name === 'new') renderNew(r.arg, r.extra);
     else if (r.name === 'status') renderStatus();
     else if (r.name === 'receipt') renderReceipt();
     else if (r.name === 'help') renderHelp();
     else { renderHome(); if (MAINT) maintHome(); }
+    if (ONLY && (r.name === 'new' && !r.arg || r.name === 'home')) onlyCards();
     window.scrollTo(0, 0);
     if (!firstRender) focusView();
     firstRender = false;
@@ -2170,7 +2186,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       const fl = c.sections.flatMap(sec => sec.fields.filter(f => f.type === 'file')).map(f => L(f));
       return `<dt>${esc(L(c))}</dt><dd>${whoHtml(c.id)}<p>${esc(L(GUIDE.services[c.id].roles))}</p><p>${esc(L(GUIDE.services[c.id].task))}</p>${fl.length ? `<span class="help-files">${esc(L(H.filesL))} ${esc(fl.join(lang === 'ar' ? '؛ ' : '; '))}</span>` : ''}<a href="#/new/${esc(c.id)}">${esc(L(c))}${icon('arrow', 'sm flip')}</a></dd>`;
     }).join('');
-    const steps = H.steps.map((s, i) => `<li class="help-step"><div class="help-n">${i + 1}</div><div class="help-b"><h3>${esc(L(s.t))}</h3><p>${esc(L(s.s))}</p>${s.img ? img(s.img[lang] || s.img.en, L(s.t)) : ''}</div></li>`).join('');
+    const steps = H.steps.map((s, i) => `<li class="help-step"><div class="help-n">${i + 1}</div><div class="help-b"><h3>${esc(L(s.t))}</h3><p>${esc(L(typeof CFG !== 'undefined' && CFG.maintenance && i === 3 && PORTAL.MAINT.help4 ? PORTAL.MAINT.help4 : s.s))}</p>${s.img ? img(s.img[lang] || s.img.en, L(s.t)) : ''}</div></li>`).join('');
     app.innerHTML = `<div class="wrap help">
         <div class="sec-h"><div><h1>${esc(L(H.h))}</h1><p>${esc(L(H.p))}</p></div></div>
         <nav class="help-jumps" aria-label="${esc(L(H.h))}"><a class="btn" href="#/help/steps">${esc(L(GUIDE.overview))}</a><a class="btn" href="#/help/services">${esc(L(GUIDE.servicesTitle))}</a><a class="btn" href="#/help/event">${esc(L(GUIDE.eventTitle))}</a></nav>
@@ -2227,7 +2243,23 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   function renderMaint() {
     app.innerHTML = `<div class="wrap page"><div class="page-head"><h1>${esc(t('newH'))}</h1></div>${maintBox()}</div>`;
   }
+  function genButton() {
+    return CFG.generator ? `<a class="btn primary" href="${esc(CFG.generator)}">${icon('mail', 'sm')}${esc(L(PORTAL.MAINT.genBtn))}</a>` : '';
+  }
+  function renderPaused(id) {
+    const c = catById(id);
+    app.innerHTML = `<div class="wrap page"><div class="page-head"><h1>${esc(c ? L(c) : t('newH'))}</h1></div><div class="note bad maint-box" data-paused>${icon('alert', 'sm')} <strong>${esc(L(PORTAL.MAINT.paused))}</strong>` +
+      `<div class="nbtns">${genButton()}<a class="btn" href="#/new/event">${icon('event', 'sm')}${esc(L(catById('event') || { en: 'Event', ar: 'فعالية' }))}</a><a class="btn" href="#/status">${icon('search', 'sm')}${esc(t('actStT'))}</a></div></div></div>`;
+  }
+  /* events only: the other service cards are taken off; the Email Generator is offered for them */
+  function onlyCards() {
+    const right = app.querySelector('[data-right]'); if (right) right.remove();
+    app.querySelectorAll('a.card[href^="#/new/"]').forEach(a => { const id = a.getAttribute('href').split('/')[2]; if (!isOpen(id)) a.remove(); });
+    const cards = app.querySelector('.cards');
+    if (cards && !app.querySelector('[data-only]')) cards.insertAdjacentHTML('beforebegin', `<div class="note bad maint-box" data-only>${icon('alert', 'sm')} <strong>${esc(L(PORTAL.MAINT.onlyH))}</strong><p class="mt2">${esc(L(PORTAL.MAINT.onlyP))}</p><div class="nbtns">${genButton()}</div></div>`);
+  }
   function maintHome() {
+    if (ONLY) return;
     const a = app.querySelector('a.action[href="#/new"]'); if (a) a.remove();
     const cards = app.querySelector('.cards'), right = app.querySelector('[data-right]');
     if (right) right.remove();
@@ -2695,7 +2727,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
         <div class="key"><label>${esc(t('rcRef'))}</label><span class="v" data-ref>${esc(r.ref)}</span><button type="button" class="btn sm noprint" data-copy="${esc(r.ref)}" aria-label="${esc(t('copyRef'))}">${icon('copy', 'sm')}${esc(t('copy'))}</button></div>
         <div class="key code"><label>${esc(t('rcCode'))}</label><span class="v" data-pin>${esc(r.pin)}</span><button type="button" class="btn sm noprint" data-copy="${esc(r.pin)}" data-copypin aria-label="${esc(t('copyCode'))}">${icon('copy', 'sm')}${esc(t('copy'))}</button></div>
       </div>
-      <p class="code-is" data-codeis>${esc(t('rcCodeIs'))}</p>
+      ${/^[+]?[0-9]{8,15}[^0-9]?$/.test(String(r.pin || '')) ? `<p class="code-is" data-codeis>${esc(t('rcCodeIs'))}</p>` : ''}
       <div class="note bad" data-keep><strong>${icon('alert', 'sm')}<span>${esc(t('rcKeepH'))}</span></strong> ${esc(t('rcKeep'))}</div>
       <div class="kv mt14"><div class="k">${esc(t('rcSvc'))}</div><div>${esc(c ? L(c) : r.code)}</div><div class="k">${esc(t('rcAt'))}</div><div>${esc(fmt(r.created, { weekday: true }))}</div>
         ${r.project ? `<div class="k">${esc(t('project'))}</div><div><bdi>${esc(r.project)}</bdi></div>` : ''}${r.engineer ? `<div class="k">${esc(t('engLbl'))}</div><div><bdi>${esc(r.engineer)}</bdi></div>` : ''}</div>
