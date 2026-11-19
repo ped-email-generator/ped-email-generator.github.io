@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <title>Email Generator — Preventive Engineering Department</title>
@@ -150,6 +150,8 @@ html[dir="rtl"] .f select{background-position:left 14px center}
 .infobox p{margin:0 0 6px}.infobox p:last-child{margin:0}
 .infobox b{color:var(--navy)}
 .howlink{background:none;border:0;padding:0;color:var(--blue);font-weight:600;font-size:13px;cursor:pointer;text-decoration:underline}
+.gi-note{color:var(--ink2)}
+.gi-note .gi-sw{margin-top:8px;min-height:38px;padding:0 14px;font-size:14px;white-space:normal;max-width:100%;text-align:center;line-height:1.3}
 
 /* Choice cards (radio-like selects rendered as cards) */
 .choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
@@ -586,8 +588,12 @@ const INBOX = {
 const FLS_LINK = "https:" + "//www.dcd.gov.ae/portal/preventive-safety/uae-fire-and-life-safety-code-of-practice.jsp";
 // Online application status page (shown in "Application Status"). Replace with the exact page if different.
 const STATUS_LINK = "https:" + "//smartservices.dcd.gov.ae/en/";
-// Reference-number service (Google Apps Script web app). Used when the page is hosted outside Google.
-const REF_ENDPOINT = "https:" + "//script.google.com/macros/s/AKfycbzhXrrrAjvhYXVNPj-E8olQkTpM3Fouxf1FgQUqNAKcYnviGLUB4Qf-8uHpcJkt0V0g/exec";
+// Event requests are submitted online (shown in the "Event" tile)
+const EVENT_LINK = "https:" + "//ped-email-generator.github.io/event/";
+// The Event link as written in texts, and the same text as a link (normal strings — no template literal with the address)
+const EV_TXT = "ped-email-generator.github.io/event";
+const EV_A = "<a href='" + EVENT_LINK + "' target='_blank' rel='noopener noreferrer' dir='ltr'>" + EV_TXT + "</a>";
+const evLink = h => String(h).split(EV_TXT).join(EV_A);   // for escaped plain texts only
 
 const ENGINEERS = [
   "Eng. Mohamed Khalfan Almazrouei","Eng. Khalid Ahmed Aljumairi","Eng. Mohammed Jaber","Eng. Rasha Mohammed",
@@ -601,7 +607,7 @@ const OCCUPANCY = ["Assembly","Business","Educational","Healthcare","Residential
   "Motor Fuel Dispensing Facilities (Gas/Petrol Stations)","Mixed Occupancies","Separated Occupancies","Other"];
 
 const CONFIG = {
-  TOKEN_PREFIX: "PS-PED",   // Reference: PS-PED-<CODE>-<DD-MM-YY>-<6 digits>
+  // Reference: the client's application number (General Inquiry has none). Subject rule: see generate().
   GREETING: ["Dear Preventive Engineering Department,", "Greetings,"],
   CLOSING: "Thank you for your kind support. I look forward to your response.",
 
@@ -609,26 +615,26 @@ const CONFIG = {
   NOTES: {
     en:[
       "Only the consultant or contractor may send. The project owner is copied (CC).",
-      "Create every email here and keep its reference number for follow-ups.",
+      "Create every email here. For a follow-up, use the same application number.",
       "Do not reply to DCD emails, and do not CC or email the engineer directly.",
       "Review the UAE FLS Code 2018 and Annexure 2 before you write.",
       "Visit DCD only when your meeting has been approved. On arrival at DCD HQ, scan the QR code at the entrance to register your visit.",
       "Share files through an editable OneDrive link (“Can edit”), named and organised.",
       "Meetings are for existing applications only. DCD sets the date, time and format.",
       "No meetings for rejected applications — read the rejection reasons and Annexure 2.",
-      "Events, IT Support and Finance: email those departments directly.",
+      "Event requests: Client Portal (ped-email-generator.github.io/event). IT Support and Finance: email those departments directly.",
       "PDF files only. No ZIP or password-protected files."
     ],
     ar:[
       "يرسل الاستشاري أو المقاول فقط، ويوضع مالك المشروع في نسخة (CC).",
-      "أنشئ كل بريد من هنا واحتفظ برقمه المرجعي للمتابعة.",
+      "أنشئ كل بريد من هنا. للمتابعة استخدم رقم الطلب نفسه.",
       "لا ترد على رسائل الدفاع المدني، ولا تضع المهندس في نسخة ولا تراسله مباشرة.",
       "راجع كود الإمارات 2018 والملحق رقم 2 قبل الكتابة.",
       "لا تزر الدفاع المدني إلا بعد اعتماد اجتماعك. عند الوصول إلى المقر الرئيسي امسح رمز QR عند المدخل لتسجيل زيارتك.",
       "شارك الملفات عبر رابط OneDrive قابل للتعديل، مع تسمية الملفات وتنظيمها.",
       "الاجتماعات للطلبات القائمة فقط. يحدد الدفاع المدني الموعد والوقت وطريقة الاجتماع.",
       "لا اجتماعات للطلبات المرفوضة — اقرأ أسباب الرفض والملحق رقم 2.",
-      "الفعاليات والدعم التقني والمالية: راسل هذه الإدارات مباشرة.",
+      "طلبات الفعاليات: بوابة المتعاملين (ped-email-generator.github.io/event). الدعم التقني والمالية: راسل هذه الإدارات مباشرة.",
       "ملفات PDF فقط. لا ملفات مضغوطة أو محمية بكلمة مرور."
     ]
   },
@@ -667,9 +673,13 @@ const APP_CAT_INFO = {
 };
 
 /* ---------- Field helpers ---------- */
-const OD_HELP = {en:"Paste a OneDrive / SharePoint link shared with “Can edit” access.", ar:"الصق رابط OneDrive / SharePoint مشاركاً بصلاحية «يمكن التعديل»."};
+const OD_HELP = {en:"Put all your files in one OneDrive folder shared as “Anyone with the link – Can edit” and paste its link here. Do not attach files to the email.",
+                ar:"ضع جميع ملفاتك في مجلد OneDrive واحد تمت مشاركته بصلاحية «أي شخص لديه الرابط – يمكن التعديل»، والصق رابطه هنا. لا ترفق الملفات بالبريد."};
+/* Shown under the application number of every service that needs one */
+const GI_NOTE = {en:"No application number? Please use General Inquiry.", ar:"لا يوجد لديكم رقم معاملة؟ يرجى استخدام الاستفسار العام."};
+const GI_SWITCH = {en:"Switch to General Inquiry", ar:"الانتقال إلى الاستفسار العام"};
 const F = {
-  appNo:   (o={}) => ({id:"appNo", en:"Application number", ar:"رقم الطلب", type:"text", req:true, inputmode:"numeric", ph:{en:"e.g. 825775",ar:"مثال: 825775"}, ...o}),
+  appNo:   (o={}) => ({id:"appNo", en:"Application number", ar:"رقم الطلب", type:"text", req:true, inputmode:"numeric", ph:{en:"e.g. 825775",ar:"مثال: 825775"}, giSwitch:true, ...o}),
   system:  (o={}) => ({id:"system", en:"Submission system", el:"System", ar:"نظام التقديم", type:"cards", req:true, options:[["D.M","بلدية دبي (D.M)","Dubai Municipality (D.M)"],["D.C.D","الدفاع المدني دبي (D.C.D)","Dubai Civil Defence (D.C.D)"]], ...o}),
   projKind:(o={}) => ({id:"projKind", en:"Submission type", ar:"نوع التقديم", type:"cards", req:true,
              options:[["New","تقديم جديد","New submission","Not previously approved or stamped by DCD","لم يسبق اعتماده أو ختمه من الدفاع المدني"],["Modification","تعديل","Modification","Changes to a project already approved or stamped by DCD","تغييرات على مشروع معتمد أو مختوم من الدفاع المدني"]], ...o}),
@@ -677,7 +687,7 @@ const F = {
   project: (o={}) => ({id:"project", en:"Project name", ar:"اسم المشروع", type:"text", req:true, ph:{en:"e.g. Marina Tower",ar:"مثال: برج المارينا"}, ...o}),
   plot:    (o={}) => ({id:"plot", en:"Plot number", ar:"رقم قطعة الأرض", type:"text", req:true, ph:{en:"e.g. 345-678",ar:"مثال: 345-678"}, ...o}),
   engineer:(o={}) => ({id:"engineer", en:"DCD engineer", ar:"مهندس الدفاع المدني", type:"select", req:true, options:ENGINEERS, ...o}),
-  oneDrive:(o={}) => ({id:"oneDrive", en:"OneDrive link (editable)", ar:"رابط OneDrive (قابل للتعديل)", type:"url", req:true, full:true, ph:{en:"https://…sharepoint.com/… or https://1drv.ms/…",ar:"https://…sharepoint.com/…"}, help:OD_HELP, onedrive:true, ...o}),
+  oneDrive:(o={}) => ({id:"oneDrive", en:"OneDrive link (editable)", ar:"رابط OneDrive (قابل للتعديل)", type:"url", req:true, full:true, ph:{en:"https://…sharepoint.com/… or https://1drv.ms/…",ar:"https://…sharepoint.com/…"}, helpTop:OD_HELP, onedrive:true, ...o}),
   details: (o={}) => ({id:"details", en:"Details", ar:"التفاصيل", type:"textarea", req:true, full:true, ...o}),
   num:     (id,en,ar,o={}) => ({id, en, ar, type:"text", req:true, inputmode:"decimal", ...o})
 };
@@ -700,12 +710,8 @@ CONFIG.SENDER = [
   ]},
   {id:"sec_prev", en:"Request type", ar:"نوع الطلب", fields:[
     {id:"hasPrev", en:"Is this a new request or a follow-up?", el:"Follow-up", ar:"هل هذا طلب جديد أم متابعة؟", type:"cards", req:true, full:true,
-      options:[["No — this is a new request","طلب جديد","New request","A new reference number will be issued","سيصدر رقم مرجعي جديد"],["Yes — I have a reference number","متابعة لبريد سابق","Follow-up to a previous email","Your previous reference number is kept","يُحتفظ برقمك المرجعي السابق"]],
-      help:{en:"Each email generated here carries a reference number in its subject (e.g. PS-PED-AS-05-10-26-123456). For a follow-up, choose “Follow-up to a previous email” and enter that reference.",
-               ar:"يحمل كل بريد يُنشأ هنا رقماً مرجعياً في عنوانه (مثال: PS-PED-AS-05-10-26-123456). للمتابعة اختر «متابعة لبريد سابق» وأدخل ذلك الرقم."}},
-    {id:"prevRef", en:"Previous reference number", ar:"الرقم المرجعي السابق", type:"text", req:true, full:true, when:{f:"hasPrev", in:["Yes — I have a reference number"]},
-      ph:{en:"PS-PED-AS-05-10-26-123456",ar:"PS-PED-AS-05-10-26-123456"}, pattern:/^PS-PED?-[A-Z]{2,9}-\d{2}-\d{2}-\d{2,4}-[A-Z0-9]{6}$/i,
-      help:{en:"Copy it from the subject of your earlier email.",ar:"انسخه من عنوان بريدك السابق."}}
+      options:[["No — this is a new request","طلب جديد","New request"],["Yes — follow-up","متابعة لبريد سابق","Follow-up to a previous email"]],
+      help:{en:"For a follow-up, enter the same application number.", ar:"للمتابعة أدخل رقم الطلب نفسه."}}
   ]}
 ];
 
@@ -733,14 +739,16 @@ const TP_ALL = [...TP_MODULAR,"Tent / membrane structure","Air-supported / infla
 const TP_GO = [TP_OK, {f:"tpType", in:TP_ALL}, {f:"tpHazard", nin:["Group A"]}];   // hazardous storage stops here
 
 /* ---------- Categories ----------
-   to: inbox · code: used in reference · subject: field ids after the category name
-   direct: no email is generated — the client is told to email that department directly
+   to: inbox · code: inquiry code (shown in the guide) · noRef: no application number (General Inquiry)
+   Reference = the application number (appNo). Subject: <APPLICATION NO.> | [FOLLOW-UP |] <Category> | <Project name>;
+   General Inquiry: GENERAL INQUIRY | [FOLLOW-UP |] <Project name> | <Company name> — see generate()
+   direct: no email is generated — the client is told to email that department directly (link: open that page instead)
    blocks: [{when, en, ar}] stop generation and explain why
-   Field options: req, reqIf(v), full, when:{f, in:[...]} (array = all must match), info (?), helpTop, help, el (label used in the email)
+   Field options: req, reqIf(v), full, when:{f, in:[...]} (array = all must match), info (?), helpTop, help, el (label used in the email),
+                  giSwitch (General Inquiry note + switch under the application number), onedrive (the one editable OneDrive folder link)
    Field types: text, select, cards (tap-to-choose), textarea, date, url, email, phone (+971 fixed), list, gate, note */
 CONFIG.CATEGORIES = [
   {id:"status", code:"AS", to:INBOX.projects, en:"Application Status", ar:"حالة الطلب", icon:"status",
-    subject:["appNo","project"],
     note:{tone:"info", html:true,
       en:`<b class="h">Check your application status online first — it is the fastest way.</b><div class="nbtns"><a class="btn btn-s" style="min-height:40px" href="${STATUS_LINK}" target="_blank" rel="noopener noreferrer">Open application status ↗</a></div>`,
       ar:`<b class="h">تحقق من حالة طلبك إلكترونياً أولاً — فهي الطريقة الأسرع.</b><div class="nbtns"><a class="btn btn-s" style="min-height:40px" href="${STATUS_LINK}" target="_blank" rel="noopener noreferrer">فتح حالة الطلب ↗</a></div>`},
@@ -757,12 +765,12 @@ CONFIG.CATEGORIES = [
           help:{en:"Optional — select only if you know the engineer.",ar:"اختياري — اختره فقط إذا كنت تعرف المهندس."}}),
         F.system(), F.projKind(), F.appCat(),
         F.plot({req:false}),
-        {id:"submittedOn", en:"Submission date", ar:"تاريخ التقديم", type:"date"}
+        {id:"submittedOn", en:"Submission date", ar:"تاريخ التقديم", type:"date"},
+        F.oneDrive()
       ]}
     ]},
 
-  {id:"general", code:"GI", to:INBOX.projects, en:"General Inquiry", ar:"استفسار عام", icon:"general", tag:{en:"UAE FLS Code questions",ar:"أسئلة كود الإمارات"},
-    subject:["appCat","project"],
+  {id:"general", code:"GI", to:INBOX.projects, en:"General Inquiry", ar:"استفسار عام", icon:"general", tag:{en:"UAE FLS Code questions",ar:"أسئلة كود الإمارات"}, noRef:true,
     note:{tone:"info", en:"General Inquiries are for specific questions on the UAE FLS Code 2018. For each question, state the chapter, section and page reviewed.", ar:"الاستفسارات العامة مخصصة لأسئلة محددة حول كود الإمارات 2018. لكل سؤال، اذكر الفصل والبند والصفحة التي راجعتها."},
     blocks:[
       {when:{f:"giAbout", in:["Submission requirements"]},
@@ -772,8 +780,8 @@ CONFIG.CATEGORIES = [
         en:"<b class='h'>Please review the rejection reasons in the system.</b>The reasons for rejection are listed in Annexure 2 of the UAE FLS Code 2018. Meetings are not available for rejected applications — correct the drawings and resubmit through the system.",
         ar:"<b class='h'>يرجى مراجعة أسباب الرفض في النظام.</b>أسباب الرفض مذكورة في الملحق رقم 2 من كود الإمارات 2018. لا تتوفر اجتماعات للطلبات المرفوضة — صحّح المخططات وأعد التقديم عبر النظام.", ax:"rejection"},
       {when:[IN_SPECIFIC,{f:"appCat", in:["Projects & Infrastructure"]},{f:"piType", in:["Temporary event structure / tent"]}],
-        en:"<b class='h'>Temporary structures for events are handled by the Events Department.</b>Please email events@dcd.gov.ae directly and follow their process.",
-        ar:"<b class='h'>المنشآت المؤقتة للفعاليات تتبع إدارة الفعاليات.</b>يرجى مراسلة events@dcd.gov.ae مباشرة واتباع إجراءاتهم."}
+        en:"<b class='h'>Temporary structures for events are handled by the Events Department.</b>Event requests are sent online through the Client Portal: " + EV_A + ".",
+        ar:"<b class='h'>المنشآت المؤقتة للفعاليات تتبع إدارة الفعاليات.</b>تُرسل طلبات الفعاليات إلكترونياً عبر بوابة المتعاملين: " + EV_A + "."}
     ],
     sections:[
       {en:"Inquiry", ar:"الاستفسار", fields:[
@@ -783,7 +791,7 @@ CONFIG.CATEGORIES = [
                    ["Reason for rejection","سبب الرفض","Reason for rejection","Understanding why an application was rejected","فهم سبب رفض الطلب"]]}
       ]},
       {en:"Project", ar:"المشروع", when:IN_SPECIFIC, fields:[
-        F.appCat(), F.project(), F.appNo({req:false, help:{en:"Only if an application already exists.",ar:"فقط إذا كان هناك طلب قائم."}})
+        F.appCat(), F.project(), F.appNo({req:false, giSwitch:false, help:{en:"Only if an application already exists.",ar:"فقط إذا كان هناك طلب قائم."}})
       ]},
       {en:"Project & infrastructure details", ar:"بيانات المشروع / البنية التحتية", when:[IN_SPECIFIC,{f:"appCat", in:["Projects & Infrastructure"]}], fields:[
         {id:"piType", en:"Project type", ar:"نوع المشروع", type:"select", req:true,
@@ -809,12 +817,11 @@ CONFIG.CATEGORIES = [
           {id:"q", en:"Your question", ar:"سؤالك", req:true, w:"3.2fr"}
         ]},
         F.details({id:"giBackground", el:"Background", en:"Background", ar:"معلومات إضافية", req:false, ph:{en:"Anything that helps us understand your questions",ar:"أي معلومات تساعدنا على فهم أسئلتك"}}),
-        F.oneDrive({req:false})
+        F.oneDrive()
       ]}
     ]},
 
   {id:"meeting", code:"MR", to:INBOX.projects, en:"Meeting Request", ar:"طلب اجتماع", icon:"meeting", tag:{en:"Existing applications",ar:"للطلبات القائمة"},
-    subject:["mAbout","appNo","project"],
     note:{tone:"warn", en:"Meetings are for existing applications with paid service fees only, and are not available for rejected applications. DCD sets the date, time and meeting format — please visit only after your meeting has been approved. On arrival at DCD HQ, scan the QR code at the entrance to register your visit.", ar:"الاجتماعات للطلبات القائمة المدفوعة رسومها فقط، ولا تتوفر للطلبات المرفوضة. يحدد الدفاع المدني الموعد والوقت وطريقة الاجتماع — يرجى الحضور فقط بعد اعتماد الاجتماع. عند الوصول إلى المقر الرئيسي امسح رمز QR عند المدخل لتسجيل زيارتك."},
     blocks:[
       {when:{f:"mHasApp", in:["No"]},
@@ -851,7 +858,7 @@ CONFIG.CATEGORIES = [
         {id:"undertaking", type:"gate", req:true, full:true, en:"A clear, detailed undertaking letter has been uploaded to the system for the engineer's review.", el:"Undertaking letter uploaded to the system", ar:"تم رفع خطاب تعهد واضح ومفصل في النظام لمراجعة المهندس."}
       ]},
       {en:"Supporting files", ar:"الملفات الداعمة", when:[MTG_YES,MTG_TOPIC], fields:[
-        F.oneDrive({req:false, reqIf:v => v.reqByEng==="Yes" || v.mAbout==="Unclear comment",
+        F.oneDrive({
           help:{en:"Include a screenshot of the engineer's comment or email (required when the engineer requested the meeting or for an unclear comment).",ar:"أرفق صورة لملاحظة المهندس أو بريده (إلزامي إذا طلب المهندس الاجتماع أو للملاحظة غير الواضحة)."}})
       ]},
       {en:"Agenda & attendees", ar:"جدول الأعمال والحضور", when:[MTG_YES,MTG_TOPIC], fields:[
@@ -866,17 +873,15 @@ CONFIG.CATEGORIES = [
     ]},
 
   {id:"facade", code:"FC", to:INBOX.sac, en:"Façade / Cladding", ar:"الواجهات / الكسوة", icon:"facade",
-    subject:["plot","project"],
     note:{tone:"info", en:"Sent to Special Approvals & Cladding (SAC). Please review the façade / cladding requirements of the UAE FLS Code 2018 (page 1331) before sending.", ar:"يُرسل إلى قسم الموافقات الخاصة والكسوة. يرجى مراجعة متطلبات الواجهات / الكسوة في كود الإمارات 2018 (صفحة 1331) قبل الإرسال."},
     sections:[
       {en:"Project", ar:"المشروع", fields:[
-        F.project(), F.plot(), F.appNo({req:false, help:{en:"If an application already exists.",ar:"إن وجد طلب."}}),
-        F.oneDrive({help:{en:"Share with “Can edit”. Name and organise the files (e.g. 01-Elevations, 02-Material test reports, 03-Certificates).",ar:"شارك بصلاحية «يمكن التعديل». سمِّ الملفات ونظمها (مثال: 01-الواجهات، 02-تقارير فحص المواد، 03-الشهادات)."}}),
+        F.appNo(), F.project(), F.plot(),
+        F.oneDrive({help:{en:"Name and organise the files (e.g. 01-Elevations, 02-Material test reports, 03-Certificates).",ar:"سمِّ الملفات ونظمها (مثال: 01-الواجهات، 02-تقارير فحص المواد، 03-الشهادات)."}}),
         F.details({id:"facadeQ", el:"Inquiry details", en:"Inquiry details", ar:"تفاصيل الاستفسار"})
       ]}]},
 
   {id:"special", code:"SA", to:INBOX.sac, en:"Special Approval", ar:"موافقة خاصة", icon:"special",
-    subject:["appNo","saTitle"],
     note:{tone:"warn", en:"Sent to Special Approvals & Cladding (SAC). The Consultant, Contractor and Owner letters (Arabic & English) must be in your OneDrive folder.", ar:"يُرسل إلى قسم الموافقات الخاصة والكسوة. يجب أن تكون خطابات الاستشاري والمقاول والمالك (عربي وإنجليزي) في مجلد OneDrive."},
     decl:[{id:"dLetters", en:"The Consultant, Contractor and Owner letters (Arabic & English) are in the OneDrive folder.", ar:"خطابات الاستشاري والمقاول والمالك (عربي وإنجليزي) موجودة في مجلد OneDrive."}],
     sections:[
@@ -886,11 +891,10 @@ CONFIG.CATEGORIES = [
         {id:"saTitle", en:"Title of the request", ar:"عنوان الطلب", type:"text", req:true, ph:{en:"e.g. Travel distance exceeding limit — Level 3",ar:"مثال: تجاوز مسافة الهروب — الطابق 3"}},
         F.details({id:"saJust", en:"Request details & justification", ar:"تفاصيل الطلب والمبررات"}),
         F.details({id:"saSol", en:"Proposed solution / compensating measures", ar:"الحل المقترح / الإجراءات البديلة"}),
-        F.oneDrive({help:{en:"Share with “Can edit”. Name the files clearly (e.g. 01-DCD comment, 02-Letters, 03-Drawings, 04-Reports).",ar:"شارك بصلاحية «يمكن التعديل». سمِّ الملفات بوضوح (مثال: 01-ملاحظة الدفاع المدني، 02-الخطابات، 03-المخططات، 04-التقارير)."}})
+        F.oneDrive({help:{en:"Name the files clearly (e.g. 01-DCD comment, 02-Letters, 03-Drawings, 04-Reports).",ar:"سمِّ الملفات بوضوح (مثال: 01-ملاحظة الدفاع المدني، 02-الخطابات، 03-المخططات، 04-التقارير)."}})
       ]}]},
 
   {id:"stamp", code:"MS", to:INBOX.projects, en:"Missing Stamp", ar:"ختم مفقود", icon:"stamp",
-    subject:["appNo","project"],
     note:{tone:"info", html:true,
       en:"<b class='h'>How to avoid a missing stamp</b>The DCD stamp is applied <b>automatically</b> by the system — it is not placed by hand. The system reads the page size and layout of your file and places the stamp at the same position on every page. Pages that do not match the rest of the file can be missed.<ul><li><b>One page size</b> for the whole file (e.g. all A1 or all A3) — do not mix sizes.</li><li><b>One orientation</b> for all pages (all landscape or all portrait), with every page upright — not rotated.</li><li>Keep each file <b>under 30 MB</b> — the stamp is an image and increases the file size.</li><li>Remove content not required by the UAE FLS Code 2018 — it only adds to the size.</li><li>Upload <b>every page</b> that needs approval — pages that are not uploaded are not reviewed and cannot be stamped.</li></ul>",
       ar:"<b class='h'>كيف تتجنب فقدان الختم</b>يُوضع ختم الدفاع المدني <b>آلياً</b> بواسطة النظام — ولا يُوضع يدوياً. يقرأ النظام مقاس صفحات ملفك وتخطيطها ويضع الختم في نفس الموضع على كل صفحة، لذا قد لا تُختم الصفحات المختلفة عن بقية الملف.<ul><li><b>مقاس صفحة واحد</b> للملف كاملاً (مثلاً كلها A1 أو كلها A3) — لا تخلط المقاسات.</li><li><b>اتجاه واحد</b> لجميع الصفحات (كلها أفقية أو كلها عمودية)، وكل صفحة معتدلة — غير مُدارة.</li><li>اجعل حجم كل ملف <b>أقل من 30 ميغابايت</b> — الختم صورة ويزيد حجم الملف.</li><li>احذف المحتوى غير المطلوب في كود الإمارات 2018 — فهو يزيد الحجم فقط.</li><li>ارفع <b>جميع الصفحات</b> المطلوب اعتمادها — الصفحات غير المرفوعة لا تُراجع ولا يمكن ختمها.</li></ul>"},
@@ -927,22 +931,21 @@ CONFIG.CATEGORIES = [
         {id:"stampReason", en:"Likely reason the stamp was not applied", el:"Likely reason", ar:"السبب المحتمل لعدم وضع الختم", type:"select", req:true, full:true,
           options:[["Different page size from the rest of the file","مقاس صفحة مختلف عن بقية الملف"],["Different page orientation (rotated / portrait vs landscape)","اتجاه صفحة مختلف (مُدارة / عمودية وأفقية)"],["File size over 30 MB","حجم الملف أكبر من 30 ميغابايت"],["Not known","غير معروف"],["Other","أخرى"]]},
         F.details({id:"stampWhy", en:"Explain what happened", el:"Explanation", ar:"وضّح ما حدث", ph:{en:"e.g. Pages 12–14 are A1 while the rest of the file is A3",ar:"مثال: الصفحات 12–14 بمقاس A1 وبقية الملف A3"}}),
-        F.oneDrive({req:false, help:{en:"Optional — a folder with the approved file and the final approval letter.",ar:"اختياري — مجلد يحتوي الملف المعتمد وخطاب الاعتماد النهائي."}})
+        F.oneDrive({help:{en:"A folder with the approved file and the final approval letter.",ar:"مجلد يحتوي الملف المعتمد وخطاب الاعتماد النهائي."}})
       ]}
     ]},
 
   {id:"temporary", code:"TP", to:INBOX.projects, en:"Temporary Project", ar:"مشروع مؤقت", icon:"temporary", tag:{en:"Up to 6 months",ar:"حتى 6 أشهر"},
-    subject:["tpType","project"],
     note:{tone:"info", html:true,
-      en:"<b class='h'>Temporary projects fall under Projects & Infrastructure.</b>The UAE FLS Code 2018 defines <b>temporary</b> as a duration of <b>six months (180 days)</b> — Chapter 12, §1.2.2. Requirements for temporary offices, accommodation and storage sheds are in Chapter 12, Table 12.3 (items 4, 5 and 8), and the material test standards are in Chapter 1, Section 7 (§7.1.40 – §7.1.46).<ul><li><b>6 months or less:</b> send the project details here, with an editable OneDrive link containing the documents listed below.</li><li><b>More than 6 months:</b> submit an application in the system.</li><li><b>Hazardous storage</b> (Group A, Table 1.1): the consultant must submit through the DCD portal.</li><li>Temporary structures for <b>events</b> are handled by the Events Department (events@dcd.gov.ae).</li></ul><div class='nbtns'><button type='button' class='btn btn-s' data-annex='temporary' style='min-height:40px'>Code requirements for temporary projects</button></div>",
-      ar:"<b class='h'>المشاريع المؤقتة تندرج ضمن المشاريع والبنية التحتية.</b>يعرّف كود الإمارات 2018 <b>المؤقت</b> بأنه مدة <b>ستة أشهر (180 يوماً)</b> — الفصل 12، البند 1.2.2. متطلبات المكاتب والسكن ومخازن المواقع المؤقتة واردة في الفصل 12، الجدول 12.3 (البنود 4 و5 و8)، ومعايير فحص المواد في الفصل 1، القسم 7 (البنود 7.1.40 – 7.1.46).<ul><li><b>6 أشهر أو أقل:</b> أرسل بيانات المشروع من هنا مع رابط OneDrive قابل للتعديل يحتوي المستندات المذكورة أدناه.</li><li><b>أكثر من 6 أشهر:</b> قدّم طلباً في النظام.</li><li><b>التخزين الخطر</b> (المجموعة A، الجدول 1.1): يجب أن يقدمه الاستشاري عبر بوابة الدفاع المدني.</li><li>المنشآت المؤقتة <b>للفعاليات</b> تتولاها إدارة الفعاليات (events@dcd.gov.ae).</li></ul><div class='nbtns'><button type='button' class='btn btn-s' data-annex='temporary' style='min-height:40px'>متطلبات الكود للمشاريع المؤقتة</button></div>"},
+      en:"<b class='h'>Temporary projects fall under Projects & Infrastructure.</b>The UAE FLS Code 2018 defines <b>temporary</b> as a duration of <b>six months (180 days)</b> — Chapter 12, §1.2.2. Requirements for temporary offices, accommodation and storage sheds are in Chapter 12, Table 12.3 (items 4, 5 and 8), and the material test standards are in Chapter 1, Section 7 (§7.1.40 – §7.1.46).<ul><li><b>6 months or less:</b> send the project details here, with an editable OneDrive link containing the documents listed below.</li><li><b>More than 6 months:</b> submit an application in the system.</li><li><b>Hazardous storage</b> (Group A, Table 1.1): the consultant must submit through the DCD portal.</li><li>Temporary structures for <b>events</b> are handled by the Events Department (Client Portal: " + EV_A + ").</li></ul><div class='nbtns'><button type='button' class='btn btn-s' data-annex='temporary' style='min-height:40px'>Code requirements for temporary projects</button></div>",
+      ar:"<b class='h'>المشاريع المؤقتة تندرج ضمن المشاريع والبنية التحتية.</b>يعرّف كود الإمارات 2018 <b>المؤقت</b> بأنه مدة <b>ستة أشهر (180 يوماً)</b> — الفصل 12، البند 1.2.2. متطلبات المكاتب والسكن ومخازن المواقع المؤقتة واردة في الفصل 12، الجدول 12.3 (البنود 4 و5 و8)، ومعايير فحص المواد في الفصل 1، القسم 7 (البنود 7.1.40 – 7.1.46).<ul><li><b>6 أشهر أو أقل:</b> أرسل بيانات المشروع من هنا مع رابط OneDrive قابل للتعديل يحتوي المستندات المذكورة أدناه.</li><li><b>أكثر من 6 أشهر:</b> قدّم طلباً في النظام.</li><li><b>التخزين الخطر</b> (المجموعة A، الجدول 1.1): يجب أن يقدمه الاستشاري عبر بوابة الدفاع المدني.</li><li>المنشآت المؤقتة <b>للفعاليات</b> تتولاها إدارة الفعاليات (بوابة المتعاملين: " + EV_A + ").</li></ul><div class='nbtns'><button type='button' class='btn btn-s' data-annex='temporary' style='min-height:40px'>متطلبات الكود للمشاريع المؤقتة</button></div>"},
     blocks:[
       {when:{f:"tpDuration", in:["More than 6 months"]},
         en:"<b class='h'>More than 6 months is not temporary — please submit an application in the system.</b>The UAE FLS Code 2018 limits “temporary” to six months (180 days) — Chapter 12, §1.2.2. Submit an application under Projects & Infrastructure, following Annexure 2 of the code.",
         ar:"<b class='h'>المدة التي تزيد عن 6 أشهر لا تُعد مؤقتة — يرجى تقديم طلب في النظام.</b>يحدد كود الإمارات 2018 «المؤقت» بستة أشهر (180 يوماً) — الفصل 12، البند 1.2.2. قدّم طلباً ضمن المشاريع والبنية التحتية وفق الملحق رقم 2 من الكود.", ax:"infrastructure"},
       {when:[{f:"tpDuration", in:["6 months or less"]},{f:"tpType", in:["Temporary event structure"]}],
-        en:"<b class='h'>Temporary structures for events are handled by the Events Department.</b>Please email events@dcd.gov.ae directly and follow their process.",
-        ar:"<b class='h'>المنشآت المؤقتة للفعاليات تتبع إدارة الفعاليات.</b>يرجى مراسلة events@dcd.gov.ae مباشرة واتباع إجراءاتهم.", ax:"events"},
+        en:"<b class='h'>Temporary structures for events are handled by the Events Department.</b>Event requests are sent online through the Client Portal: " + EV_A + ".",
+        ar:"<b class='h'>المنشآت المؤقتة للفعاليات تتبع إدارة الفعاليات.</b>تُرسل طلبات الفعاليات إلكترونياً عبر بوابة المتعاملين: " + EV_A + ".", ax:"events"},
       {when:[{f:"tpDuration", in:["6 months or less"]},{f:"tpType", in:["Temporary storage shed"]},{f:"tpHazard", in:["Group A"]}],
         en:"<b class='h'>Hazardous storage must be submitted by the consultant through the DCD portal.</b>Group A materials in Table 1.1 of the UAE FLS Code 2018 — such as explosives, fireworks, oxidizers, flammable or combustible liquids and gases, aerosols, combustible dust, corrosive or toxic materials, perfumes, plastic products and tires — are high-hazard storage. This cannot be handled by email: the project consultant must submit an application through the DCD portal.",
         ar:"<b class='h'>التخزين الخطر يقدمه الاستشاري عبر بوابة الدفاع المدني.</b>مواد المجموعة A في الجدول 1.1 من كود الإمارات 2018 — مثل المتفجرات والألعاب النارية والمواد المؤكسدة والسوائل والغازات القابلة للاشتعال والبخاخات والغبار القابل للاشتعال والمواد الأكالة أو السامة والعطور والمنتجات البلاستيكية والإطارات — تخزين عالي الخطورة. لا يمكن معالجته بالبريد: يجب أن يقدم استشاري المشروع طلباً عبر بوابة الدفاع المدني.", ax:"temporary"}
@@ -971,8 +974,8 @@ CONFIG.CATEGORIES = [
                    ["Group A","المجموعة A — مواد خطرة","Group A — hazardous materials","e.g. flammable liquids or gases, aerosols, chemicals, explosives, fireworks, perfumes, plastics, tires — consultant through the DCD portal","مثل السوائل أو الغازات القابلة للاشتعال والبخاخات والكيماويات والمتفجرات والألعاب النارية والعطور والبلاستيك والإطارات — عبر الاستشاري في بوابة الدفاع المدني"]]},
       ]},
       {en:"Project details", ar:"بيانات المشروع", when:TP_GO, fields:[
+        F.appNo(), F.project({en:"Project name", ph:{en:"e.g. Marina Tower — site offices",ar:"مثال: برج المارينا — مكاتب الموقع"}}),
         {id:"tpStored", en:"Materials to be stored", el:"Stored materials", ar:"المواد المراد تخزينها", type:"text", req:true, full:true, when:[{f:"tpType", in:["Temporary storage shed"]},{f:"tpHazard", in:["Group B","Group C"]}], ph:{en:"e.g. Gypsum boards, steel fittings, packed tiles",ar:"مثال: ألواح جبس، تجهيزات حديدية، بلاط مغلف"}},
-        F.project({en:"Project name", ph:{en:"e.g. Marina Tower — site offices",ar:"مثال: برج المارينا — مكاتب الموقع"}}),
         {id:"tpLocation", en:"Location / area", ar:"الموقع / المنطقة", type:"text", req:true, ph:{en:"e.g. Al Barsha South, next to plot 345-678",ar:"مثال: البرشاء جنوب، بجانب القطعة 345-678"}},
         F.plot({req:false}),
         {id:"tpStart", en:"Start date", ar:"تاريخ البدء", type:"date", req:true},
@@ -1020,13 +1023,13 @@ CONFIG.CATEGORIES = [
         note:{en:"Put all documents in ONE OneDrive folder, named and organised: 01-Cover page · 02-Duration letter · 03-Layout · 04-Test certificates.",ar:"ضع جميع المستندات في مجلد OneDrive واحد مسماة ومنظمة: 01-صفحة الغلاف · 02-خطاب المدة · 03-المخطط · 04-شهادات الفحص."}, fields:[
         {id:"tpDocNote", type:"note", tone:"info", en:"Required documents: (1) a cover page; (2) a clear letter on company letterhead stating the project, location, use, and the start and end dates (6 months or less); (3) a layout drawing showing the structures with dimensions, separation distances (Table 12.3.a), exits, fire detection, fire protection and fire extinguishers (Table 12.3, item 4); (4) the material test certificates listed above.",
           ar:"المستندات المطلوبة: (1) صفحة غلاف؛ (2) خطاب واضح على ورق الشركة يوضح المشروع والموقع والاستخدام وتاريخي البدء والانتهاء (6 أشهر أو أقل)؛ (3) مخطط يوضح المنشآت بأبعادها ومسافات الفصل (الجدول 12.3.a) والمخارج وكشف الحريق والحماية من الحريق وطفايات الحريق (الجدول 12.3، البند 4)؛ (4) شهادات فحص المواد المذكورة أعلاه."},
-        F.oneDrive({help:{en:"One folder with the cover page, duration letter, layout and test certificates — shared with “Can edit”.",ar:"مجلد واحد يحتوي صفحة الغلاف وخطاب المدة والمخطط وشهادات الفحص — بصلاحية «يمكن التعديل»."}}),
+        F.oneDrive({help:{en:"One folder with the cover page, duration letter, layout and test certificates.",ar:"مجلد واحد يحتوي صفحة الغلاف وخطاب المدة والمخطط وشهادات الفحص."}}),
         F.details({id:"tpComments", en:"Additional comments", el:"Comments", ar:"ملاحظات إضافية", req:false, ph:{en:"Anything else you would like the department to know",ar:"أي معلومات أخرى تود إبلاغ الإدارة بها"}})
       ]}
     ]},
 
-  {id:"event", code:"EV", direct:true, to:INBOX.events, en:"Event", ar:"فعالية", icon:"event", tag:{en:"Client Portal",ar:"بوابة المتعاملين"},
-    msg:{en:"Event requests are sent online through the Client Portal: ped-email-generator.github.io/portal — choose Event. No email is generated here.", ar:"تُرسل طلبات الفعاليات إلكترونياً عبر بوابة المتعاملين: ped-email-generator.github.io/portal — اختر «فعالية». لا يُنشأ بريد من هنا."}},
+  {id:"event", code:"EV", direct:true, to:INBOX.events, en:"Event", ar:"فعالية", icon:"event", tag:{en:"Client Portal",ar:"بوابة المتعاملين"}, link:EVENT_LINK, linkText:"ped-email-generator.github.io/event",
+    msg:{en:"Event requests are sent online through the Client Portal: ped-email-generator.github.io/event. No email is generated here.", ar:"تُرسل طلبات الفعاليات إلكترونياً عبر بوابة المتعاملين: ped-email-generator.github.io/event. لا يُنشأ بريد من هنا."}},
   {id:"technical", code:"TI", direct:true, to:INBOX.support, en:"IT Support", ar:"الدعم التقني", icon:"tech", tag:{en:"Email directly",ar:"راسلهم مباشرة"},
     msg:{en:"System and portal issues are handled by e-Services Support. Engineers cannot resolve system issues. Please email them directly with screenshots and follow their process.", ar:"تتولى خدمات الدعم الإلكتروني مشاكل النظام والبوابة، ولا يمكن للمهندسين حلها. يرجى مراسلتهم مباشرة مع صور للمشكلة واتباع إجراءاتهم."}},
   {id:"financial", code:"FN", direct:true, to:INBOX.finance, en:"Finance", ar:"المالية", icon:"finance", tag:{en:"Email directly",ar:"راسلهم مباشرة"},
@@ -1051,7 +1054,7 @@ const SUMMARY = {
    ========================================================== */
 const T = {
   en:{org:"Dubai Civil Defence",dept:"Preventive Engineering Department",eyebrow:"Projects & Approvals",title:"Email Generator",
-    intro:"Prepare a complete, correctly addressed email to the Preventive Engineering Department in four steps. Every email receives a unique reference number to track your request.",
+    intro:"Prepare a complete, correctly addressed email to the Preventive Engineering Department in four steps.",
     tour:"Take the tour",tourShort:"Tour",guide:"Guide",guideFull:"User guide",odBtn:"OneDrive link guide",odSub:"Share files with “Can edit” access",
     flsCode:"UAE FLS Code 2018",flsCodeFull:"UAE FLS Code of Practice 2018",flsCodeSub:"Official DCD page ↗",
     annex:"Annexure 2",annexFull:"Annexure 2 — Submission requirements",annexSub:"Requirements and rejection reasons by topic",
@@ -1068,7 +1071,7 @@ const T = {
     open:"Open in email app",edit:"Edit details",
     long:"This email is long and some email apps may shorten it. Use “Copy email” and paste it instead.",
     remindH:"Before you send",
-    remind:["Send only to the address in “To”, with the project owner in “CC”. Do not CC the engineer.","Keep the subject and reference number exactly as shown.","Attach PDF files only, or use the editable OneDrive link.","For a new matter, return here and generate a new email. Do not reply to DCD emails.","Visit DCD only after your meeting is approved, and scan the QR code at the DCD HQ entrance to register your visit."],
+    remind:["Send only to the address in “To”, with the project owner in “CC”. Do not CC the engineer.","Keep the subject and reference number exactly as shown.","Do not attach files to the email. Use the editable OneDrive link only.","For a new matter, return here and generate a new email. Do not reply to DCD emails.","Visit DCD only after your meeting is approved, and scan the QR code at the DCD HQ entrance to register your visit."],
     privacy:"Your information stays on your device. This page does not store anything you type — you send the email yourself.",
     foot:"Dubai Civil Defence · Preventive Engineering Department",
     required:"This field is required.",invalid:"Please check this value.",badPhone:"Enter a UAE mobile number, e.g. 05X XXX XXXX.",badLink:"Please paste a full OneDrive / SharePoint link (starting with https://).",
@@ -1078,7 +1081,7 @@ const T = {
     next:"Next",back:"Back",done:"Finish",skip:"Skip tour",stepOf:"Step {n} of {t}",
     odTitle:"How to share an editable OneDrive link"},
   ar:{org:"القيادة العامة للدفاع المدني دبي",dept:"إدارة الهندسة الوقائية",eyebrow:"المشاريع والاعتمادات",title:"منشئ البريد الإلكتروني",
-    intro:"جهّز بريداً مكتملاً وموجهاً بشكل صحيح إلى إدارة الهندسة الوقائية في أربع خطوات. يحصل كل بريد على رقم مرجعي فريد لتتبع طلبك.",
+    intro:"جهّز بريداً مكتملاً وموجهاً بشكل صحيح إلى إدارة الهندسة الوقائية في أربع خطوات.",
     tour:"جولة تعريفية",tourShort:"جولة",guide:"الدليل",guideFull:"دليل الاستخدام",odBtn:"دليل رابط OneDrive",odSub:"شارك الملفات بصلاحية «يمكن التعديل»",
     flsCode:"كود الإمارات 2018",flsCodeFull:"كود الإمارات للحماية من الحرائق 2018",flsCodeSub:"الصفحة الرسمية للدفاع المدني ↗",
     annex:"الملحق رقم 2",annexFull:"الملحق رقم 2 — متطلبات التقديم",annexSub:"المتطلبات وأسباب الرفض حسب الموضوع",
@@ -1095,7 +1098,7 @@ const T = {
     open:"فتح في تطبيق البريد",edit:"تعديل البيانات",
     long:"البريد طويل وقد تختصره بعض تطبيقات البريد. استخدم «نسخ البريد» والصقه.",
     remindH:"قبل الإرسال",
-    remind:["أرسل فقط إلى العنوان في «إلى» مع وضع المالك في «نسخة». لا تضع المهندس في نسخة.","اترك الموضوع والرقم المرجعي كما هما تماماً.","أرفق ملفات PDF فقط أو استخدم رابط OneDrive القابل للتعديل.","لأي موضوع جديد عُد إلى هنا وأنشئ بريداً جديداً. لا ترد على رسائل الدفاع المدني.","لا تزر الدفاع المدني إلا بعد اعتماد اجتماعك، وامسح رمز QR عند مدخل المقر الرئيسي لتسجيل زيارتك."],
+    remind:["أرسل فقط إلى العنوان في «إلى» مع وضع المالك في «نسخة». لا تضع المهندس في نسخة.","اترك الموضوع والرقم المرجعي كما هما تماماً.","لا ترفق الملفات بالبريد. استخدم رابط OneDrive القابل للتعديل فقط.","لأي موضوع جديد عُد إلى هنا وأنشئ بريداً جديداً. لا ترد على رسائل الدفاع المدني.","لا تزر الدفاع المدني إلا بعد اعتماد اجتماعك، وامسح رمز QR عند مدخل المقر الرئيسي لتسجيل زيارتك."],
     privacy:"تبقى بياناتك على جهازك. لا تحفظ هذه الصفحة أي شيء تكتبه — أنت من يرسل البريد.",
     foot:"القيادة العامة للدفاع المدني دبي · إدارة الهندسة الوقائية",
     required:"هذا الحقل إلزامي.",invalid:"يرجى التحقق من القيمة.",badPhone:"أدخل رقم هاتف متحرك إماراتي، مثال: 05X XXX XXXX.",badLink:"يرجى لصق رابط OneDrive / SharePoint كامل (يبدأ بـ https://).",
@@ -1107,12 +1110,12 @@ const T = {
 };
 
 const GUIDE = {
-  en:{steps:["Review the key guidelines on the right (or at the top on a phone).","Enter your details (consultant or contractor) and the project owner's details — the owner is copied (CC).","New request or follow-up? For a follow-up, enter the earlier reference number.","Select ONE inquiry type. Events, IT Support and Finance are emailed directly to those departments.","Complete the request details. Select ? for an explanation. Share files through an editable OneDrive link.","Tick the confirmations and select “Generate email”.","Copy the email and subject into a NEW email, add the owner in CC and send it to the address shown."],
-      routingH:"Where each inquiry is sent",tokenH:"Your reference number",tokenP:"Every email carries a unique reference number in its subject and body:",
-      tokenParts:"PS-PED — prefix · AS — inquiry code · DD-MM-YY — date · last 6 digits — unique number. Follow-ups keep the same reference.",rulesH:"Guidelines"},
-  ar:{steps:["راجع الإرشادات الرئيسية في الجانب (أو في الأعلى على الهاتف).","أدخل بياناتك (استشاري أو مقاول) وبيانات مالك المشروع — يوضع المالك في نسخة (CC).","طلب جديد أم متابعة؟ للمتابعة أدخل الرقم المرجعي السابق.","اختر نوع استفسار واحداً. الفعاليات والدعم التقني والمالية تُراسل مباشرة.","أكمل تفاصيل الطلب. اضغط ? للشرح. شارك الملفات عبر رابط OneDrive قابل للتعديل.","أكّد الإقرارات واضغط «إنشاء البريد».","انسخ البريد والموضوع في بريد جديد، وضع المالك في نسخة، وأرسله إلى العنوان الظاهر."],
-      routingH:"إلى أين يُرسل كل استفسار",tokenH:"الرقم المرجعي",tokenP:"يحمل كل بريد رقماً مرجعياً فريداً في الموضوع والنص:",
-      tokenParts:"PS-PED — البادئة · AS — رمز الاستفسار · DD-MM-YY — التاريخ · آخر 6 أرقام — رقم فريد. المتابعات تحتفظ بنفس المرجع.",rulesH:"الإرشادات"}
+  en:{steps:["Review the key guidelines on the right (or at the top on a phone).","Enter your details (consultant or contractor) and the project owner's details — the owner is copied (CC).","New request or follow-up? For a follow-up, enter the same application number.","Select ONE inquiry type. Event requests: Client Portal (ped-email-generator.github.io/event). IT Support and Finance are emailed directly to those departments.","Complete the request details. Select ? for an explanation. Share files through an editable OneDrive link.","Tick the confirmations and select “Generate email”.","Copy the email and subject into a NEW email, add the owner in CC and send it to the address shown."],
+      routingH:"Where each inquiry is sent",tokenH:"Your reference number",tokenP:"Your application number is the reference in the subject and body of every email:",
+      tokenParts:"Follow-ups keep the same reference.",rulesH:"Guidelines"},
+  ar:{steps:["راجع الإرشادات الرئيسية في الجانب (أو في الأعلى على الهاتف).","أدخل بياناتك (استشاري أو مقاول) وبيانات مالك المشروع — يوضع المالك في نسخة (CC).","طلب جديد أم متابعة؟ للمتابعة أدخل رقم الطلب نفسه.","اختر نوع استفسار واحداً. طلبات الفعاليات: بوابة المتعاملين (ped-email-generator.github.io/event). الدعم التقني والمالية تُراسل مباشرة.","أكمل تفاصيل الطلب. اضغط ? للشرح. شارك الملفات عبر رابط OneDrive قابل للتعديل.","أكّد الإقرارات واضغط «إنشاء البريد».","انسخ البريد والموضوع في بريد جديد، وضع المالك في نسخة، وأرسله إلى العنوان الظاهر."],
+      routingH:"إلى أين يُرسل كل استفسار",tokenH:"الرقم المرجعي",tokenP:"رقم الطلب هو الرقم المرجعي في موضوع كل بريد ونصه:",
+      tokenParts:"المتابعات تحتفظ بنفس المرجع.",rulesH:"الإرشادات"}
 };
 
 
@@ -1189,7 +1192,7 @@ const ANNEX = {
         {h:"Material test certificates — Chapter 1, Section 7", items:["Modular homes / offices (§7.1.46): Class B to ASTM E84 or UL 723, or Limited Combustible to FM 4880.","Tents (§7.1.42): Class A to NFPA 701, EN 13501-1, ASTM E84, UL 723 or BS 476 Part 7.","Membrane structures (§7.1.41): Class A to ASTM E84, UL 723, BS 476 Part 7, EN 13501-1 or NFPA 701.","Air-inflated / air-supported structures (§7.1.43): designed and operated to ASCE/SEI 17.","Kiosks (§7.1.40): Class A — particleboard Type PBU to ANSI A208.1 (min. 6.4 mm), foamed plastics ≤ 100 kW to UL 1975 or NFPA 289, textiles to NFPA 701, or metal composite panels to §7.1.24."]},
         {h:"Hazardous storage — Table 1.1 (consultant through the DCD portal)", red:true, items:["Group A-1: explosives, detonators, pyrophoric, unstable (reactive) materials, organic peroxides, oxidizers, fireworks.","Group A-2: aerosols, combustible and flammable liquids, combustible fibre and dust, pyrotechnics, cryogenic, flammable and oxidizing gases, flammable solids, water-reactive, corrosive and toxic materials, perfumes, baled cotton, plastic products, tires.","Storage of these materials must be submitted by the project consultant through the DCD portal — not by email."]}
       ]},
-      {id:"events", t:"Event proposals", sub:"Handled by the Events Department", ref:"Annexure 2 · A2.8 · Tables A2.6 & A2.7", note:"Event submissions are handled by the Events Department — events@dcd.gov.ae.", groups:[
+      {id:"events", t:"Event proposals", sub:"Handled by the Events Department", ref:"Annexure 2 · A2.8 · Tables A2.6 & A2.7", note:"Event submissions are handled by the Events Department — Client Portal: ped-email-generator.github.io/event.", groups:[
         {h:"NOC request letter", items:["Nature of the event and activities","Location","Date and duration","Expected number of people","Any cooking, gas, open flame, pyrotechnics, lasers or flammable materials"]},
         {h:"Layouts (A2, in colour)", items:["Satellite image of the site","Master plan with roads, fencing and gates","Detailed layout (max. 2 pages): dimensions, seating and grandstands, exits / gates with widths and exit signs, stage, fire extinguishers, F&B / kiosks / food trucks, cooking / gas / BBQ areas, first aid, generators, Police / Ambulance / Civil Defence vehicles and assembly points","Fire & life safety systems of the venue"]},
         {h:"Additional documents", items:["LPG approval","Flammable gas approval","Tent / membrane material certificates","Pyrotechnic / flame equipment certificates and operator qualifications"]},
@@ -1268,7 +1271,7 @@ const ANNEX = {
         {h:"شهادات فحص المواد — الفصل 1، القسم 7", items:["الوحدات السكنية / المكاتب المعيارية (7.1.46): الفئة B وفق ASTM E84 أو UL 723، أو محدودة الاشتعال وفق FM 4880.","الخيام (7.1.42): الفئة A وفق NFPA 701 أو EN 13501-1 أو ASTM E84 أو UL 723 أو BS 476 الجزء 7.","المنشآت الغشائية (7.1.41): الفئة A وفق ASTM E84 أو UL 723 أو BS 476 الجزء 7 أو EN 13501-1 أو NFPA 701.","المنشآت المنفوخة / المدعومة بالهواء (7.1.43): تصميم وتشغيل وفق ASCE/SEI 17.","الأكشاك (7.1.40): الفئة A — خشب مضغوط نوع PBU وفق ANSI A208.1 (6.4 مم كحد أدنى)، بلاستيك رغوي ≤ 100 كيلوواط وفق UL 1975 أو NFPA 289، أقمشة وفق NFPA 701، أو ألواح معدنية مركبة وفق 7.1.24."]},
         {h:"التخزين الخطر — الجدول 1.1 (عبر الاستشاري في بوابة الدفاع المدني)", red:true, items:["المجموعة A-1: المتفجرات، الصواعق، المواد ذاتية الاشتعال، المواد غير المستقرة (التفاعلية)، البيروكسيدات العضوية، المؤكسدات، الألعاب النارية.","المجموعة A-2: البخاخات، السوائل القابلة للاحتراق والاشتعال، الألياف والغبار القابل للاحتراق، المواد النارية، الغازات المبردة والقابلة للاشتعال والمؤكسدة، المواد الصلبة القابلة للاشتعال، المواد المتفاعلة مع الماء والأكالة والسامة، العطور، القطن المضغوط، المنتجات البلاستيكية، الإطارات.","يجب أن يقدم استشاري المشروع تخزين هذه المواد عبر بوابة الدفاع المدني — وليس بالبريد."]}
       ]},
-      {id:"events", t:"مقترحات الفعاليات", sub:"تتولاها إدارة الفعاليات", ref:"الملحق 2 · A2.8 · الجدولان A2.6 و A2.7", note:"تتولى إدارة الفعاليات طلبات الفعاليات — events@dcd.gov.ae.", groups:[
+      {id:"events", t:"مقترحات الفعاليات", sub:"تتولاها إدارة الفعاليات", ref:"الملحق 2 · A2.8 · الجدولان A2.6 و A2.7", note:"تتولى إدارة الفعاليات طلبات الفعاليات — بوابة المتعاملين: ped-email-generator.github.io/event.", groups:[
         {h:"خطاب طلب عدم الممانعة", items:["طبيعة الفعالية والأنشطة","الموقع","التاريخ والمدة","العدد المتوقع للحضور","أي طبخ أو غاز أو لهب مكشوف أو ألعاب نارية أو ليزر أو مواد قابلة للاشتعال"]},
         {h:"المخططات (مقاس A2 ملونة)", items:["صورة فضائية للموقع","المخطط العام مع الطرق والأسوار والبوابات","مخطط تفصيلي (صفحتان كحد أقصى): الأبعاد، المقاعد والمدرجات، المخارج / البوابات بعروضها وإشاراتها، المسرح، الطفايات، الأغذية / الأكشاك / عربات الطعام، مناطق الطبخ / الغاز / الشواء، الإسعافات الأولية، المولدات، مركبات الشرطة / الإسعاف / الدفاع المدني ونقاط التجمع","أنظمة الحماية وسلامة الأرواح في الموقع"]},
         {h:"مستندات إضافية", items:["موافقة الغاز المسال","موافقة الغازات القابلة للاشتعال","شهادات مواد الخيام / الأغشية","شهادات معدات الألعاب النارية / اللهب ومؤهلات المشغلين"]},
@@ -1290,14 +1293,14 @@ const OD_TEXT = {"en": [["Make ONE folder", "In OneDrive, create one folder for 
 const TOUR = [
   {sel:"#notesBox", en:["Before you start","Key guidelines. Emails that do not follow them may be delayed."], ar:["قبل البدء","إرشادات رئيسية. الرسائل المخالفة قد تتأخر."]},
   {sel:"#senderCard", en:["Your details","Only the consultant or contractor sends. Mobile numbers start with +971 — just type 05X XXX XXXX. The owner is copied (CC) automatically."], ar:["بياناتك","يرسل الاستشاري أو المقاول فقط. أرقام الهاتف تبدأ بـ ‎+971‎ — اكتب ‎05X XXX XXXX‎. يوضع المالك في نسخة تلقائياً."]},
-  {sel:"#sec_prev", en:["New request or follow-up","Following up an earlier email? Choose “Follow-up” and paste its reference number so we can link your requests."], ar:["طلب جديد أم متابعة","تتابع بريداً سابقاً؟ اختر «متابعة» والصق رقمه المرجعي لنربط طلباتك."]},
-  {sel:"#catCard", en:["Inquiry type","Unlocks once your details are complete. Events, IT Support and Finance are emailed directly to those departments."], ar:["نوع الاستفسار","يظهر بعد إكمال بياناتك. الفعاليات والدعم التقني والمالية تُراسل مباشرة."]},
+  {sel:"#sec_prev", en:["New request or follow-up","Following up an earlier email? Choose “Follow-up” and enter the same application number so we can link your requests."], ar:["طلب جديد أم متابعة","تتابع بريداً سابقاً؟ اختر «متابعة» وأدخل رقم الطلب نفسه لنربط طلباتك."]},
+  {sel:"#catCard", en:["Inquiry type","Unlocks once your details are complete. Event requests: Client Portal (ped-email-generator.github.io/event). IT Support and Finance are emailed directly to those departments."], ar:["نوع الاستفسار","يظهر بعد إكمال بياناتك. طلبات الفعاليات: بوابة المتعاملين (ped-email-generator.github.io/event). الدعم التقني والمالية تُراسل مباشرة."]},
   {sel:"#details", en:["Request details","Required fields have *. Select ? to see what an option means."], ar:["تفاصيل الطلب","الحقول الإلزامية عليها *. اضغط ? لمعرفة معنى الخيار."]},
   {sel:"#odSideBtn", od:true, en:["Sharing files with OneDrive","Use a OneDrive folder link with “Can edit” access:"], ar:["مشاركة الملفات عبر OneDrive","استخدم رابط مجلد OneDrive بصلاحية «يمكن التعديل»:"]},
   {sel:"#axSideBtn", en:["Annexure 2 — Submission requirements","Choose a topic — general requirements, reasons for rejection, consultant, décor, LPG, modifications, infrastructure, events or façade — to see its complete list from the UAE FLS Code 2018."], ar:["الملحق رقم 2 — متطلبات التقديم","اختر موضوعاً — المتطلبات العامة، أسباب الرفض، الاستشاري، الديكور، الغاز، التعديلات، البنية التحتية، الفعاليات أو الواجهات — لعرض قائمته الكاملة من كود الإمارات 2018."]},
   {sel:"#declCard", en:["Confirmations","Tick each confirmation, or use “Confirm all”."], ar:["الإقرارات","أكّد كل إقرار أو استخدم «تأكيد الكل»."]},
   {sel:"#genBar", en:["Generate","Select “Generate email”. “Start over” clears the form."], ar:["إنشاء","اضغط «إنشاء البريد». «البدء من جديد» يمسح النموذج."]},
-  {sel:"#tokenBox", en:["Your reference number","Unique to your email. Keep it — it is in the subject and the email, and it is used to track your request."], ar:["الرقم المرجعي","فريد لبريدك. احتفظ به — هو في الموضوع والبريد ويُستخدم لتتبع طلبك."]},
+  {sel:"#tokenBox", en:["Your reference number","Your application number — it is in the subject and the email, and it is used to track your request."], ar:["الرقم المرجعي","رقم طلبك — هو في الموضوع والبريد ويُستخدم لتتبع طلبك."]},
   {sel:"#outActions", en:["Send it","Copy the email and subject into a NEW email, put the owner in CC and send it to the address shown."], ar:["أرسله","انسخ البريد والموضوع في بريد جديد، ضع المالك في نسخة وأرسله إلى العنوان الظاهر."]}
 ];
 
@@ -1356,42 +1359,7 @@ const visibleFields = sections => visibleSections(sections).flatMap(s => s.field
 const condFields = sections => new Set(sections.flatMap(s => [s.when, ...s.fields.map(f => f.when)]).filter(Boolean).flat().map(w => w.f));
 const catDeps = c => new Set([...condFields(c.sections||[]), ...(c.blocks||[]).flatMap(b => [b.when].flat().map(w=>w.f)), "reqByEng", "mAbout"]);
 
-/* Reference: PS-PED-CODE-DD-MM-YY-NNNNNN (cryptographically random 6 digits) */
-/* Reference number: PS-PED-<CODE>-<DD-MM-YY>-<6 digits>
-   On the live site the number is issued by the server (Code.gs → issueRef), which records the numbers
-   already used that day for that inquiry type, so a reference can never repeat.
-   Anywhere else (or if the server cannot be reached) a cryptographically random number is used. */
-function newToken(code){
-  const r = new Uint32Array(1); crypto.getRandomValues(r);
-  const num = String(r[0] % 1000000).padStart(6, "0");
-  const d = new Date(), p2 = n => String(n).padStart(2, "0");
-  return `${CONFIG.TOKEN_PREFIX}-${code}-${p2(d.getDate())}-${p2(d.getMonth()+1)}-${String(d.getFullYear()).slice(2)}-${num}`;
-}
-const TOKEN_RE = /^PS-PED-[A-Z]{2}-\d{2}-\d{2}-\d{2}-\d{6}$/;
-let tokenSource = "";
-function issueToken(code){
-  return new Promise(resolve => {
-    const run = window.google && google.script && google.script.run;
-    const local = () => { tokenSource = "local"; resolve(newToken(code)); };
-    if (!run){
-      /* Hosted outside Google: ask the reference service over HTTPS (only the 2-letter inquiry code is sent) */
-      if (!REF_ENDPOINT || typeof fetch !== "function") return local();
-      const ctl = window.AbortController ? new AbortController() : null;
-      const t = setTimeout(() => ctl && ctl.abort(), 8000);
-      fetch(REF_ENDPOINT + "?action=ref&code=" + encodeURIComponent(code), {method:"GET", credentials:"omit", cache:"no-store", signal: ctl ? ctl.signal : undefined})
-        .then(r => r.ok ? r.json() : null)
-        .then(j => { clearTimeout(t); if (j && TOKEN_RE.test(j.ref) && j.ref.split("-")[2] === code){ tokenSource = "server"; resolve(j.ref); } else local(); })
-        .catch(() => { clearTimeout(t); local(); });
-      return;
-    }
-    let done = false;
-    const timer = setTimeout(() => { if (!done){ done = true; local(); } }, 8000);
-    run.withSuccessHandler(r => { if (done) return; done = true; clearTimeout(timer);
-        if (TOKEN_RE.test(r) && r.split("-")[2] === code){ tokenSource = "server"; resolve(r); } else local(); })
-       .withFailureHandler(() => { if (done) return; done = true; clearTimeout(timer); local(); })
-       .issueRef(code);
-  });
-}
+/* Reference number = the application number the client enters (no counter, no random number) — see generate() */
 
 /* ---------- Rendering ---------- */
 function noticeHTML(tone, html){ return `<div class="notice ${tone}" role="note">${SVG[tone]||SVG.info}<div>${html}</div></div>`; }
@@ -1404,7 +1372,8 @@ function fieldHTML(f){
     return `<div class="f full" data-fid="${f.id}"><label class="gate ${on?"on":""}"><input type="checkbox" id="${id}" name="${f.id}" data-gate ${on?"checked":""}><span>${esc(L(f))}${req?' <span class="req">*</span>':''}</span></label><div class="err" id="${id}_e"></div></div>`;
   }
   const ph = esc(L(f.ph));
-  const help = f.help ? `<div class="help">${esc(L(f.help))}${f.onedrive?` <button type="button" class="howlink" data-od>${lang==="ar"?"كيف؟":"How?"}</button>`:""}</div>` : "";
+  const help = (f.help || f.onedrive) ? `<div class="help">${f.help ? esc(L(f.help)) : ""}${f.onedrive?` <button type="button" class="howlink" data-od>${lang==="ar"?"كيف؟":"How?"}</button>`:""}</div>` : "";
+  const giNote = f.giSwitch && req ? `<div class="help gi-note">${esc(L(GI_NOTE))}<div><button type="button" class="btn btn-s gi-sw" data-switch="general">${esc(L(GI_SWITCH))}</button></div></div>` : "";
   const helpTop = f.helpTop ? `<div class="helptop">${esc(L(f.helpTop))}</div>` : "";
   const infoBtn = f.info ? `<button type="button" class="qi" data-info="${f.id}" aria-expanded="false" aria-controls="${id}_i" aria-label="${lang==="ar"?"شرح":"Explain"}">?</button>` : "";
   const infoBox = f.info ? `<div class="infobox" id="${id}_i" hidden>${(f.info[lang]||f.info.en).map(p=>`<p>${f.infoHtml ? p : esc(p)}</p>`).join("")}</div>` : "";
@@ -1428,7 +1397,7 @@ function fieldHTML(f){
     const ltr = {tel:"tel", email:"email", url:"url"}[f.type];
     ctrl = `<input type="${f.type}" ${common} placeholder="${ph}" maxlength="${f.type==="url"?600:200}" ${ltr?`dir="ltr" inputmode="${ltr}"`:`dir="auto"${f.inputmode?` inputmode="${f.inputmode}"`:""}`}>`;
   }
-  return `<div class="f ${f.full?'full':''}" data-fid="${f.id}">${lab}${helpTop}${infoBox}${ctrl}${help}<div class="err" id="${id}_e"></div></div>`;
+  return `<div class="f ${f.full?'full':''}" data-fid="${f.id}">${lab}${helpTop}${infoBox}${ctrl}${help}<div class="err" id="${id}_e"></div>${giNote}</div>`;
 }
 function listRows(f){
   if (!Array.isArray(state[f.id]) || !state[f.id].length) state[f.id] = Array.from({length:f.min||1}, () => ({}));
@@ -1477,6 +1446,14 @@ function renderDetails(){
   $("#detailsTitle").textContent = c[lang];
   if (c.direct){
     $("#detailsSub").hidden = true;
+    if (c.link){
+      /* Online request page (Event): the address in the message becomes a link; no email address */
+      const a = `<a href="${esc(c.link)}" target="_blank" rel="noopener noreferrer">${esc(c.linkText)}</a>`;
+      $("#detailsBody").innerHTML = `<div class="direct">${noticeHTML("info", esc(L(c.msg)).split(esc(c.linkText)).join(a))}
+      <div class="addr"><code>${esc(c.linkText)}</code>
+        <button type="button" class="btn btn-s" data-copyaddr="${esc(c.link)}" style="padding:9px 14px;font-size:14px">${esc(T[lang].copyAddr)}</button>
+        <a class="btn btn-p" href="${esc(c.link)}" target="_blank" rel="noopener noreferrer" style="padding:9px 14px;font-size:14px"><span>${esc(L(c.tag))} ↗</span></a></div></div>`;
+    } else
     $("#detailsBody").innerHTML = `<div class="direct">${noticeHTML("info", `<b class="h">${esc(T[lang].directH)}</b>${esc(L(c.msg))}`)}
       <div class="addr"><code>${esc(c.to)}</code>
         <button type="button" class="btn btn-s" data-copyaddr="${esc(c.to)}" style="padding:9px 14px;font-size:14px">${esc(T[lang].copyAddr)}</button>
@@ -1515,7 +1492,7 @@ function applyText(){
   document.documentElement.dir = lang==="ar" ? "rtl" : "ltr";
   document.querySelectorAll("[data-t]").forEach(el=>{ const k=el.dataset.t; if(typeof T[lang][k]==="string") el.textContent=T[lang][k]; });
   $("#langLbl").textContent = T[lang].lang;
-  $("#notesList").innerHTML = CONFIG.NOTES[lang].map((n,i)=>`<li class="${i>4?"more":""}">${esc(n)}</li>`).join("");
+  $("#notesList").innerHTML = CONFIG.NOTES[lang].map((n,i)=>`<li class="${i>4?"more":""}">${evLink(esc(n))}</li>`).join("");
   $("#notesMore").textContent = $("#notesBox").classList.contains("open") ? T[lang].less : T[lang].more;
   ["#flsLinkHero","#flsLinkSide"].forEach(s => { const a=$(s); if(a) a.href = FLS_LINK; });
   $("#remind").innerHTML = `<b>${T[lang].remindH}</b><ul>${T[lang].remind.map(r=>`<li>${esc(r)}</li>`).join("")}</ul>`;
@@ -1605,7 +1582,7 @@ document.addEventListener("click", e=>{
   const sw = e.target.closest("[data-switch]");
   if (sw){
     const r = document.querySelector(`input[name="cat"][value="${sw.dataset.switch}"]`);
-    if (r){ r.checked = true; currentCat = sw.dataset.switch; renderDetails(); invalidate();
+    if (r){ r.checked = true; currentCat = sw.dataset.switch; $("#catsErr").classList.remove("show"); renderDetails(); invalidate(); renderProgress();
       setTimeout(()=>$("#details").scrollIntoView({behavior:"smooth",block:"start"}), 60); }
     return;
   }
@@ -1664,7 +1641,7 @@ function fmtDate(s){ if(!/^\d{4}-\d{2}-\d{2}$/.test(s)) return s; const [y,m,d] 
 function val(f){ const x = sv(f.id); if(!x) return ""; if (f.type==="date") return fmtDate(x); if (f.type==="phone"){ const d=phoneDigits(x); return d ? fmtPhone(d) : x; } return x; }
 function today(){ const d=new Date(); return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`; }
 
-const SKIP_IN_EMAIL = ["hasPrev","prevRef","statusGate","giAbout","mHasApp","stampCase","stampAge","tpDuration"];
+const SKIP_IN_EMAIL = ["hasPrev","statusGate","giAbout","mHasApp","stampCase","stampAge","tpDuration"];
 function boxRows(c, token, followUp){
   const R = [];
   R.push({sec:"Request"});
@@ -1721,7 +1698,7 @@ const REC_START = "[DCD-PED-RECORD]", REC_END = "[/DCD-PED-RECORD]";
 function buildEmail(c, token, followUp){
   const V = Object.fromEntries(visibleFields(c.sections).map(f=>[f.id, val(f)]));
   const ph = phoneDigits(sv("phone"));
-  return {greeting:CONFIG.GREETING, summary:SUMMARY[c.id](V), rows:boxRows(c, token, followUp), title:c.en, token,
+  return {greeting:CONFIG.GREETING, summary:SUMMARY[c.id](V), rows:boxRows(c, token, followUp), title:c.en, token, noRef:!!c.noRef,
     closing:CONFIG.CLOSING + (V.oneDrive ? " All files are available in the OneDrive link above (edit access)." : ""),
     sign:"Best regards,", sigName:sv("name"), sigLine:`${sv("role")} — ${sv("company")}`, sigContact:`${ph?fmtPhone(ph):sv("phone")}  |  ${sv("email")}`, record:recordLines(c, token, followUp)};
 }
@@ -1739,7 +1716,8 @@ function toText(E){
     if (r.k.length >= W) { out.push(`${r.k}:`, `${"".padEnd(W)}  ${r.v}`); return; }
     out.push(`${(r.k).padEnd(W)}: ${r.v}`);
   });
-  out.push(thin, "", E.closing, "", E.sign, E.sigName, E.sigLine, E.sigContact, "", rule, `Please quote reference ${E.token} in all correspondence.`, rule);
+  out.push(thin, "", E.closing, "", E.sign, E.sigName, E.sigLine, E.sigContact, "", rule);
+  if (!E.noRef) out.push(`Please quote reference ${E.token} in all correspondence.`, rule);   // General Inquiry: no reference to quote
   return out.join("\n");
 }
 
@@ -1777,23 +1755,27 @@ function toHTML(E){
       <p style="margin:0 0 12px 0;${P}">${esc(E.closing)}</p>
       <p style="margin:0;${P}">${esc(E.sign)}<br><b style="color:#12243A">${esc(E.sigName)}</b><br>${esc(E.sigLine)}<br><span style="color:#5E6E7E">${esc(E.sigContact)}</span></p></td></tr>`;
   // footer
-  h += `<tr><td colspan="2" bgcolor="#F4F6F9" ${TD("background:#F4F6F9;padding:9px 20px;border-top:1px solid #E4E9F0;border-radius:0 0 9px 9px;font-size:9pt;color:#5E6E7E;")}>Please quote reference <b style="color:#12243A;font-family:Consolas,'Courier New',monospace">${esc(E.token)}</b> in all correspondence.</td></tr>`;
+  if (!E.noRef) h += `<tr><td colspan="2" bgcolor="#F4F6F9" ${TD("background:#F4F6F9;padding:9px 20px;border-top:1px solid #E4E9F0;border-radius:0 0 9px 9px;font-size:9pt;color:#5E6E7E;")}>Please quote reference <b style="color:#12243A;font-family:Consolas,'Courier New',monospace">${esc(E.token)}</b> in all correspondence.</td></tr>`;
   return h + `</table>`;
 }
 
-async function generate(){
+function generate(){
   const c = getCat();
   const followUp = sv("hasPrev").startsWith("Yes");
-  const token = followUp ? sv("prevRef").toUpperCase() : await issueToken(c.code);
   const fields = visibleFields(c.sections);
-  const subjVals = c.subject.map(id => { const f = fields.find(x=>x.id===id); return f ? val(f) : ""; }).filter(Boolean);
-  const subject = [token, ...(followUp?["FOLLOW-UP"]:[]), c.en, ...subjVals].join(" | ");
+  const fv = id => { const f = fields.find(x=>x.id===id); return f ? val(f) : ""; };
+  /* The reference is the client's application number (a follow-up gives the same number). General Inquiry: «—». */
+  const token = c.noRef ? "—" : fv("appNo");
+  const parts = c.noRef ? [c.en.toUpperCase(), ...(followUp?["FOLLOW-UP"]:[]), fv("project"), sv("company")]
+                        : [token, ...(followUp?["FOLLOW-UP"]:[]), c.en, fv("project")];
+  const subject = parts.filter(Boolean).join(" | ");
   const E = buildEmail(c, token, followUp);
-  built = {token, to:c.to, cc:sv("ownerEmail"), subject, text:toText(E), html:toHTML(E)};
+  built = {token, noRef:!!c.noRef, to:c.to, cc:sv("ownerEmail"), subject, text:toText(E), html:toHTML(E)};
   showOutput();
 }
 function showOutput(){
   $("#oToken").textContent = built.token;
+  $("#tokenBox .copy").hidden = !!built.noRef;
   $("#oTo").textContent = built.to;
   $("#oCc").textContent = built.cc;
   $("#oSubj").textContent = built.subject;
@@ -1889,16 +1871,19 @@ $("#mailBtn").addEventListener("click", ()=>{
 let tt; function toast(m){ const el=$("#toast"); el.textContent=m; el.classList.add("show"); clearTimeout(tt); tt=setTimeout(()=>el.classList.remove("show"),2400); }
 
 /* ---------- Modals: guide + OneDrive how-to ---------- */
+/* The fixed subject rule (English), shown in the guide */
+const SUBJECT_FORMS = ["APPLICATION NO. | Inquiry type | Project name", "e.g. 825775 | Application Status | Marina Tower",
+  "APPLICATION NO. | FOLLOW-UP | Inquiry type | Project name", "GENERAL INQUIRY | Project name | Company name"];
 function renderGuide(){
   const G = GUIDE[lang];
   $("#guideBody").innerHTML = `
-    <ol class="gsteps">${G.steps.map((s,i)=>`<li><span class="n">${i+1}</span><span>${esc(s)}</span></li>`).join("")}</ol>
+    <ol class="gsteps">${G.steps.map((s,i)=>`<li><span class="n">${i+1}</span><span>${evLink(esc(s))}</span></li>`).join("")}</ol>
     <h3>${G.routingH}</h3>
-    <table class="rt">${CONFIG.CATEGORIES.map(c=>`<tr><td>${esc(c[lang])}${c.direct?` <em style="font-style:normal;color:var(--amber)">(${esc(L(c.tag))})</em>`:` <b style="color:var(--blue)">(${c.code})</b>`}</td><td>${esc(c.to)}</td></tr>`).join("")}</table>
+    <table class="rt">${CONFIG.CATEGORIES.map(c=>`<tr><td>${esc(c[lang])}${c.direct?` <em style="font-style:normal;color:var(--amber)">(${esc(L(c.tag))})</em>`:` <b style="color:var(--blue)">(${c.code})</b>`}</td><td>${esc(c.linkText || c.to)}</td></tr>`).join("")}</table>
     <h3>${G.tokenH}</h3><p style="margin:0 0 8px">${esc(G.tokenP)}</p>
-    <div class="tokex">${CONFIG.TOKEN_PREFIX}-CODE-DD-MM-YY-123456<br><span style="opacity:.7">e.g. ${CONFIG.TOKEN_PREFIX}-AS-05-10-26-483920</span></div>
+    <div class="tokex">${esc(SUBJECT_FORMS[0])}<br><span style="opacity:.7">${esc(SUBJECT_FORMS[1])}</span><br>${esc(SUBJECT_FORMS[2])}<br>${esc(SUBJECT_FORMS[3])}</div>
     <p class="help">${esc(G.tokenParts)}</p>
-    <h3>${G.rulesH}</h3><ul>${CONFIG.NOTES[lang].map((n,i)=>`<li>${i<5?"<b>":""}${esc(n)}${i<5?"</b>":""}</li>`).join("")}</ul>`;
+    <h3>${G.rulesH}</h3><ul>${CONFIG.NOTES[lang].map((n,i)=>`<li>${i<5?"<b>":""}${evLink(esc(n))}${i<5?"</b>":""}</li>`).join("")}</ul>`;
 }
 function renderOD(){
   $("#odBody").innerHTML = `<div class="odsteps">${OD_TEXT[lang].map((s,i)=>`<div class="odstep"><div class="odpic">${OD_SVG[i]}</div><div class="odtxt"><span class="odn">${i+1}</span><div><b>${esc(s[0])}</b><p>${esc(s[1])}</p></div></div></div>`).join("")}</div>
@@ -1924,7 +1909,7 @@ function renderAnnex(){
       <nav class="ax-nav" aria-label="${esc(A.pick)}">${A.topics.map((t,i)=>`<button type="button" data-axt="${t.id}" class="${t.id===tp.id?"on":""}" ${t.id===tp.id?'aria-current="true"':""}><span class="n">${i+1}</span><span><b>${esc(t.t)}</b><small>${esc(t.sub)}</small></span></button>`).join("")}</nav>
       <div class="ax-view" id="axView">
         <div class="ax-head"><div><h3>${esc(tp.t)}</h3><p>${esc(tp.sub)}</p></div><div class="ax-hr"><span class="ax-ref">${esc(tp.ref)}</span><a class="btn btn-s" target="_blank" rel="noopener noreferrer" href="${esc(FLS_LINK)}">${esc(A.open)}</a></div></div>
-        ${tp.note ? `<div style="margin:0 0 12px">${noticeHTML("info", esc(tp.note))}</div>` : ""}
+        ${tp.note ? `<div style="margin:0 0 12px">${noticeHTML("info", evLink(esc(tp.note)))}</div>` : ""}
         <div class="ax-grid">${tp.groups.map(g=>`<div class="ax ${g.red?"red":""}"><h4>${esc(g.h)}</h4><ul>${g.items.map(axItem).join("")}</ul></div>`).join("")}</div>
         <p class="ax-src">${esc(A.src)}</p>
       </div>
@@ -1970,7 +1955,7 @@ function tourGo(d){ const n = tour.i + d; if(n<0) return; if(n>=tour.steps.lengt
 function showTourStep(){
   const s = tour.steps[tour.i], [h,p] = s[lang]||s.en, last = tour.i===tour.steps.length-1;
   const pic = s.od ? `<div class="tour-pic">${OD_SVG[4]}</div>` : "";
-  $("#tourPop").innerHTML = `<small>${T[lang].stepOf.replace("{n}",tour.i+1).replace("{t}",tour.steps.length)}</small><h4>${esc(h)}</h4><p>${esc(p)}</p>${pic}
+  $("#tourPop").innerHTML = `<small>${T[lang].stepOf.replace("{n}",tour.i+1).replace("{t}",tour.steps.length)}</small><h4>${esc(h)}</h4><p>${evLink(esc(p))}</p>${pic}
     <div class="tour-nav"><button type="button" class="tour-skip" id="tSkip">${T[lang].skip}</button>
     <div style="display:flex;gap:8px">${tour.i?`<button type="button" class="btn btn-s" id="tBack">${T[lang].back}</button>`:""}<button type="button" class="btn btn-p" id="tNext">${last?T[lang].done:T[lang].next}</button></div></div>`;
   $("#tSkip").onclick = endTour; $("#tNext").onclick = ()=>tourGo(1); if($("#tBack")) $("#tBack").onclick = ()=>tourGo(-1);
