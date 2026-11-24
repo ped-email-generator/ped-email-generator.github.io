@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://script.googleusercontent.com; form-action 'none'; base-uri 'none'">
+<title>Projconf email generator — Dubai Civil Defence</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F6F9;--surface:#FFF;--surface2:#F8FAFC;--line:#E4E9F0;--line2:#D2DAE4;
+  --ink:#152433;--muted:#5E6E7E;--navy:#12243A;--navy2:#1B3554;--blue:#2A5889;
+  --blue-soft:#EDF3FA;--blue-line:#C9D8E8;--red:#B42318;--red-soft:#FEF3F2;
+  --amber:#854211;--amber-soft:#FFFAEB;--amber-line:#FEDF89;
+  --shadow:0 1px 2px rgba(16,24,40,.04),0 6px 20px rgba(16,24,40,.06);
+  --font:Dubai,Inter,'IBM Plex Sans Arabic',system-ui,'Segoe UI',Arial,sans-serif;
+  --mono:'JetBrains Mono',Consolas,monospace;--wrap:1320px;--pad:24px;
+}
+[dir=rtl]{--font:Dubai,'IBM Plex Sans Arabic',Inter,system-ui,'Segoe UI',Tahoma,Arial,sans-serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--font)}
+a{color:var(--blue)}
+a,pre,td,th{overflow-wrap:anywhere}
+button,input,select,textarea{font:inherit;color:inherit}
+button,summary{cursor:pointer}
+:focus-visible{outline:3px solid #507CA9;outline-offset:3px}
+svg{flex:none}
+.appbar{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.appbar-in,.hero-in,.page,.footer-in{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--pad)}
+.appbar-in{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0;line-height:1.3}
+.brand b,.brand small{display:block}
+.brand b{font-size:15px;color:var(--navy)}
+.brand small{font-size:12.5px;color:var(--muted)}
+.mark{display:grid;place-items:center;width:40px;height:40px;flex:none;border-radius:12px;background:linear-gradient(145deg,var(--navy2),var(--navy));box-shadow:0 4px 12px rgba(18,36,58,.22)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 14px;border:1px solid var(--line2);border-radius:12px;background:#fff;color:var(--navy);font-weight:600;font-size:14px;text-align:center;text-decoration:none}
+.btn:hover{background:var(--surface2);border-color:var(--blue)}
+.btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn.primary:hover{background:var(--navy2)}
+.btn:disabled{opacity:.6;cursor:wait}
+#langBtn{flex:none;min-height:40px}
+.hero{position:relative;color:#fff;background:radial-gradient(900px 300px at 85% -10%,rgba(58,110,165,.55),transparent 60%),linear-gradient(120deg,#0E1D30,#12243A 45%,#1B3554)}
+.hero::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.035) 0 2px,transparent 2px 16px);pointer-events:none}
+.hero-in{position:relative;z-index:1;padding-block:32px 67px}
+.eyebrow{display:flex;align-items:baseline;gap:8px;font-size:13px;font-weight:700;color:#BFD3EA;margin:0 0 8px}
+.eyebrow::before{content:"";width:22px;height:2px;flex:none;background:#7FA6D1;align-self:center}
+.hero h1{margin:0 0 8px;font-size:clamp(28px,3.4vw,40px);font-weight:800;line-height:1.2}
+.hero p:last-child{margin:0;color:#D6E2F0}
+.page{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,315px);gap:20px;align-items:start;margin-block:-38px 0;padding-bottom:30px}
+main,aside,.f{min-width:0}
+.card,.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.card{padding:24px;margin-bottom:16px}
+.panel{padding:18px;margin-bottom:14px}
+.card h2,.picker summary{font-size:19px;font-weight:700;color:var(--navy);margin:0 0 14px}
+.panel h2,.fields h3{font-size:14px;font-weight:700;color:var(--blue);margin:0 0 10px}
+.picker summary{list-style:none;display:flex;align-items:center;gap:12px;margin:0}
+.picker summary::-webkit-details-marker{display:none}
+.picker summary::after{content:"";flex:none;width:8px;height:8px;border:solid var(--blue);border-width:0 2px 2px 0;transform:rotate(45deg);margin-inline-start:auto;margin-block-start:-4px}
+.picker[open] summary::after{transform:rotate(225deg);margin-block-start:4px}
+.picker .selected{font-size:14px;color:var(--muted);font-weight:600}
+.picker[open] .selected{display:none}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.choice{position:relative;min-width:0}
+.choice input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.tile{display:flex;flex-direction:column;gap:4px;height:100%;border:1.5px solid var(--line2);border-radius:12px;padding:12px 14px;background:#fff;color:var(--navy);font-size:14.5px}
+.tile small{color:var(--muted);font-size:13px;line-height:1.45}
+.choice:hover .tile{border-color:#A9BCD3}
+.choice input:checked+.tile{border-color:var(--navy);background:var(--blue-soft);box-shadow:0 0 0 2px rgba(18,36,58,.10)}
+.choice input:focus-visible+.tile{outline:3px solid #507CA9;outline-offset:2px}
+.fields+.fields{margin-top:20px}
+.fields h3{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.fields h3::after{content:"";flex:1;height:1px;background:var(--line)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+.full{grid-column:1/-1}
+.f label{display:block;font-weight:600;font-size:14px;margin-bottom:5px;color:var(--navy)}
+.f input,.f select,.f textarea{width:100%;min-height:46px;padding:9px 12px;border:1px solid var(--line2);border-radius:12px;background:white;font-size:16px}
+.f textarea{min-height:120px;resize:vertical}
+.f [dir=ltr]{text-align:start}
+.f [aria-invalid=true]{border-color:var(--red);background:var(--red-soft)}
+.req,.err{color:var(--red)}
+.help,.opt,.err{font-size:13px;margin:4px 0 0}
+.help,.opt{color:var(--muted);font-weight:400}
+.help:empty,.err:empty{display:none}
+.notice{margin:0 0 16px;padding:11px 13px;background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:12px;color:var(--navy2);font-size:14px}
+.notice p{margin:0}
+.notice p+p{margin-top:6px}
+.notice.stop{background:var(--red-soft);border-color:#FDA29B;color:#7A271A}
+.notice:last-child{margin-bottom:0}
+.rules{background:var(--amber-soft);border-color:var(--amber-line)}
+.rules h2,.rules li{color:var(--amber)}
+.panel ul{margin:0;padding-inline-start:18px;font-size:14px}
+.panel li+li{margin-top:7px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.card .status{margin:12px 0 0;font-size:14px}
+.status:empty{display:none}
+#request,#out{scroll-margin-top:80px}
+.token{padding:10px 12px;border:1px solid var(--blue-line);border-radius:12px;background:var(--blue-soft)}
+.meta{display:grid;gap:10px;margin-top:12px}
+.ob{min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface2)}
+.ob-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.copy{padding:3px 9px;border-radius:8px;border:1px solid var(--line2);background:white;color:var(--blue);font-size:13px;font-weight:600}
+.copy:hover{border-color:var(--blue)}
+.ob pre,.token code{margin:0;font:14px/1.6 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere}
+.preview{margin-top:12px;overflow:hidden}
+.sheet{width:680px;transform-origin:top left}
+[dir=rtl] .sheet{transform-origin:top right}
+.plain{margin-top:12px}
+.plain summary{color:var(--blue);font-weight:600;font-size:14px}
+.plain pre{margin:8px 0 0;padding:10px 12px;background:var(--surface2);border:1px solid var(--line);border-radius:12px;font:14px/1.6 var(--font);white-space:pre-wrap}
+.footer{background:var(--surface);border-top:1px solid var(--line)}
+.footer-in{padding-block:20px 28px}
+.footer h2{font-size:17px;color:var(--navy);margin:0 0 6px}
+.contacts{width:100%;max-width:740px;border-collapse:collapse;table-layout:fixed;font-size:14px}
+.contacts th,.contacts td{padding:7px 0;border-bottom:1px solid var(--line);text-align:start;font-weight:400}
+.contacts th{width:46%;padding-inline-end:12px;font-weight:600}
+@media(max-width:900px){.page{grid-template-columns:minmax(0,1fr)}aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+@media(max-width:620px){:root{--pad:14px}.card{padding:16px}.grid,aside{grid-template-columns:minmax(0,1fr)}.panel{margin-bottom:0}.hero-in{padding-block:26px 60px}}
+@media(max-width:380px){.tile{padding:9px 10px}.brand{gap:8px}.appbar-in{gap:8px}}
+</style>
+</head>
+<body>
+<header class="appbar">
+  <div class="appbar-in">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+      <div><b data-t="org"></b><small data-t="department"></small></div>
+    </div>
+    <button class="btn primary" id="langBtn" type="button"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg><span id="langLbl"></span></button>
+  </div>
+</header>
+<section class="hero">
+  <div class="hero-in">
+    <p class="eyebrow" data-t="banner"></p>
+    <h1 data-t="title"></h1>
+    <p data-t="intro"></p>
+  </div>
+</section>
+<div class="page">
+  <main>
+    <details class="card picker" open>
+      <summary><span id="pickerLabel" data-t="requestType"></span><span class="selected" id="selectedType"></span></summary>
+      <div class="choices" id="choices" role="radiogroup" aria-labelledby="pickerLabel"></div>
+    </details>
+    <section class="card" id="request" aria-labelledby="requestTitle" hidden>
+      <h2 id="requestTitle" tabindex="-1"></h2>
+      <div id="guidance"></div>
+      <form id="form" autocomplete="off" novalidate>
+        <div id="fields"></div>
+        <div class="toolbar" id="generateActions"><button class="btn primary" id="genBtn" type="submit" data-t="generate"></button></div>
+        <div class="notice stop" id="dateError" role="alert" hidden></div>
+        <div id="uploadPrompt" hidden>
+          <p class="notice" data-t="portalNote"></p>
+          <a class="btn primary" id="upload" href="../portal/#/new/tp" data-t="upload"></a>
+        </div>
+        <p class="status" id="formStatus" role="status"></p>
+      </form>
+    </section>
+    <section class="card" id="out" aria-labelledby="outputTitle" hidden>
+      <h2 id="outputTitle" data-t="output" tabindex="-1"></h2>
+      <div class="token ob-h"><span data-t="reference"></span><code id="oToken" dir="ltr"></code><button class="copy" type="button" data-copy="token" data-t="copyRef"></button></div>
+      <div class="meta">
+        <div class="ob"><div class="ob-h"><span data-t="to"></span><button class="copy" type="button" data-copy="to" data-t="copyTo"></button></div><pre id="oTo" dir="ltr"></pre></div>
+        <div class="ob"><div class="ob-h"><span data-t="subject"></span><button class="copy" type="button" data-copy="subject" data-t="copySubject"></button></div><pre id="oSubj"></pre></div>
+        <div class="ob">
+          <div class="ob-h"><span data-t="body"></span><button class="copy" type="button" data-copy="body" data-t="copyBody"></button></div>
+          <div class="preview" id="oBody"><div class="sheet" id="oSheet"></div></div>
+          <details class="plain"><summary data-t="plain"></summary><pre id="oText"></pre><button class="copy" type="button" data-copy="text" data-t="copyText"></button></details>
+        </div>
+      </div>
+      <div class="toolbar"><a class="btn primary" id="mailBtn" data-t="openMail"></a></div>
+      <p class="status" id="longWarn" data-t="longEmail" hidden></p>
+      <p class="status" id="copyStatus" role="status"></p>
+    </section>
+  </main>
+  <aside>
+    <section class="panel rules" id="notes" aria-labelledby="notesTitle">
+      <h2 id="notesTitle" data-t="notes"></h2>
+      <ul id="notesList"></ul>
+    </section>
+    <section class="panel" aria-labelledby="resourcesTitle">
+      <h2 id="resourcesTitle" data-t="resources"></h2>
+      <ul><li><a id="flsLink" target="_blank" rel="noopener noreferrer" data-t="fls"></a></li><li data-t="annex"></li></ul>
+    </section>
+  </aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <h2 id="contactsTitle" data-t="contacts"></h2>
+    <table class="contacts" aria-labelledby="contactsTitle"><tbody id="contacts"></tbody></table>
+  </div>
+</footer>
+<script>
+"use strict";
+
+const INBOX = "Projconf@dcd.gov.ae";
+// Customer care address to be confirmed. Its row is hidden while this is empty.
+const CUSTOMER_CARE_EMAIL = 'customer.care@dcd.gov.ae';
+// Existing generator service and official code link from site/js/gen/config.js.
+const REF_ENDPOINT = "https:" + "//script.google.com/macros/s/AKfycbzhXrrrAjvhYXVNPj-E8olQkTpM3Fouxf1FgQUqNAKcYnviGLUB4Qf-8uHpcJkt0V0g/exec";
+const FLS_LINK = "https:" + "//www.dcd.gov.ae/portal/preventive-safety/uae-fire-and-life-safety-code-of-practice.jsp";
+const EVENT_LINK = "https:" + "//ped-email-generator.github.io/event/";
+const REF_CODES = {gi: "GI", meeting: "MR", followup: "AS", tp: "TP"};
+const TOKEN_RE = /^PS-PED-[A-Z]{2}-\d{2}-\d{2}-\d{2}-\d{6}$/;
+
+const strings = {
+  org: ["Dubai Civil Defence", "الدفاع المدني بدبي"],
+  department: ["Preventive Engineering Department", "إدارة الهندسة الوقائية"],
+  banner: ["Preventive Engineering Department — drawings approval", "إدارة الهندسة الوقائية — اعتماد المخططات"],
+  title: ["Projconf email generator", "منشئ رسائل قسم اعتماد المخططات"],
+  intro: ["Choose a request type to prepare your email or find the temporary project form.", "اختر نوع الطلب لإعداد بريدك الإلكتروني أو للوصول إلى نموذج المشروع المؤقت."],
+  requestType: ["Request type", "نوع الطلب"],
+  gi: ["General inquiry", "استفسار عام"],
+  meeting: ["Meeting", "طلب اجتماع"],
+  followup: ["Follow-up", "متابعة"],
+  tp: ["Temporary project", "مشروع مؤقت"],
+  giHint: ["Ask a question without an application number.", "اطرح استفساراً إذا لم يكن لديك رقم طلب."],
+  meetingHint: ["Request a meeting about an existing application.", "اطلب اجتماعاً بشأن طلب قائم."],
+  followupHint: ["Follow up on a submission as a consultant, contractor or owner.", "تابع طلباً مقدّماً بصفتك استشارياً أو مقاولاً أو مالك المشروع."],
+  tpHint: ["For projects lasting six months (180 days) or less.", "للمشاريع التي تستمر ستة أشهر (180 يوماً) أو أقل."],
+  notes: ["Before you start", "قبل البدء"],
+  resources: ["Code and references", "الكود والمراجع"],
+  fls: ["UAE Fire & Life Safety Code of Practice 2018", "كود الإمارات للوقاية من الحريق وحماية الأرواح 2018"],
+  annex: ["Annexure 2 · Submission requirements", "الملحق رقم 2 · متطلبات التقديم"],
+  contacts: ["Department contacts", "جهات الاتصال"],
+  special: ["Special approval and cladding/façade", "الموافقات الخاصة وتكسية الواجهات"],
+  support: ["IT support", "الدعم التقني"],
+  finance: ["Finance", "الشؤون المالية"],
+  care: ["Customer care", "خدمة المتعاملين"],
+  events: ["Events", "الفعاليات"],
+  details: ["Your details", "بياناتك"],
+  project: ["Project", "المشروع"],
+  request: ["Request details", "تفاصيل الطلب"],
+  ownerDetails: ["Project owner’s contact details", "بيانات التواصل مع مالك المشروع"],
+  projectDates: ["Project dates", "مدة المشروع"],
+  followupAs: ["Who is following up?", "من يتابع الطلب؟"],
+  cc: ["Consultant / Contractor", "الاستشاري / المقاول"],
+  owner: ["Project owner", "مالك المشروع"],
+  role: ["Your role", "صفتك"],
+  name: ["Full name", "الاسم الكامل"],
+  company: ["Company name", "اسم الشركة"],
+  licence: ["Company licence number", "رقم رخصة الشركة"],
+  phone: ["Contact number", "رقم الهاتف المتحرك"],
+  email: ["Email address", "البريد الإلكتروني"],
+  ownerName: ["Owner name", "اسم المالك"],
+  ownerPhone: ["Owner mobile number", "رقم هاتف المالك المتحرك"],
+  ownerEmail: ["Owner email address", "البريد الإلكتروني للمالك"],
+  projectType: ["Type of project", "نوع المشروع"],
+  section: ["Section", "القسم"],
+  area: ["Built-up area (m²)", "المساحة المبنية (م²)"],
+  height: ["Building height (m)", "ارتفاع المبنى (م)"],
+  topic: ["Related topic", "الموضوع ذو الصلة"],
+  otherTopic: ["Specify the topic", "حدد الموضوع"],
+  inquiry: ["Detailed inquiry", "تفاصيل الاستفسار"],
+  inquiryHelp: ["Explain which part of the UAE FLS Code 2018 was unclear and describe your project. Enter at least 40 characters.", "وضّح الجزء غير الواضح من كود الإمارات للوقاية من الحريق وحماية الأرواح 2018، وصِف مشروعك بما لا يقل عن 40 حرفاً."],
+  undertaking: ["Undertaking letter (editable link)", "خطاب التعهد (رابط قابل للتعديل)"],
+  oneDrive: ["OneDrive link (editable)", "رابط OneDrive (قابل للتعديل)"],
+  linkHelp: ["Share a OneDrive or SharePoint link with ‘Can edit’ access. PDF only — no ZIP or DWG.", "شارك رابط OneDrive أو SharePoint بصلاحية «يمكن التعديل». تُقبل ملفات PDF فقط. لا تُقبل ملفات ZIP أو DWG."],
+  appNo: ["Application number", "رقم الطلب"],
+  system: ["Submission system", "نظام التقديم"],
+  engineer: ["DCD engineer", "مهندس الدفاع المدني"],
+  engineerComment: ["Engineer’s comment", "ملاحظة المهندس"],
+  commentHelp: ["Paste the engineer’s comment as received.", "الصق ملاحظة المهندس كما وردت إليك."],
+  submissionDate: ["Submission date", "تاريخ التقديم"],
+  startDate: ["Start date", "تاريخ البدء"],
+  endDate: ["End date", "تاريخ الانتهاء"],
+  choose: ["Select an option", "اختر من القائمة"],
+  optional: ["(optional)", "(اختياري)"],
+  meetingRule: ["If you need a meeting and have no application number, use General inquiry.", "إذا كنت تحتاج إلى اجتماع وليس لديك رقم طلب، اختر «استفسار عام»."],
+  assigned: ["A meeting is decided by the assigned engineer, or you will receive a reply.", "يقرر المهندس المكلّف ما إذا كان يلزم عقد اجتماع، أو سيصلك ردّ على استفسارك."],
+  goGi: ["I don’t have an application number", "ليس لدي رقم طلب"],
+  movedGi: ["Meeting requests without an application number are handled as general inquiries. Complete the details below.", "تُعامل طلبات الاجتماعات من دون رقم طلب على أنها استفسارات عامة. أكمل البيانات أدناه."],
+  tpCode: ["UAE FLS Code 2018 · Chapter 12, §1.2.2", "كود الإمارات 2018 · الفصل 12، البند 1.2.2"],
+  tooLong: ["For projects longer than 180 days, submit through the DCD e-services.", "للمشاريع التي تتجاوز مدتها 180 يوماً، قدّم الطلب عبر الخدمات الإلكترونية للدفاع المدني بدبي."],
+  dateOrder: ["The end date must be on or after the start date.", "يجب أن يكون تاريخ الانتهاء في تاريخ البدء أو بعده."],
+  dateError: ["Enter a valid date.", "أدخل تاريخاً صالحاً."],
+  portalNote: ["Upload your PDF in the client portal. You will receive your reference number there.", "ارفع ملف PDF في بوابة المتعاملين. ستحصل على رقمك المرجعي هناك."],
+  upload: ["Upload your PDF", "ارفع ملف PDF"],
+  required: ["This field is required.", "هذا الحقل مطلوب."],
+  phoneError: ["Enter a UAE mobile number, for example +971 50 123 4567.", "أدخل رقم هاتف متحرك إماراتياً، مثل ‎+971 50 123 4567."],
+  emailError: ["Enter a valid email address.", "أدخل بريداً إلكترونياً صالحاً."],
+  numberError: ["Enter a number of zero or more.", "أدخل رقماً يساوي صفراً أو أكبر."],
+  detailsError: ["Enter at least 40 characters.", "أدخل 40 حرفاً على الأقل."],
+  linkError: ["Enter an HTTPS OneDrive or SharePoint link.", "أدخل رابط OneDrive أو SharePoint يبدأ بـ HTTPS."],
+  pdfError: ["Share a PDF only. ZIP and DWG files are not accepted.", "شارك ملف PDF فقط. لا تُقبل ملفات ZIP أو DWG."],
+  generate: ["Generate email", "إنشاء البريد الإلكتروني"],
+  requesting: ["Requesting a reference number…", "جارٍ طلب الرقم المرجعي…"],
+  refError: ["The reference service is unavailable. Try generating your email again.", "خدمة الأرقام المرجعية غير متاحة حالياً. حاول إنشاء البريد الإلكتروني مرة أخرى."],
+  output: ["Your email is ready", "بريدك الإلكتروني جاهز"],
+  reference: ["Reference number", "الرقم المرجعي"],
+  to: ["To", "إلى"],
+  subject: ["Subject", "الموضوع"],
+  body: ["Email body", "نص البريد الإلكتروني"],
+  plain: ["View plain text", "عرض النص العادي"],
+  copyRef: ["Copy reference", "نسخ الرقم المرجعي"],
+  copyTo: ["Copy address", "نسخ العنوان"],
+  copySubject: ["Copy subject", "نسخ الموضوع"],
+  copyBody: ["Copy email body", "نسخ نص البريد الإلكتروني"],
+  copyText: ["Copy plain text", "نسخ النص العادي"],
+  copied: ["Copied to clipboard.", "تم النسخ إلى الحافظة."],
+  copyFailed: ["Copy is unavailable. Select the text and copy it manually.", "تعذّر النسخ. حدّد النص وانسخه يدوياً."],
+  openMail: ["Open in email app", "فتح في تطبيق البريد الإلكتروني"],
+  longEmail: ["If your email app cuts off the message, copy and paste the subject and body.", "إذا ظهر جزء فقط من الرسالة في تطبيق البريد، فانسخ الموضوع والنص والصقهما فيه."],
+  greeting: ["Dear Preventive Engineering Department,", "السادة في إدارة الهندسة الوقائية المحترمون،"],
+  giSummary: ["Please review the inquiry below.", "نرجو مراجعة الاستفسار الوارد أدناه."],
+  meetingSummary: ["Please consider this meeting request for the application below.", "نرجو النظر في طلب الاجتماع بشأن الطلب المذكور أدناه."],
+  followupSummary: ["Please provide an update on the submission below.", "نرجو إفادتنا بمستجدات الطلب المذكور أدناه."],
+  closing: ["Thank you for your support.", "شكراً لتعاونكم."],
+  sign: ["Best regards,", "مع خالص التحية،"]
+};
+
+// Applicable notes adapted from CONFIG.NOTES. Owner follow-up is an explicit A1 route.
+const notes = {
+  code: ["Review the UAE FLS Code 2018 and Annexure 2 before you write.", "راجع كود الإمارات 2018 والملحق رقم 2 قبل الكتابة."],
+  reference: ["Keep the reference number for follow-ups. Send the subject as generated.", "احتفظ بالرقم المرجعي للمتابعة، وأرسل الرسالة بالموضوع كما أُنشئ."],
+  engineer: ["Send the email to the department. Do not copy or email the engineer directly.", "أرسل البريد إلى الإدارة. لا تضع المهندس في نسخة ولا تراسله مباشرة."],
+  files: ["Name and organise the files you share through OneDrive.", "سمِّ الملفات التي تشاركها عبر OneDrive ونظّمها."]
+};
+
+const roles = {
+  consultant: ["Consultant", "استشاري"], contractor: ["Contractor", "مقاول"]
+};
+const projectTypes = {
+  consultant: roles.consultant, decor: ["Decor", "ديكور"], gas: ["Gas", "غاز"]
+};
+const sections = {
+  infrastructure: ["Projects & Infrastructure", "المشاريع والبنية التحتية"],
+  buildings: ["Buildings & Facilities", "المباني والمنشآت"],
+  gasDecor: ["Gas & Decor", "الغاز والديكور"]
+};
+// Submission categories from config.js and the corresponding references in annex.js.
+const sectionReferences = {
+  infrastructure: ["Annexure 2 · A2.7", "الملحق رقم 2 · A2.7"],
+  buildings: ["Annexure 2 · A2.3 / A2.6", "الملحق رقم 2 · A2.3 / A2.6"],
+  gasDecor: ["Annexure 2 · A2.4 / A2.5", "الملحق رقم 2 · A2.4 / A2.5"]
+};
+const topics = {
+  fls: ["Fire & Life Safety", "الوقاية من الحريق وحماية الأرواح"],
+  smoke: ["Smoke management", "التحكم في الدخان"],
+  fighting: ["Fire fighting", "مكافحة الحريق"],
+  alarm: ["Fire alarm", "إنذار الحريق"],
+  exit: ["Exit & emergency lighting", "إنارة المخارج والطوارئ"],
+  lpg: ["LPG", "غاز البترول المسال"],
+  infrastructure: ["Infrastructure", "البنية التحتية"],
+  marine: ["Marine", "المشاريع البحرية"],
+  other: ["Other", "أخرى"]
+};
+const systems = {
+  dcd: ["Dubai Civil Defence (DCD)", "الدفاع المدني بدبي (DCD)"],
+  dm: ["Dubai Municipality (DM)", "بلدية دبي (DM)"]
+};
+// Exact English roster from config.js, with Arabic display names for the RTL form and email.
+const engineers = {
+  "Eng. Mohamed Khalfan Almazrouei": ["Eng. Mohamed Khalfan Almazrouei", "المهندس محمد خلفان المزروعي"],
+  "Eng. Khalid Ahmed Aljumairi": ["Eng. Khalid Ahmed Aljumairi", "المهندس خالد أحمد الجميري"],
+  "Eng. Mohammed Jaber": ["Eng. Mohammed Jaber", "المهندس محمد جابر"],
+  "Eng. Rasha Mohammed": ["Eng. Rasha Mohammed", "المهندسة رشا محمد"],
+  "Eng. Raghda Mohammed": ["Eng. Raghda Mohammed", "المهندسة رغدة محمد"],
+  "Eng. Hind Badri": ["Eng. Hind Badri", "المهندسة هند بدري"],
+  "Eng. Rashid Thani": ["Eng. Rashid Thani", "المهندس راشد ثاني"],
+  "Eng. Mohammed Abdulrahim": ["Eng. Mohammed Abdulrahim", "المهندس محمد عبد الرحيم"],
+  "Eng. Meera Mohammed": ["Eng. Meera Mohammed", "المهندسة ميرة محمد"],
+  "Eng. Hafsa Ahmed": ["Eng. Hafsa Ahmed", "المهندسة حفصة أحمد"],
+  "Eng. Fatma Yaqoob": ["Eng. Fatma Yaqoob", "المهندسة فاطمة يعقوب"],
+  "Eng. Laila Ayoub": ["Eng. Laila Ayoub", "المهندسة ليلى أيوب"],
+  "Eng. Maryam": ["Eng. Maryam", "المهندسة مريم"]
+};
+
+const field = (id, props = {}) => ({id, type: "text", ...props});
+const choice = (id, options, props) => field(id, {type: "select", options, ...props});
+const appNo = field("appNo", {ltr: true});
+const system = choice("system", systems);
+const phone = id => field(id, {type: "tel", ltr: true, placeholder: "+971 5X XXX XXXX"});
+const email = id => field(id, {type: "email", ltr: true});
+const link = (id, label) => field(id, {label, type: "url", ltr: true, full: true, help: "linkHelp"});
+const senderFields = [choice("role", roles), field("company"), field("licence", {ltr: true}), phone("phone"), email("email")];
+const projectFields = [choice("projectType", projectTypes), choice("section", sections),
+  field("area", {type: "number", optional: true, when: "buildings"}),
+  field("height", {type: "number", optional: true, when: "buildings"}),
+  choice("topic", topics), field("otherTopic", {when: "other"})];
+
+const $ = selector => document.querySelector(selector);
+const escape = value => String(value).replace(/[&<>"']/g, c => ({"&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"})[c]);
+let lang = new URLSearchParams(location.search).get("lang") === "ar" ? "ar" : "en";
+const local = pair => pair[lang === "ar" ? 1 : 0];
+const t = key => local(strings[key]);
+const draft = Object.create(null);
+const value = id => (draft[id] || "").trim();
+let type = "", movedToGi = false, formStatus = "", revision = 0, pending = false, built = null;
+
+function activeGroups() {
+  const sender = ["details", senderFields];
+  const project = ["project", projectFields];
+  if (type === "gi") return [sender, project, ["request", [
+    field("inquiry", {type: "textarea", full: true, help: "inquiryHelp"}), link("giLink", "undertaking")]]];
+  if (type === "meeting") return [["request", [appNo, system, choice("engineer", engineers),
+    field("engineerComment", {type: "textarea", full: true, help: "commentHelp"}), link("meetingLink", "oneDrive")]], sender, project];
+  if (type === "followup" && value("followupAs") === "owner") return [
+    ["request", [system, appNo]], ["ownerDetails", [field("ownerName"), phone("ownerPhone"), email("ownerEmail")]]];
+  if (type === "followup" && value("followupAs") === "cc") return [
+    ["details", [field("name"), ...senderFields]], ["request", [field("submissionDate", {type: "date"}), system]], project];
+  if (type === "tp") return [["projectDates", [field("startDate", {type: "date"}), field("endDate", {type: "date"})]], sender];
+  return [];
+}
+
+function isVisible(f) {
+  if (f.when === "buildings") return value("section") === "buildings";
+  if (f.when === "other") return value("topic") === "other";
+  return true;
+}
+
+function renderField(f) {
+  const attrs = `id="${f.id}" name="${f.id}" aria-describedby="${f.id}-help ${f.id}-error"${f.optional ? "" : " required"}${f.ltr ? ' dir="ltr"' : ""}`;
+  const options = f.options && Object.entries(f.options).map(([id, labels]) => `<option value="${escape(id)}">${escape(local(labels))}</option>`).join("");
+  const control = f.type === "select" ? `<select ${attrs}><option value="">${t("choose")}</option>${options}</select>`
+    : f.type === "textarea" ? `<textarea ${attrs} dir="auto" rows="4"></textarea>`
+    : `<input ${attrs} type="${f.type}"${f.placeholder ? ` placeholder="${f.placeholder}"` : ""}${f.type === "number" ? ' min="0" step="any" inputmode="decimal"' : ""}>`;
+  const mark = f.optional ? `<span class="opt">${t("optional")}</span>` : '<span class="req" aria-hidden="true">*</span>';
+  return `<div class="f${f.full ? " full" : ""}" data-field="${f.id}"${isVisible(f) ? "" : " hidden"}>
+    <label for="${f.id}">${t(f.label || f.id)} ${mark}</label>${control}
+    <p class="help" id="${f.id}-help">${f.help ? t(f.help) : ""}</p><p class="err" id="${f.id}-error"></p></div>`;
+}
+
+function renderGuidance() {
+  const rule = `<p>${t("meetingRule")}</p>`;
+  const gi = `<div class="notice"${movedToGi ? ' role="status"' : ""}>${movedToGi ? `<p>${t("movedGi")}</p>` : rule}<p>${t("assigned")}</p></div>`;
+  const meeting = `<div class="notice">${rule}<div class="toolbar"><button class="btn" id="noApp" type="button">${t("goGi")}</button></div></div>`;
+  $("#guidance").innerHTML = type === "gi" ? gi : type === "meeting" ? meeting : type === "tp" ? `<p class="notice">${t("tpCode")}</p>` : "";
+}
+
+function renderRequest() {
+  $("#request").hidden = !type;
+  if (!type) return;
+  $("#requestTitle").textContent = t(type);
+  renderGuidance();
+  const followupSelector = choice("followupAs", {cc: strings.cc, owner: strings.owner}, {full: true});
+  $("#fields").innerHTML = (type === "followup" ? `<div class="fields grid">${renderField(followupSelector)}</div>` : "") +
+    activeGroups().map(([heading, fields]) => `<section class="fields"><h3>${t(heading)}</h3><div class="grid">${fields.map(renderField).join("")}</div></section>`).join("");
+  for (const input of $("#fields").querySelectorAll("input,select,textarea")) input.value = draft[input.id] || "";
+  $("#generateActions").hidden = type === "tp";
+  updateConditionalFields();
+  updateDates();
+  renderStatus();
+}
+
+function updateConditionalFields() {
+  for (const f of projectFields.filter(f => f.when)) {
+    const input = $("#" + f.id);
+    if (!input) continue;
+    input.closest("[data-field]").hidden = !isVisible(f);
+    input.disabled = !isVisible(f);
+    if (input.disabled) markError(f.id, "");
+  }
+  if ($("#section-help")) $("#section-help").textContent = sectionReferences[value("section")] ? local(sectionReferences[value("section")]) : "";
+}
+
+function tpDateError() {
+  if (!value("startDate") || !value("endDate")) return "";
+  const days = ($("#endDate").valueAsNumber - $("#startDate").valueAsNumber) / 86400000;
+  if (!Number.isFinite(days)) return "dateError";
+  if (days < 0) return "dateOrder";
+  return days > 180 ? "tooLong" : "";
+}
+
+function updateDates() {
+  const error = type === "tp" ? tpDateError() : "";
+  $("#dateError").textContent = error ? t(error) : "";
+  $("#dateError").hidden = !error;
+  $("#uploadPrompt").hidden = type !== "tp" || !value("startDate") || !value("endDate") || Boolean(error);
+}
+
+function renderStatus() {
+  $("#genBtn").disabled = pending;
+  $("#formStatus").textContent = formStatus ? t(formStatus) : "";
+  $("#formStatus").classList.toggle("notice", formStatus === "refError");
+  $("#formStatus").classList.toggle("stop", formStatus === "refError");
+}
+
+function renderNotes() {
+  $("#notes").hidden = type === "tp";
+  const items = ["code", "reference", "engineer"];
+  if (type === "gi" || type === "meeting") items.push("files");
+  $("#notesList").innerHTML = items.map(key => `<li>${local(notes[key])}</li>`).join("");
+}
+
+function renderPage() {
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.title = t("title") + " — " + t("org");
+  for (const el of document.querySelectorAll("[data-t]")) el.textContent = t(el.dataset.t);
+  $("#langLbl").textContent = lang === "ar" ? "English" : "العربية";
+  $("#langLbl").lang = lang === "ar" ? "en" : "ar";
+  $("#choices").innerHTML = Object.keys(REF_CODES).map(id => `<label class="choice">
+    <input type="radio" name="requestType" value="${id}" aria-labelledby="${id}-label" aria-describedby="${id}-hint"${id === type ? " checked" : ""}>
+    <span class="tile"><b id="${id}-label">${t(id)}</b><small id="${id}-hint">${t(id + "Hint")}</small></span></label>`).join("");
+  $("#selectedType").textContent = type ? t(type) : "";
+  $("#flsLink").href = FLS_LINK;
+  $("#contacts").innerHTML = [["special", "SAC@dcd.gov.ae"], ["support", "support.eservices@dcd.gov.ae"],
+    ["finance", "Fddcd@dcd.gov.ae"], ["care", CUSTOMER_CARE_EMAIL], ["events", EVENT_LINK]]
+    .filter(([, address]) => address).map(([key, address]) => `<tr><th scope="row">${t(key)}</th>
+    <td><a dir="ltr" href="${escape(key === "events" ? address : "mailto:" + address)}">${escape(address)}</a></td></tr>`).join("");
+  renderRequest();
+  renderNotes();
+  if (built) showOutput(built.token);
+}
+
+function clearOutput() {
+  revision++;
+  formStatus = "";
+  if (!built) return;
+  built = null;
+  $("#out").hidden = true;
+  for (const id of ["oToken", "oTo", "oSubj", "oSheet", "oText", "copyStatus"]) $("#" + id).textContent = "";
+  $("#mailBtn").removeAttribute("href");
+}
+
+function selectType(next, redirect = false) {
+  clearOutput();
+  type = next;
+  movedToGi = redirect;
+  $("#choices input[value=" + type + "]").checked = true;
+  $("#selectedType").textContent = t(type);
+  renderRequest();
+  renderNotes();
+  if (redirect) $("#requestTitle").focus();
+}
+
+function phoneDigits(input) {
+  const number = input.replace(/[٠-٩]/g, digit => String("٠١٢٣٤٥٦٧٨٩".indexOf(digit)))
+    .replace(/[۰-۹]/g, digit => String("۰۱۲۳۴۵۶۷۸۹".indexOf(digit))).replace(/[\s()-]/g, "");
+  return /^(?:\+971|00971|971|0)?(5\d{8})$/.exec(number)?.[1] || "";
+}
+
+function checkLink(input) {
+  let url;
+  try { url = new URL(input); } catch (_) { return "linkError"; }
+  const host = url.hostname;
+  if (url.protocol !== "https:" || url.username || url.password || url.port ||
+      !(["1drv.ms", "onedrive.live.com", "sharepoint.com"].includes(host) || host.endsWith(".sharepoint.com"))) return "linkError";
+  let path = url.pathname;
+  try { path = decodeURIComponent(path); } catch (_) { return "linkError"; }
+  const nonPdf = /\.(?:zip|dwg|rar|7z|dxf|docx?|xlsx?|pptx?|png|jpe?g|txt)(?:$|[/?#&])/i;
+  return nonPdf.test(path) || [...url.searchParams.values()].some(part => nonPdf.test(part)) ? "pdfError" : "";
+}
+
+function fieldError(f) {
+  const input = $("#" + f.id);
+  const entered = value(f.id);
+  if (f.type === "number" && input.validity.badInput) return "numberError";
+  if (f.type === "date" && (input.validity.badInput || (entered && !Number.isFinite(input.valueAsNumber)))) return "dateError";
+  if (!entered) return f.optional ? "" : "required";
+  if (f.type === "tel" && !phoneDigits(entered)) return "phoneError";
+  if (f.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(entered)) return "emailError";
+  if (f.type === "number" && (!Number.isFinite(Number(entered)) || Number(entered) < 0)) return "numberError";
+  if (f.id === "inquiry" && Array.from(entered).length < 40) return "detailsError";
+  if (f.type === "url") return checkLink(entered);
+  return "";
+}
+
+function markError(id, error) {
+  const input = $("#" + id);
+  if (error) input.setAttribute("aria-invalid", "true");
+  else input.removeAttribute("aria-invalid");
+  $("#" + id + "-error").textContent = error ? t(error) : "";
+}
+
+function validate() {
+  const fields = activeGroups().flatMap(([, fields]) => fields).filter(isVisible);
+  if (type === "followup") fields.unshift(field("followupAs"));
+  let first;
+  for (const f of fields) {
+    const error = fieldError(f);
+    markError(f.id, error);
+    if (error && !first) first = $("#" + f.id);
+  }
+  if (first) first.focus();
+  return !first;
+}
+
+async function issueToken(code) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+  try {
+    const response = await fetch(REF_ENDPOINT + "?action=ref&code=" + encodeURIComponent(code), {
+      method: "GET", credentials: "omit", cache: "no-store", signal: controller.signal
+    });
+    const result = response.ok ? await response.json() : null;
+    const token = result?.ref;
+    return typeof token === "string" && TOKEN_RE.test(token) && token.split("-")[2] === code ? token : "";
+  } catch (_) {
+    return "";
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function displayValue(f) {
+  const entered = value(f.id);
+  if (f.options) return local(f.options[entered]);
+  if (f.type === "tel") {
+    const d = phoneDigits(entered);
+    return `+971 ${d.slice(0, 2)} ${d.slice(2, 5)} ${d.slice(5)}`;
+  }
+  if (f.type === "date") return new Intl.DateTimeFormat(lang === "ar" ? "ar-AE" : "en-GB", {dateStyle: "long", timeZone: "UTC"}).format($("#" + f.id).valueAsNumber);
+  return entered;
+}
+
+function emailModel(token) {
+  const owner = type === "followup" && value("followupAs") === "owner";
+  const groups = activeGroups().filter(([heading]) => heading !== "ownerDetails").map(([heading, fields]) => ({
+    title: t(heading), rows: fields.filter(f => isVisible(f) && value(f.id)).map(f => ({label: t(f.label || f.id), value: displayValue(f), url: f.type === "url", ltr: f.ltr}))
+  }));
+  const signature = owner ? [value("ownerName"), t("owner"), displayValue(phone("ownerPhone")), value("ownerEmail")]
+    : [type === "followup" ? value("name") : "", displayValue(choice("role", roles)) + " — " + value("company"), displayValue(phone("phone")), value("email")];
+  const quote = lang === "ar" ? `يرجى ذكر الرقم المرجعي ${token} في جميع المراسلات.` : `Please quote reference ${token} in all correspondence.`;
+  const application = type === "meeting" || owner ? value("appNo").replace(/[\r\n]+/g, " ") : "";
+  return {token, title: t(type), org: t("org") + " · " + t("department"), greeting: t("greeting"), summary: t(type + "Summary"),
+    groups, signature: signature.filter(Boolean), closing: t("closing"), sign: t("sign"), quote,
+    subject: [token, t(type), application].filter(Boolean).join(" | ")};
+}
+
+// Paired formats adapted from the live generator. Both are built from the same email model.
+function toText(email) {
+  const rule = "=".repeat(40), divider = "-".repeat(40);
+  const lines = [rule, email.org, email.title + " | " + email.token, rule, "", email.greeting, email.summary, ""];
+  for (const group of email.groups) {
+    lines.push(group.title, divider);
+    for (const row of group.rows) lines.push(row.label + ": " + row.value);
+    lines.push("");
+  }
+  lines.push(email.closing, "", email.sign, ...email.signature, "", rule, email.quote, rule);
+  return lines.join("\n");
+}
+
+function toHTML(email) {
+  const font = "font-family:Calibri,'Segoe UI',Arial,Helvetica,sans-serif;";
+  const p = "margin:0 0 9px;font-size:11.5pt;line-height:1.55;";
+  const htmlValue = value => escape(value).replace(/\r?\n/g, "<br>");
+  const groups = email.groups.map(group => `<tr><td colspan="2" bgcolor="#EDF3FA" style="padding:7px 20px;border-top:1px solid #C9D4E2;font-size:10pt;font-weight:bold;color:#2A5889">${escape(group.title)}</td></tr>` +
+    group.rows.map(row => `<tr><td width="34%" valign="top" bgcolor="#F8FAFC" style="padding:7px 16px;border-top:1px solid #E4E9F0;font-size:10.5pt;font-weight:bold;color:#12243A">${escape(row.label)}</td>
+    <td valign="top" style="padding:7px 16px;border-top:1px solid #E4E9F0;font-size:10.5pt;color:#1F2937;line-height:1.45;overflow-wrap:anywhere"><div dir="${row.ltr ? "ltr" : "auto"}">${row.url ? `<a href="${escape(row.value)}" rel="noopener noreferrer" target="_blank" style="color:#0A55BF;word-break:break-all">${escape(row.value)}</a>` : htmlValue(row.value)}</div></td></tr>`).join("")).join("");
+  return `<table role="presentation" width="680" cellpadding="0" cellspacing="0" border="0" lang="${lang}" dir="${lang === "ar" ? "rtl" : "ltr"}" bgcolor="#FFFFFF" style="width:680px;table-layout:fixed;border-collapse:separate;border:1px solid #C9D4E2;border-radius:10px;${font}color:#1F2937">
+    <colgroup><col width="231"><col width="449"></colgroup>
+    <tr><td colspan="2" bgcolor="#12243A" style="background:#12243A;padding:14px 20px;border-radius:9px 9px 0 0;color:#FFFFFF">
+      <div style="font-size:9pt;color:#BFD3EA;font-weight:bold">${escape(email.org)}</div>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:4px;${font}color:#FFFFFF"><tr><td style="font-size:14pt;font-weight:bold">${escape(email.title)}</td><td dir="ltr" align="${lang === "ar" ? "left" : "right"}" style="font: bold 11pt Consolas,monospace;white-space:nowrap">${escape(email.token)}</td></tr></table>
+    </td></tr>
+    <tr><td colspan="2" style="padding:16px 20px 7px"><p style="${p}">${escape(email.greeting)}</p><p style="${p}">${escape(email.summary)}</p></td></tr>
+    ${groups}
+    <tr><td colspan="2" style="padding:16px 20px;border-top:1px solid #C9D4E2"><p style="${p}">${escape(email.closing)}</p><div style="font-size:11.5pt;line-height:1.55">${escape(email.sign)}${email.signature.map(line => `<div dir="auto">${escape(line)}</div>`).join("")}</div></td></tr>
+    <tr><td colspan="2" bgcolor="#F4F6F9" style="padding:9px 20px;border-top:1px solid #E4E9F0;border-radius:0 0 9px 9px;font-size:9pt;color:#5E6E7E">${escape(email.quote).replace(email.token, `<b dir="ltr" style="font-family:Consolas,monospace">${email.token}</b>`)}</td></tr></table>`;
+}
+
+function fitSheet() {
+  if (!built) return;
+  const preview = $("#oBody"), sheet = $("#oSheet");
+  const scale = Math.min(1, preview.clientWidth / sheet.offsetWidth);
+  sheet.style.transform = `scale(${scale})`;
+  preview.style.height = Math.ceil(sheet.offsetHeight * scale) + "px";
+}
+
+function showOutput(token) {
+  const email = emailModel(token);
+  built = {token, to: INBOX, subject: email.subject, text: toText(email), html: toHTML(email)};
+  $("#oToken").textContent = token;
+  $("#oTo").textContent = INBOX;
+  $("#oSubj").textContent = built.subject;
+  $("#oSheet").innerHTML = built.html;
+  $("#oText").textContent = built.text;
+  const href = "mailto:" + INBOX + "?subject=" + encodeURIComponent(built.subject) + "&body=" + encodeURIComponent(built.text);
+  $("#mailBtn").href = href;
+  $("#longWarn").hidden = href.length <= 1800;
+  $("#copyStatus").textContent = "";
+  $("#out").hidden = false;
+  fitSheet();
+}
+
+async function copyOutput(key) {
+  const current = built;
+  let ok = false;
+  try {
+    if (key === "body") {
+      await navigator.clipboard.write([new ClipboardItem({
+        "text/html": new Blob([current.html], {type: "text/html"}),
+        "text/plain": new Blob([current.text], {type: "text/plain"})
+      })]);
+    } else {
+      await navigator.clipboard.writeText(current[key]);
+    }
+    ok = true;
+  } catch (_) {
+    const holder = document.createElement("div");
+    holder.style.cssText = "position:fixed;inset-block-start:0;inset-inline-start:-10000px";
+    if (key === "body") holder.innerHTML = current.html;
+    else holder.textContent = current[key];
+    document.body.append(holder);
+    const range = document.createRange();
+    range.selectNodeContents(holder);
+    const selection = getSelection();
+    try {
+      selection.removeAllRanges();
+      selection.addRange(range);
+      ok = document.execCommand("copy");
+    } catch (_) {
+      ok = false;
+    } finally {
+      selection.removeAllRanges();
+      holder.remove();
+    }
+  }
+  if (built === current) $("#copyStatus").textContent = t(ok ? "copied" : "copyFailed");
+}
+
+$("#langBtn").addEventListener("click", () => {
+  lang = lang === "en" ? "ar" : "en";
+  renderPage();
+});
+$("#choices").addEventListener("change", event => selectType(event.target.value));
+$("#guidance").addEventListener("click", event => {
+  if (event.target.id === "noApp") selectType("gi", true);
+});
+$("#fields").addEventListener("input", event => {
+  const input = event.target;
+  draft[input.id] = input.value;
+  clearOutput();
+  if (input.id === "followupAs") {
+    renderRequest();
+    $("#followupAs").focus();
+  } else {
+    markError(input.id, "");
+    updateConditionalFields();
+    updateDates();
+    renderStatus();
+  }
+});
+$("#upload").addEventListener("click", event => {
+  if (type !== "tp" || tpDateError() || !validate()) event.preventDefault();
+});
+$("#form").addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!type || type === "tp" || pending) return;
+  if (type === "meeting" && !value("appNo")) {
+    selectType("gi", true);
+    return;
+  }
+  if (!validate()) return;
+  if (built) {
+    $("#outputTitle").focus();
+    return;
+  }
+  const current = revision;
+  pending = true;
+  formStatus = "requesting";
+  renderStatus();
+  const token = await issueToken(REF_CODES[type]);
+  pending = false;
+  if (current === revision) {
+    formStatus = token ? "" : "refError";
+    if (token) {
+      showOutput(token);
+      $("#outputTitle").focus();
+    }
+  }
+  renderStatus();
+});
+$("#out").addEventListener("click", event => {
+  if (built && event.target.dataset.copy) copyOutput(event.target.dataset.copy);
+});
+new ResizeObserver(fitSheet).observe($("#oSheet"));
+window.addEventListener("resize", fitSheet);
+renderPage();
+</script>
+</body>
+</html>
