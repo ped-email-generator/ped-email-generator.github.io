@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://script.googleusercontent.com; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; form-action 'none'; base-uri 'none'">
 <title>Projconf email generator — Dubai Civil Defence</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#F4F6F9;--surface:#FFF;--surface2:#F8FAFC;--line:#E4E9F0;--line2:#D2DAE4;
@@ -97,7 +96,6 @@ main,aside,.f{min-width:0}
 .card .status{margin:12px 0 0;font-size:14px}
 .status:empty{display:none}
 #request,#out{scroll-margin-top:80px}
-.token{padding:10px 12px;border:1px solid var(--blue-line);border-radius:12px;background:var(--blue-soft)}
 .meta{display:grid;gap:10px;margin-top:12px}
 .ob{min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface2)}
 .ob-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;font-size:14px;font-weight:600}
@@ -150,17 +148,10 @@ main,aside,.f{min-width:0}
       <form id="form" autocomplete="off" novalidate>
         <div id="fields"></div>
         <div class="toolbar" id="generateActions"><button class="btn primary" id="genBtn" type="submit" data-t="generate"></button></div>
-        <div class="notice stop" id="dateError" role="alert" hidden></div>
-        <div id="uploadPrompt" hidden>
-          <p class="notice" data-t="portalNote"></p>
-          <a class="btn primary" id="upload" href="../portal/#/new/tp" data-t="upload"></a>
-        </div>
-        <p class="status" id="formStatus" role="status"></p>
       </form>
     </section>
     <section class="card" id="out" aria-labelledby="outputTitle" hidden>
       <h2 id="outputTitle" data-t="output" tabindex="-1"></h2>
-      <div class="token ob-h"><span data-t="reference"></span><code id="oToken" dir="ltr"></code><button class="copy" type="button" data-copy="token" data-t="copyRef"></button></div>
       <div class="meta">
         <div class="ob"><div class="ob-h"><span data-t="to"></span><button class="copy" type="button" data-copy="to" data-t="copyTo"></button></div><pre id="oTo" dir="ltr"></pre></div>
         <div class="ob"><div class="ob-h"><span data-t="subject"></span><button class="copy" type="button" data-copy="subject" data-t="copySubject"></button></div><pre id="oSubj"></pre></div>
@@ -198,47 +189,41 @@ main,aside,.f{min-width:0}
 const INBOX = "Projconf@dcd.gov.ae";
 // Customer care address to be confirmed. Its row is hidden while this is empty.
 const CUSTOMER_CARE_EMAIL = 'customer.care@dcd.gov.ae';
-// Existing generator service and official code link from site/js/gen/config.js.
-const REF_ENDPOINT = "https:" + "//script.google.com/macros/s/AKfycby3AP9DAplS7gSiNv7RtJP-HBRPGnCcjZpOxnQpt1lGAcGUyFDMdhlTChBI16VjofTB8Q/exec";
 const FLS_LINK = "https:" + "//www.dcd.gov.ae/portal/preventive-safety/uae-fire-and-life-safety-code-of-practice.jsp";
-const EVENT_LINK = "https:" + "//ped-email-generator.github.io/event/";
-const REF_CODES = {gi: "GI", meeting: "MR", followup: "AS", tp: "TP"};
-const TOKEN_RE = /^PS-PED-[A-Z]{2}-\d{2}-\d{2}-\d{2}-\d{6}$/;
+const INQUIRIES = ["gi", "meeting", "followup"];
 
 const strings = {
-  org: ["Dubai Civil Defence", "الدفاع المدني بدبي"],
+  org: ["Dubai Civil Defence", "القيادة العامة للدفاع المدني بدبي"],
   department: ["Preventive Engineering Department", "إدارة الهندسة الوقائية"],
   banner: ["Preventive Engineering Department", "إدارة الهندسة الوقائية"],
   title: ["Projconf email generator", "منشئ البريد الإلكتروني"],
-  intro: ["Choose a request type to prepare your email.", "اختاروا نوع الطلب لإعداد رسالتكم."],
+  intro: ["Choose an inquiry type to prepare your email.", "اختاروا نوع الاستفسار لإعداد رسالتكم الإلكترونية."],
   requestType: ["Request type", "نوع الطلب"],
   gi: ["General inquiry", "استفسار عام"],
   meeting: ["Meeting", "طلب اجتماع"],
   followup: ["Follow-up", "متابعة"],
-  tp: ["Temporary project", "مشروع مؤقت"],
-  giHint: ["Ask a question without an application number.", "اطرح استفساراً إذا لم يكن لديك رقم طلب."],
-  meetingHint: ["Request a meeting about an existing application.", "اطلب اجتماعاً بشأن طلب قائم."],
-  followupHint: ["Follow up on a submission as a consultant, contractor or owner.", "تابع طلباً مقدّماً بصفتك استشارياً أو مقاولاً أو مالك المشروع."],
-  tpHint: ["For projects lasting six months (180 days) or less.", "للمشاريع التي تستمر ستة أشهر (180 يوماً) أو أقل."],
+  giHint: ["Ask a question without an application number.", "أرسلوا استفساراً عاماً إذا لم يكن لديكم رقم معاملة."],
+  meetingHint: ["Request a meeting about an existing application.", "اطلبوا اجتماعاً بشأن معاملة قائمة."],
+  followupHint: ["Follow up on a submission as a consultant, contractor or owner.", "استفسروا عن معاملة سبق تقديمها إذا كنتم استشاري المشروع أو المقاول أو مالك المشروع."],
   notes: ["Before you start", "قبل البدء"],
-  resources: ["Code and references", "الكود والمراجع"],
+  resources: ["Code and submission requirements", "الكود ومتطلبات التقديم"],
   fls: ["UAE Fire & Life Safety Code of Practice 2018", "كود الإمارات للوقاية من الحريق وحماية الأرواح 2018"],
   annex: ["Annexure 2 · Submission requirements", "الملحق رقم 2 · متطلبات التقديم"],
   contacts: ["Department contacts", "جهات الاتصال"],
-  special: ["Special approval and cladding/façade", "الموافقات الخاصة وتكسية الواجهات"],
+  special: ["Special approvals · Façades and cladding", "الموافقات الخاصة والواجهات والتكسيات"],
+  sacEmail: ["Email", "راسلونا على"],
   support: ["IT support", "الدعم التقني"],
   finance: ["Finance", "الشؤون المالية"],
   care: ["Customer care", "خدمة المتعاملين"],
-  events: ["Events", "الفعاليات"],
-  details: ["Your details", "بياناتك"],
+  details: ["Your details", "بياناتكم"],
   project: ["Project", "المشروع"],
+  projectName: ["Project name", "اسم المشروع"],
   request: ["Request details", "تفاصيل الطلب"],
   ownerDetails: ["Project owner’s contact details", "بيانات التواصل مع مالك المشروع"],
-  projectDates: ["Project dates", "مدة المشروع"],
   followupAs: ["Who is following up?", "من يتابع الطلب؟"],
   cc: ["Consultant / Contractor", "الاستشاري / المقاول"],
   owner: ["Project owner", "مالك المشروع"],
-  role: ["Your role", "صفتك"],
+  role: ["Your role", "صفتكم"],
   name: ["Full name", "الاسم الكامل"],
   company: ["Company name", "اسم الشركة"],
   licence: ["Company licence number", "رقم رخصة الشركة"],
@@ -252,78 +237,68 @@ const strings = {
   area: ["Built-up area (m²)", "المساحة المبنية (م²)"],
   height: ["Building height (m)", "ارتفاع المبنى (م)"],
   topic: ["Related topic", "الموضوع ذو الصلة"],
-  otherTopic: ["Specify the topic", "حدد الموضوع"],
+  otherTopic: ["Specify the topic", "حدّدوا الموضوع"],
   inquiry: ["Detailed inquiry", "تفاصيل الاستفسار"],
-  inquiryHelp: ["Explain which part of the UAE FLS Code 2018 was unclear and describe your project. Enter at least 40 characters.", "وضّح الجزء غير الواضح من كود الإمارات للوقاية من الحريق وحماية الأرواح 2018، وصِف مشروعك بما لا يقل عن 40 حرفاً."],
+  inquiryHelp: ["Explain which part of the UAE FLS Code 2018 was unclear and describe your project. Enter at least 40 characters.", "وضّحوا الجزء غير الواضح من كود الإمارات للوقاية من الحريق وحماية الأرواح 2018، وصِفوا مشروعكم بما لا يقل عن 40 حرفاً."],
   undertaking: ["Undertaking letter (editable link)", "خطاب التعهد (رابط قابل للتعديل)"],
   oneDrive: ["OneDrive link (editable)", "رابط OneDrive (قابل للتعديل)"],
-  linkHelp: ["Share a OneDrive or SharePoint link with ‘Can edit’ access. PDF only — no ZIP or DWG.", "شارك رابط OneDrive أو SharePoint بصلاحية «يمكن التعديل». تُقبل ملفات PDF فقط. لا تُقبل ملفات ZIP أو DWG."],
-  appNo: ["Application number", "رقم الطلب"],
+  linkHelp: ["Share a OneDrive or SharePoint link with ‘Can edit’ access. PDF only — no ZIP or DWG.", "شاركوا رابط OneDrive أو SharePoint بصلاحية «يمكن التعديل». تُقبل ملفات PDF فقط. لا تُقبل ملفات ZIP أو DWG."],
+  appNo: ["Application number", "رقم المعاملة"],
   system: ["Submission system", "نظام التقديم"],
   engineer: ["DCD engineer", "مهندس الدفاع المدني"],
   engineerComment: ["Engineer’s comment", "ملاحظة المهندس"],
-  commentHelp: ["Paste the engineer’s comment as received.", "الصق ملاحظة المهندس كما وردت إليك."],
+  commentHelp: ["Paste the engineer’s comment as received.", "ألصقوا ملاحظة المهندس كما وردت إليكم."],
   submissionDate: ["Submission date", "تاريخ التقديم"],
-  startDate: ["Start date", "تاريخ البدء"],
-  endDate: ["End date", "تاريخ الانتهاء"],
-  choose: ["Select an option", "اختر من القائمة"],
+  choose: ["Select an option", "اختاروا من القائمة"],
   optional: ["(optional)", "(اختياري)"],
-  meetingRule: ["If you need a meeting and have no application number, use General inquiry.", "إذا كنت تحتاج إلى اجتماع وليس لديك رقم طلب، اختر «استفسار عام»."],
-  assigned: ["A meeting is decided by the assigned engineer, or you will receive a reply.", "يقرر المهندس المكلّف ما إذا كان يلزم عقد اجتماع، أو سيصلك ردّ على استفسارك."],
-  goGi: ["I don’t have an application number", "ليس لدي رقم طلب"],
-  movedGi: ["Meeting requests without an application number are handled as general inquiries. Complete the details below.", "تُعامل طلبات الاجتماعات من دون رقم طلب على أنها استفسارات عامة. أكمل البيانات أدناه."],
-  tpCode: ["UAE FLS Code 2018 · Chapter 12, §1.2.2", "كود الإمارات 2018 · الفصل 12، البند 1.2.2"],
-  tooLong: ["For projects longer than 180 days, submit through the DCD e-services.", "للمشاريع التي تتجاوز مدتها 180 يوماً، قدّم الطلب عبر الخدمات الإلكترونية للدفاع المدني بدبي."],
-  dateOrder: ["The end date must be on or after the start date.", "يجب أن يكون تاريخ الانتهاء في تاريخ البدء أو بعده."],
-  dateError: ["Enter a valid date.", "أدخل تاريخاً صالحاً."],
-  portalNote: ["Upload your PDF in the client portal. You will receive your reference number there.", "ارفع ملف PDF في بوابة المتعاملين. ستحصل على رقمك المرجعي هناك."],
-  upload: ["Upload your PDF", "ارفع ملف PDF"],
+  meetingRule: ["If you need a meeting and have no application number, use General inquiry.", "إذا احتجتم إلى اجتماع ولم يكن لديكم رقم معاملة، فاختاروا «استفسار عام»."],
+  assigned: ["A meeting is decided by the assigned engineer, or you will receive a reply.", "يحدّد المهندس المكلّف ما إذا كان الاجتماع ضرورياً، ويردّ على استفساركم بالبريد الإلكتروني عند عدم الحاجة إلى اجتماع."],
+  goGi: ["I don’t have an application number", "ليس لدينا رقم معاملة"],
+  movedGi: ["Meeting requests without an application number are handled as general inquiries. Complete the details below.", "تُعالج طلبات الاجتماعات التي لا تتضمن رقم معاملة بوصفها استفسارات عامة. يرجى استكمال البيانات أدناه."],
+  dateError: ["Enter a valid date.", "أدخلوا تاريخاً صالحاً."],
+  appError: ["Enter the application number from your submission.", "أدخلوا رقم المعاملة الوارد في طلبكم."],
   required: ["This field is required.", "هذا الحقل مطلوب."],
-  phoneError: ["Enter a UAE mobile number, for example +971 50 123 4567.", "أدخل رقم هاتف متحرك إماراتياً، مثل ‎+971 50 123 4567."],
-  emailError: ["Enter a valid email address.", "أدخل بريداً إلكترونياً صالحاً."],
-  numberError: ["Enter a number of zero or more.", "أدخل رقماً يساوي صفراً أو أكبر."],
-  detailsError: ["Enter at least 40 characters.", "أدخل 40 حرفاً على الأقل."],
-  linkError: ["Enter an HTTPS OneDrive or SharePoint link.", "أدخل رابط OneDrive أو SharePoint يبدأ بـ HTTPS."],
-  pdfError: ["Share a PDF only. ZIP and DWG files are not accepted.", "شارك ملف PDF فقط. لا تُقبل ملفات ZIP أو DWG."],
+  phoneError: ["Enter a UAE mobile number, for example +971 50 123 4567.", "أدخلوا رقم هاتف متحرك إماراتياً، مثل ‎+971 50 123 4567."],
+  emailError: ["Enter a valid email address.", "أدخلوا عنوان بريد إلكتروني صالحاً."],
+  numberError: ["Enter a number of zero or more.", "أدخلوا عدداً لا يقل عن صفر."],
+  detailsError: ["Enter at least 40 characters.", "أدخلوا 40 حرفاً على الأقل."],
+  linkError: ["Enter an HTTPS OneDrive or SharePoint link.", "أدخلوا رابط OneDrive أو SharePoint يبدأ بـ HTTPS."],
+  pdfError: ["Share a PDF only. ZIP and DWG files are not accepted.", "شاركوا ملف PDF فقط. لا تُقبل ملفات ZIP أو DWG."],
   generate: ["Generate email", "إنشاء البريد الإلكتروني"],
-  requesting: ["Requesting a reference number…", "جارٍ طلب الرقم المرجعي…"],
-  refError: ["The reference service is unavailable. Try generating your email again.", "خدمة الأرقام المرجعية غير متاحة حالياً. حاول إنشاء البريد الإلكتروني مرة أخرى."],
-  output: ["Your email is ready", "بريدك الإلكتروني جاهز"],
-  reference: ["Reference number", "الرقم المرجعي"],
+  output: ["Your email is ready", "بريدكم الإلكتروني جاهز"],
   to: ["To", "إلى"],
   subject: ["Subject", "الموضوع"],
   body: ["Email body", "نص البريد الإلكتروني"],
   plain: ["View plain text", "عرض النص العادي"],
-  copyRef: ["Copy reference", "نسخ الرقم المرجعي"],
   copyTo: ["Copy address", "نسخ العنوان"],
   copySubject: ["Copy subject", "نسخ الموضوع"],
   copyBody: ["Copy email body", "نسخ نص البريد الإلكتروني"],
   copyText: ["Copy plain text", "نسخ النص العادي"],
   copied: ["Copied to clipboard.", "تم النسخ إلى الحافظة."],
-  copyFailed: ["Copy is unavailable. Select the text and copy it manually.", "تعذّر النسخ. حدّد النص وانسخه يدوياً."],
+  copyFailed: ["Copy is unavailable. Select the text and copy it manually.", "تعذّر النسخ. حدّدوا النص وانسخوه يدوياً."],
   openMail: ["Open in email app", "فتح في تطبيق البريد الإلكتروني"],
-  longEmail: ["If your email app cuts off the message, copy and paste the subject and body.", "إذا ظهر جزء فقط من الرسالة في تطبيق البريد، فانسخ الموضوع والنص والصقهما فيه."],
+  longEmail: ["If your email app cuts off the message, copy and paste the subject and body.", "إذا ظهر جزء فقط من الرسالة في تطبيق البريد، فانسخوا الموضوع والنص وألصقوهما في التطبيق."],
   greeting: ["Dear Preventive Engineering Department,", "السادة في إدارة الهندسة الوقائية المحترمون،"],
   giSummary: ["Please review the inquiry below.", "نرجو مراجعة الاستفسار الوارد أدناه."],
-  meetingSummary: ["Please consider this meeting request for the application below.", "نرجو النظر في طلب الاجتماع بشأن الطلب المذكور أدناه."],
-  followupSummary: ["Please provide an update on the submission below.", "نرجو إفادتنا بمستجدات الطلب المذكور أدناه."],
+  meetingSummary: ["Please consider this meeting request for the application below.", "نرجو النظر في طلب الاجتماع بشأن المعاملة المذكورة أدناه."],
+  followupSummary: ["Please provide an update on the submission below.", "نرجو إفادتنا بمستجدات المعاملة المذكورة أدناه."],
   closing: ["Thank you for your support.", "شكراً لتعاونكم."],
-  sign: ["Best regards,", "مع خالص التحية،"]
+  sign: ["Best regards,", "وتفضّلوا بقبول فائق الاحترام،"]
 };
 
-// Applicable notes adapted from CONFIG.NOTES. Owner follow-up is an explicit A1 route.
+// Guidance for the three inquiry types.
 const notes = {
-  code: ["Review the UAE FLS Code 2018 and Annexure 2 before you write.", "راجع كود الإمارات 2018 والملحق رقم 2 قبل الكتابة."],
-  reference: ["Keep the reference number for follow-ups. Send the subject as generated.", "احتفظ بالرقم المرجعي للمتابعة، وأرسل الرسالة بالموضوع كما أُنشئ."],
-  engineer: ["Send the email to the department. Do not copy or email the engineer directly.", "أرسل البريد إلى الإدارة. لا تضع المهندس في نسخة ولا تراسله مباشرة."],
-  files: ["Name and organise the files you share through OneDrive.", "سمِّ الملفات التي تشاركها عبر OneDrive ونظّمها."]
+  code: ["Review the UAE FLS Code 2018 and Annexure 2 before you write.", "راجعوا كود الإمارات 2018 والملحق رقم 2 قبل الكتابة."],
+  engineer: ["Send the email to the department. Do not copy or email the engineer directly.", "أرسلوا الرسالة إلى الإدارة. يرجى عدم مراسلة المهندس مباشرةً أو إدراجه في خانة النسخة."],
+  subject: ["Send the email with the subject exactly as generated. Do not change it.", "أرسلوا الرسالة بالموضوع الذي أنشأه النظام كما هو، دون تعديل."],
+  files: ["Name and organise the files you share through OneDrive.", "سمّوا الملفات التي تشاركونها عبر OneDrive ونظّموها."]
 };
 
 const roles = {
   consultant: ["Consultant", "استشاري"], contractor: ["Contractor", "مقاول"]
 };
 const projectTypes = {
-  consultant: roles.consultant, decor: ["Decor", "ديكور"], gas: ["Gas", "غاز"]
+  consultant: ["Consultant", "مشروع استشاري"], decor: ["Decor", "ديكور"], gas: ["Gas", "غاز"]
 };
 const sections = {
   infrastructure: ["Projects & Infrastructure", "المشاريع والبنية التحتية"],
@@ -388,11 +363,11 @@ const local = pair => pair[lang === "ar" ? 1 : 0];
 const t = key => local(strings[key]);
 const draft = Object.create(null);
 const value = id => (draft[id] || "").trim();
-let type = "", movedToGi = false, formStatus = "", revision = 0, pending = false, built = null;
+let type = "", movedToGi = false, built = null;
 
 function activeGroups() {
   const sender = ["details", senderFields];
-  const project = ["project", projectFields];
+  const project = ["project", [field("projectName", {optional: type !== "gi"}), ...projectFields]];
   if (type === "gi") return [sender, project, ["request", [
     field("inquiry", {type: "textarea", full: true, help: "inquiryHelp"}), link("giLink", "undertaking")]]];
   if (type === "meeting") return [["request", [appNo, system, choice("engineer", engineers),
@@ -400,8 +375,7 @@ function activeGroups() {
   if (type === "followup" && value("followupAs") === "owner") return [
     ["request", [system, appNo]], ["ownerDetails", [field("ownerName"), phone("ownerPhone"), email("ownerEmail")]]];
   if (type === "followup" && value("followupAs") === "cc") return [
-    ["details", [field("name"), ...senderFields]], ["request", [field("submissionDate", {type: "date"}), system]], project];
-  if (type === "tp") return [["projectDates", [field("startDate", {type: "date"}), field("endDate", {type: "date"})]], sender];
+    ["details", [field("name"), ...senderFields]], ["request", [appNo, field("submissionDate", {type: "date"}), system]], project];
   return [];
 }
 
@@ -427,7 +401,7 @@ function renderGuidance() {
   const rule = `<p>${t("meetingRule")}</p>`;
   const gi = `<div class="notice"${movedToGi ? ' role="status"' : ""}>${movedToGi ? `<p>${t("movedGi")}</p>` : rule}<p>${t("assigned")}</p></div>`;
   const meeting = `<div class="notice">${rule}<div class="toolbar"><button class="btn" id="noApp" type="button">${t("goGi")}</button></div></div>`;
-  $("#guidance").innerHTML = type === "gi" ? gi : type === "meeting" ? meeting : type === "tp" ? `<p class="notice">${t("tpCode")}</p>` : "";
+  $("#guidance").innerHTML = type === "gi" ? gi : type === "meeting" ? meeting : "";
 }
 
 function renderRequest() {
@@ -439,10 +413,7 @@ function renderRequest() {
   $("#fields").innerHTML = (type === "followup" ? `<div class="fields grid">${renderField(followupSelector)}</div>` : "") +
     activeGroups().map(([heading, fields]) => `<section class="fields"><h3>${t(heading)}</h3><div class="grid">${fields.map(renderField).join("")}</div></section>`).join("");
   for (const input of $("#fields").querySelectorAll("input,select,textarea")) input.value = draft[input.id] || "";
-  $("#generateActions").hidden = type === "tp";
   updateConditionalFields();
-  updateDates();
-  renderStatus();
 }
 
 function updateConditionalFields() {
@@ -456,31 +427,8 @@ function updateConditionalFields() {
   if ($("#section-help")) $("#section-help").textContent = sectionReferences[value("section")] ? local(sectionReferences[value("section")]) : "";
 }
 
-function tpDateError() {
-  if (!value("startDate") || !value("endDate")) return "";
-  const days = ($("#endDate").valueAsNumber - $("#startDate").valueAsNumber) / 86400000;
-  if (!Number.isFinite(days)) return "dateError";
-  if (days < 0) return "dateOrder";
-  return days > 180 ? "tooLong" : "";
-}
-
-function updateDates() {
-  const error = type === "tp" ? tpDateError() : "";
-  $("#dateError").textContent = error ? t(error) : "";
-  $("#dateError").hidden = !error;
-  $("#uploadPrompt").hidden = type !== "tp" || !value("startDate") || !value("endDate") || Boolean(error);
-}
-
-function renderStatus() {
-  $("#genBtn").disabled = pending;
-  $("#formStatus").textContent = formStatus ? t(formStatus) : "";
-  $("#formStatus").classList.toggle("notice", formStatus === "refError");
-  $("#formStatus").classList.toggle("stop", formStatus === "refError");
-}
-
 function renderNotes() {
-  $("#notes").hidden = type === "tp";
-  const items = ["code", "engineer"];
+  const items = ["code", "subject", "engineer"];
   if (type === "gi" || type === "meeting") items.push("files");
   $("#notesList").innerHTML = items.map(key => `<li>${local(notes[key])}</li>`).join("");
 }
@@ -492,27 +440,25 @@ function renderPage() {
   for (const el of document.querySelectorAll("[data-t]")) el.textContent = t(el.dataset.t);
   $("#langLbl").textContent = lang === "ar" ? "English" : "العربية";
   $("#langLbl").lang = lang === "ar" ? "en" : "ar";
-  $("#choices").innerHTML = Object.keys(REF_CODES).filter(id => id !== "tp").map(id => `<label class="choice">
+  $("#choices").innerHTML = INQUIRIES.map(id => `<label class="choice">
     <input type="radio" name="requestType" value="${id}" aria-labelledby="${id}-label" aria-describedby="${id}-hint"${id === type ? " checked" : ""}>
     <span class="tile"><b id="${id}-label">${t(id)}</b><small id="${id}-hint">${t(id + "Hint")}</small></span></label>`).join("");
   $("#selectedType").textContent = type ? t(type) : "";
   $("#flsLink").href = FLS_LINK;
   $("#contacts").innerHTML = [["special", "SAC@dcd.gov.ae"], ["support", "support.eservices@dcd.gov.ae"],
-    ["finance", "Fddcd@dcd.gov.ae"], ["care", CUSTOMER_CARE_EMAIL], ["events", EVENT_LINK]]
+    ["finance", "Fddcd@dcd.gov.ae"], ["care", CUSTOMER_CARE_EMAIL]]
     .filter(([, address]) => address).map(([key, address]) => `<tr><th scope="row">${t(key)}</th>
-    <td><a dir="ltr" href="${escape(key === "events" ? address : "mailto:" + address)}">${escape(address)}</a></td></tr>`).join("");
+    <td>${key === "special" ? t("sacEmail") + " " : ""}<bdi>${escape(address)}</bdi></td></tr>`).join("");
   renderRequest();
   renderNotes();
-  if (built) showOutput(built.token);
+  if (built) showOutput();
 }
 
 function clearOutput() {
-  revision++;
-  formStatus = "";
   if (!built) return;
   built = null;
   $("#out").hidden = true;
-  for (const id of ["oToken", "oTo", "oSubj", "oSheet", "oText", "copyStatus"]) $("#" + id).textContent = "";
+  for (const id of ["oTo", "oSubj", "oSheet", "oText", "copyStatus"]) $("#" + id).textContent = "";
   $("#mailBtn").removeAttribute("href");
 }
 
@@ -551,6 +497,7 @@ function fieldError(f) {
   if (f.type === "number" && input.validity.badInput) return "numberError";
   if (f.type === "date" && (input.validity.badInput || (entered && !Number.isFinite(input.valueAsNumber)))) return "dateError";
   if (!entered) return f.optional ? "" : "required";
+  if (f.id === "appNo" && (entered.length > 200 || /[|\r\n]|^PS-PE(?:D)?-[A-Z]{2,12}-\d{2}-\d{2}-\d{2,4}-[A-Z0-9]{6,9}$/i.test(entered))) return "appError";
   if (f.type === "tel" && !phoneDigits(entered)) return "phoneError";
   if (f.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(entered)) return "emailError";
   if (f.type === "number" && (!Number.isFinite(Number(entered)) || Number(entered) < 0)) return "numberError";
@@ -579,23 +526,6 @@ function validate() {
   return !first;
 }
 
-async function issueToken(code) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000);
-  try {
-    const response = await fetch(REF_ENDPOINT + "?action=ref&code=" + encodeURIComponent(code), {
-      method: "GET", credentials: "omit", cache: "no-store", signal: controller.signal
-    });
-    const result = response.ok ? await response.json() : null;
-    const token = result?.ref;
-    return typeof token === "string" && TOKEN_RE.test(token) && token.split("-")[2] === code ? token : "";
-  } catch (_) {
-    return "";
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
 function displayValue(f) {
   const entered = value(f.id);
   if (f.options) return local(f.options[entered]);
@@ -607,30 +537,33 @@ function displayValue(f) {
   return entered;
 }
 
-function emailModel(token) {
+function emailModel() {
   const owner = type === "followup" && value("followupAs") === "owner";
-  const groups = activeGroups().filter(([heading]) => heading !== "ownerDetails").map(([heading, fields]) => ({
+  const groups = activeGroups().map(([heading, fields]) => ({
     title: t(heading), rows: fields.filter(f => isVisible(f) && value(f.id)).map(f => ({label: t(f.label || f.id), value: displayValue(f), url: f.type === "url", ltr: f.ltr}))
   }));
   const signature = owner ? [value("ownerName"), t("owner"), displayValue(phone("ownerPhone")), value("ownerEmail")]
     : [type === "followup" ? value("name") : "", displayValue(choice("role", roles)) + " — " + value("company"), displayValue(phone("phone")), value("email")];
-  const quote = lang === "ar" ? `يرجى ذكر الرقم المرجعي ${token} في جميع المراسلات.` : `Please quote reference ${token} in all correspondence.`;
-  const application = type === "meeting" || owner ? value("appNo").replace(/[\r\n]+/g, " ") : "";
-  return {token, title: t(type), org: t("org") + " · " + t("department"), greeting: t("greeting"), summary: t(type + "Summary"),
-    groups, signature: signature.filter(Boolean), closing: t("closing"), sign: t("sign"), quote,
-    subject: [token, t(type), application].filter(Boolean).join(" | ")};
+  const part = id => value(id).replace(/[|\r\n]+/g, " ").replace(/\s+/g, " ").trim();
+  // Both languages use the subject keywords understood by Admin Ledger 3.4.0.
+  const project = owner ? "" : part("projectName");
+  const subjectParts = type === "gi" ? ["GENERAL INQUIRY", project, part("company")]
+    : [part("appNo"), ...(type === "followup" ? ["FOLLOW-UP", "Application Status"] : ["Meeting Request"]), project];
+  const subject = subjectParts.filter(Boolean).join(" | ");
+  return {title: t(type), org: t("org") + " · " + t("department"), greeting: t("greeting"), summary: t(type + "Summary"),
+    groups, signature: signature.filter(Boolean), closing: t("closing"), sign: t("sign"), subject};
 }
 
 // Paired formats adapted from the live generator. Both are built from the same email model.
 function toText(email) {
   const rule = "=".repeat(40), divider = "-".repeat(40);
-  const lines = [rule, email.org, email.title + " | " + email.token, rule, "", email.greeting, email.summary, ""];
+  const lines = [rule, email.org, email.title, rule, "", email.greeting, email.summary, ""];
   for (const group of email.groups) {
     lines.push(group.title, divider);
     for (const row of group.rows) lines.push(row.label + ": " + row.value);
     lines.push("");
   }
-  lines.push(email.closing, "", email.sign, ...email.signature, "", rule, email.quote, rule);
+  lines.push(email.closing, "", email.sign, ...email.signature);
   return lines.join("\n");
 }
 
@@ -645,12 +578,12 @@ function toHTML(email) {
     <colgroup><col width="231"><col width="449"></colgroup>
     <tr><td colspan="2" bgcolor="#12243A" style="background:#12243A;padding:14px 20px;border-radius:9px 9px 0 0;color:#FFFFFF">
       <div style="font-size:9pt;color:#BFD3EA;font-weight:bold">${escape(email.org)}</div>
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:4px;${font}color:#FFFFFF"><tr><td style="font-size:14pt;font-weight:bold">${escape(email.title)}</td><td dir="ltr" align="${lang === "ar" ? "left" : "right"}" style="font: bold 11pt Consolas,monospace;white-space:nowrap">${escape(email.token)}</td></tr></table>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:4px;${font}color:#FFFFFF"><tr><td style="font-size:14pt;font-weight:bold">${escape(email.title)}</td></tr></table>
     </td></tr>
     <tr><td colspan="2" style="padding:16px 20px 7px"><p style="${p}">${escape(email.greeting)}</p><p style="${p}">${escape(email.summary)}</p></td></tr>
     ${groups}
     <tr><td colspan="2" style="padding:16px 20px;border-top:1px solid #C9D4E2"><p style="${p}">${escape(email.closing)}</p><div style="font-size:11.5pt;line-height:1.55">${escape(email.sign)}${email.signature.map(line => `<div dir="auto">${escape(line)}</div>`).join("")}</div></td></tr>
-    <tr><td colspan="2" bgcolor="#F4F6F9" style="padding:9px 20px;border-top:1px solid #E4E9F0;border-radius:0 0 9px 9px;font-size:9pt;color:#5E6E7E">${escape(email.quote).replace(email.token, `<b dir="ltr" style="font-family:Consolas,monospace">${email.token}</b>`)}</td></tr></table>`;
+  </table>`;
 }
 
 function fitSheet() {
@@ -661,10 +594,9 @@ function fitSheet() {
   preview.style.height = Math.ceil(sheet.offsetHeight * scale) + "px";
 }
 
-function showOutput(token) {
-  const email = emailModel(token);
-  built = {token, to: INBOX, subject: email.subject, text: toText(email), html: toHTML(email)};
-  $("#oToken").textContent = token;
+function showOutput() {
+  const email = emailModel();
+  built = { to: INBOX, subject: email.subject, text: toText(email), html: toHTML(email)};
   $("#oTo").textContent = INBOX;
   $("#oSubj").textContent = built.subject;
   $("#oSheet").innerHTML = built.html;
@@ -731,39 +663,18 @@ $("#fields").addEventListener("input", event => {
   } else {
     markError(input.id, "");
     updateConditionalFields();
-    updateDates();
-    renderStatus();
   }
 });
-$("#upload").addEventListener("click", event => {
-  if (type !== "tp" || tpDateError() || !validate()) event.preventDefault();
-});
-$("#form").addEventListener("submit", async event => {
+$("#form").addEventListener("submit", event => {
   event.preventDefault();
-  if (!type || type === "tp" || pending) return;
+  if (!type) return;
   if (type === "meeting" && !value("appNo")) {
     selectType("gi", true);
     return;
   }
   if (!validate()) return;
-  if (built) {
-    $("#outputTitle").focus();
-    return;
-  }
-  const current = revision;
-  pending = true;
-  formStatus = "requesting";
-  renderStatus();
-  const token = await issueToken(REF_CODES[type]);
-  pending = false;
-  if (current === revision) {
-    formStatus = token ? "" : "refError";
-    if (token) {
-      showOutput(token);
-      $("#outputTitle").focus();
-    }
-  }
-  renderStatus();
+  if (!built) showOutput();
+  $("#outputTitle").focus();
 });
 $("#out").addEventListener("click", event => {
   if (built && event.target.dataset.copy) copyOutput(event.target.dataset.copy);
