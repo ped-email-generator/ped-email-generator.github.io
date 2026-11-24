@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-/t+/3EBRc+sy/P+jlnH4XacynbqeJDu82g+pbdeQcTc=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-uLpycloqY1st79tGBYDMpFE8XIPwM1Q64/+Ln8s7lIg=' 'sha256-aS2PQOZx/75ge8YEx4dKEZVSyfZFFEFQroGFbb6aL9Y=' 'sha256-KruUFOKVoqf4eugP4HMYcnb7/ATz0zUeYk8Y3CdJIAY=' 'sha256-ri6kcaQeXoVc1v41Zg2kQB3KKea02MRb9t6z0zKmE84=' 'sha256-ybge0H9V1qOQZjk2i4MzpLALsSqDr/k9wtQwKbaefXs='; style-src 'sha256-56AQDJtk8MgpvvxytaHRGlNJfSPuhSuaqyF94ew/1lU='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-0XhNR6buP4T9qbrHapkdeNAi3gXOCbYj05Re65X/KjE=' 'sha256-F9n5Kx7frZU1TrICGxgC8r9gFC+V2hCAJxBTNDdSBFw=' 'sha256-8R7AH9WrJpnWrVVKbd3BoYRb22quhzuWRm8qFnAwLSA=' 'sha256-zzJ4o8NOBeCUtYFbQqowNOZO+PvhXc7viAeqaPKe5g8=' 'sha256-Jb8o5l0nC5Kfs5KMiWGf9b8LVIvwpXZep1TBQxUTASk=' 'sha256-KruUFOKVoqf4eugP4HMYcnb7/ATz0zUeYk8Y3CdJIAY=' 'sha256-ri6kcaQeXoVc1v41Zg2kQB3KKea02MRb9t6z0zKmE84=' 'sha256-0SIgYZ1X9tKKKMWkEXzdd/DcGs2yUIpfEyCOqvphkoY='; style-src 'sha256-W5uVKURS66Z5N36Y/I60TeamOzNKHWqtwEaZzqtlZow='; font-src data:; img-src data:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; manifest-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light dark">
@@ -543,6 +543,10 @@ footer a { color: var(--muted); }
 .co-main span { overflow-wrap: anywhere; }
 .co-row .mono { font-size: 12.5px; }
 .note.co-code { margin-top: 12px; }
+
+.topic-options {min-inline-size:0; margin:0; padding:0; border:0}
+.topic-options legend {font-weight:600}
+.topic-options .field {margin-inline-start:1.5rem}
 </style>
 </head>
 <body>
@@ -602,7 +606,7 @@ footer a { color: var(--muted); }
 <footer><div class="wrap" id="foot"></div></footer>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <dialog id="dlg"></dialog>
-<script>window.PORTAL_CONFIG = {"endpoint":"https://script.google.com/macros/s/AKfycby3AP9DAplS7gSiNv7RtJP-HBRPGnCcjZpOxnQpt1lGAcGUyFDMdhlTChBI16VjofTB8Q/exec","generator":"https://ped-email-generator.github.io/","maintenance":true,"only":["event"]};</script>
+<script>window.PORTAL_CONFIG = {"endpoint":"https://script.google.com/macros/s/AKfycby3AP9DAplS7gSiNv7RtJP-HBRPGnCcjZpOxnQpt1lGAcGUyFDMdhlTChBI16VjofTB8Q/exec","generator":"https://ped-email-generator.github.io/projconf/","maintenance":true,"only":["event","special","facade","temporary"]};</script>
 <script>"use strict";
 /* ==========================================================
    CONFIG — all editable settings. No need to touch the code below.
@@ -1261,9 +1265,7 @@ const PORTAL = (() => {
     help: { en: 'Optional. The department uses this name to route your request when a matching engineer is available.', ar: 'اختياري. تستخدم الإدارة هذا الاسم لتوجيه الطلب إلى المهندس المعني عند تطابق الاسم وتوفّره.' }, ...o });
   /* (16 Nov 2026, Mohamed) every service's main documents must be uploaded, so they reach Admin Ledger / Review Ledger;
      a OneDrive link is only an optional extra, never instead of the uploads */
-  const either = { en: 'Upload the PDF here — up to 20 MB per file and up to 3 files. Split a larger set of drawings into parts.', ar: 'ارفع ملف PDF هنا — حتى 20 ميغابايت للملف الواحد وحتى 3 ملفات. قسّم المخططات الأكبر إلى أجزاء.' };
   const odExtra = { en: 'Optional, in addition to the uploads above — one folder shared with “Can edit”.', ar: 'اختياري، إضافةً إلى الملفات المرفوعة أعلاه — مجلد واحد بصلاحية «يمكن التعديل».' };
-  const files = v => (v && v._files) || {};
 
   /* ---- Your details: the owner is kept with the request (there is no e-mail to copy them on) ---- */
   Object.assign(CONFIG.SENDER[1], { en: 'Project owner', ar: 'مالك المشروع', note: { tone: 'info', html: true,
@@ -1299,54 +1301,44 @@ const PORTAL = (() => {
       help: { en: 'Required when the engineer requested the meeting or for an unclear comment.', ar: 'إلزامي إذا طلب المهندس الاجتماع أو للملاحظة غير الواضحة.' } }),
     F.oneDrive({ req: false, help: odExtra })];
 
-  /* ---- Façade: the engineer if known, and the façade template (published by the admins from Admin Ledger) ---- */
-  /* the façade register (سجلات البريد › الواجهات) keeps the area; the drawings, the filled template and the material
-     certificates are uploaded here, or shared in one OneDrive folder when they are larger than 20 MB */
-  const noLink = v => !String((v && v.oneDrive) || '').trim();   // (18 Nov 2026) files are needed only without a OneDrive link
+  const field = (id, en, ar, extra = {}) => ({id, en, ar, type:'text', req:true, ...extra});
+  const projectType = field('projectType', 'Type of project', 'نوع المشروع', {type:'select',
+    options:[['Consultant','استشاري'], ['Decor','ديكور'], ['Gas','غاز']]});
+  const topics = [['Fire & Life Safety','السلامة من الحريق وسلامة الأرواح'], ['Smoke management','إدارة الدخان'],
+    ['Fire fighting','مكافحة الحريق'], ['Fire alarm','إنذار الحريق'], ['Exit & emergency lighting','إنارة المخارج والطوارئ'],
+    ['LPG','غاز البترول المسال'], ['Infrastructure','البنية التحتية'], ['Marine','الأعمال البحرية'], ['Other','أخرى']];
+  const sharedFiles = F.oneDrive({maxLength:1000, help:{
+    en:'Share one folder containing the files and choose “Can edit”.', ar:'شارك مجلداً واحداً يضم الملفات واختر صلاحية «يمكن التعديل».'},
+    check:v => /^https:\/\/(?:1drv\.ms|onedrive\.live\.com|(?:[a-z0-9-]+\.)+(?:sharepoint|onedrive)\.com)\/[^\s"'<>\\]+$/i.test(v.oneDrive.trim()) ? null :
+      {en:'Enter a OneDrive or SharePoint sharing link.', ar:'أدخل رابط مشاركة من OneDrive أو SharePoint.'}});
+  const measurement = s => String(s).trim().replace(/٫/g, '.')
+    .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+  const dimension = (id, en, ar) => F.num(id, en, ar, {req:false, reqIf:v => v.section === 'Buildings & Facilities',
+    normalise:measurement, check:v => {
+      const n = measurement(v[id]);
+      return /^\d+(?:\.\d+)?$/.test(n) && Number(n) > 0 ? null : {en:'Enter a positive measurement.', ar:'أدخل قياساً أكبر من صفر.'};
+    }});
+  const project = fields => ({en:'Project details', ar:'بيانات المشروع', fields});
   const fc = cat('facade');
-  fc.tplName = 'facade';
-  const fcSec = fc.sections[0];
-  const fcOd = fcSec.fields.find(f => f.id === 'oneDrive');
-  fcSec.fields = fcSec.fields.filter(f => f.id !== 'oneDrive');
-  fcSec.fields.splice(fcSec.fields.findIndex(f => f.id === 'plot') + 1, 0,
-    { id: 'fcArea', en: 'Area / community', el: 'Area', ar: 'المنطقة', type: 'text', req: true, ph: { en: 'e.g. Business Bay', ar: 'مثال: الخليج التجاري' } },
-    { id: 'fcWork', en: 'Type of façade work', el: 'Façade work', ar: 'نوع أعمال الواجهة', type: 'cards', req: true, full: true,
-      options: [['New building', 'مبنى جديد', 'New building', 'The façade of a building under design or construction', 'واجهة مبنى قيد التصميم أو الإنشاء'],
-        ['Existing building — replacement or renovation', 'مبنى قائم — استبدال أو تجديد', 'Existing building — replacement or renovation', 'Replacing or renovating the cladding of an existing building', 'استبدال أو تجديد تكسية مبنى قائم'],
-        ['Other', 'أخرى', 'Other', 'Explain it in the details below', 'وضّحها في التفاصيل أدناه']] },
-    F.num('fcHeight', 'Building height (m)', 'ارتفاع المبنى (م)', { req: false, ph: { en: 'e.g. 45', ar: 'مثال: 45' } }));
-  fcSec.fields.push(eng());
-  fc.sections.push({ en: 'Drawings & documents', ar: 'المخططات والمستندات', fields: [
-    // (18 Nov 2026) the façade as an editable OneDrive link OR the files uploaded here (up to 20 MB each)
-    { ...fcOd, req: false, reqIf: undefined, help: { en: 'An editable OneDrive link to ONE folder with the façade drawings, the filled-in template and the material reports (shared “Anyone” + “Can edit”) — OR upload the files below instead (up to 20 MB each).', ar: 'رابط OneDrive قابل للتعديل لمجلد واحد يضم مخططات الواجهات والنموذج المعبأ وتقارير المواد (مشاركة «أي شخص» + «يمكن التعديل») — أو ارفع الملفات أدناه بدلاً من ذلك (حتى 20 ميغابايت للملف).' } },
-    file('fcDrawings', 'Façade drawings (one combined PDF)', 'مخططات الواجهات (ملف PDF واحد مجمّع)', { req: false, reqIf: noLink, help: either }),
-    file('fcTemplate', 'The façade template, filled in (PDF)', 'نموذج الواجهات بعد تعبئته (PDF)', { max: 1, req: false, reqIf: noLink,
-      help: { en: 'Download the current template at the top of this form.', ar: 'نزّل النموذج الحالي من أعلى هذا النموذج.' } }),
-    file('fcCerts', 'Material test reports and certificates (PDF)', 'تقارير فحص المواد وشهاداتها (PDF)', { max: 5, req: false, reqIf: noLink })] });
-
-  /* ---- Special Approval: drawings and letters uploaded, the code reference, why it cannot be met ---- */
+  Object.assign(fc, {en:'Façade / cladding', ar:'الواجهات والتكسية', note:null, declOnly:['dLink','dPortal','dTrue'],
+    sections:[project([F.project(), F.plot(), F.appNo({req:false}),
+      field('scope','Scope of façade or cladding work','نطاق أعمال الواجهات أو التكسية',{full:true}), sharedFiles])]});
   const sa = cat('special');
   sa.submissionNote = {
     en: "Special approval requests must be submitted here, even if you already sent an email before — this is how you can follow up your request.",
     ar: "يجب تقديم طلبات الموافقات الخاصة هنا حتى لو أرسلتم بريداً إلكترونياً من قبل، فبهذه الطريقة يمكنكم متابعة طلبكم." };
-  sa.note = { tone: 'warn',
-    en: 'Sent to Special Approvals & Cladding (SAC). Explain which UAE FLS Code requirement cannot be met and why, and your proposed solution. Upload the drawings, the consultant’s undertaking letter and the owner’s letter as PDF files.',
-    ar: 'يُرسل إلى قسم الموافقات الخاصة والتكسية. وضّح متطلب كود الإمارات الذي يتعذّر تطبيقه وسبب ذلك، والحل المقترح. ارفع المخططات وخطاب تعهد الاستشاري وخطاب المالك بصيغة PDF.' };
-  sa.decl = [{ id: 'dSaDocs', en: 'The uploaded drawings and letters are complete and belong to this application.', ar: 'المخططات والخطابات المرفوعة مكتملة وتخص هذا الطلب.' }];
-  const saReq = sa.sections[1];
-  const byId = id => saReq.fields.find(f => f.id === id);
-  saReq.fields = [
-    byId('engineer'), byId('saTitle'),
-    { id: 'saCodeRef', en: 'UAE FLS Code requirement (chapter / section)', el: 'UAE FLS Code reference', ar: 'متطلب كود الإمارات (الفصل / البند)', type: 'text', req: true, full: true,
-      ph: { en: 'e.g. Chapter 3, Section 3.4.2, page 112', ar: 'مثال: الفصل 3، البند 3.4.2، صفحة 112' } },
-    { ...byId('saJust'), en: 'Why the requirement cannot be met (justification)', ar: 'سبب تعذّر تطبيق المتطلب (المبررات)' },
-    byId('saSol')];
-  sa.sections.push({ en: 'Documents', ar: 'المستندات', fields: [
-    file('saDrawings', 'Drawings (one combined PDF)', 'المخططات (ملف PDF واحد مجمّع)', { help: either }),
-    F.oneDrive({ req: false, help: odExtra }),
-    file('saUndertaking', 'Consultant’s undertaking letter (PDF)', 'خطاب تعهد الاستشاري (PDF)', { max: 2, full: false }),
-    file('saOwnerLetter', 'Owner’s letter (PDF)', 'خطاب المالك (PDF)', { max: 2, full: false }),
-    file('saContractorLetter', 'Contractor’s letter (PDF, if any)', 'خطاب المقاول (PDF، إن وجد)', { req: false, max: 2 })] });
+  Object.assign(sa, {subject:['appNo'], note:null, declOnly:['dLink','dPortal','dTrue'], sections:[
+    project([F.project(), F.plot(), F.appNo(), field('applicationType','Application type','نوع الطلب'), projectType,
+      field('section','Section','القسم',{type:'select',options:[['Projects & Infrastructure','المشاريع والبنية التحتية'],
+        ['Buildings & Facilities','المباني والمنشآت'], ['Gas & Decor','الغاز والديكور']]}),
+      dimension('builtUpArea','Built-up area (m²)','مساحة البناء (م²)'), dimension('height','Building height (m)','ارتفاع المبنى (م)'),
+      field('topicTypes','Related topics','الموضوعات ذات الصلة',{type:'topics',options:topics,full:true})]),
+    {en:'Documents', ar:'المستندات', fields:[file('saUndertaking','Consultant letter (PDF)','خطاب الاستشاري (PDF)',{max:1,
+      help:{en:'Describe the proposal, the issue and the reason for requesting approval.', ar:'وضّح المقترح والمشكلة وسبب طلب الموافقة.'}}),
+      file('saOwnerLetter','Owner letter (PDF)','خطاب المالك (PDF)',{max:1}),
+      file('saDrawings','Drawings (PDF)','المخططات (PDF)',{max:8,help:{
+        en:'Upload at least one drawing. Reduce any file larger than 20 MB before uploading it.',
+        ar:'ارفع مخططاً واحداً على الأقل. قلّل حجم أي ملف يتجاوز 20 ميغابايت قبل رفعه.'}}), sharedFiles]}]});
 
   /* days from a YYYY-MM-DD date to today in Dubai (UTC+4); null when it is not a date */
   const msDays = s => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s || '')); if (!m) return null;
@@ -1368,21 +1360,16 @@ const PORTAL = (() => {
     file('msApproval', 'Final approval letter (PDF)', 'خطاب الاعتماد النهائي (PDF)', { max: 1 }));
   if (msOd) Object.assign(msOd, { req: false, reqIf: undefined, help: odExtra });
 
-  /* ---- Temporary Project: the drawings and the duration letter are uploaded (6 months or less) ---- */
-  const tpDocs = cat('temporary').sections.find(s => s.fields.some(f => f.id === 'tpDocNote'));
-  const tpNote = tpDocs.fields.find(f => f.id === 'tpDocNote');
-  Object.assign(tpNote, {
-    en: 'Upload: (1) the drawings — a cover page and a layout drawing showing the structures with dimensions, separation distances (Table 12.3.a), exits, fire detection, fire protection and fire extinguishers (Table 12.3, item 4); (2) a letter on company letterhead stating the project, location, use and the start and end dates — the period must be 6 months (180 days) or less; (3) the material test certificates listed above.',
-    ar: 'ارفع: (1) المخططات — صفحة الغلاف ومخطط الموقع الذي يبيّن المنشآت بأبعادها ومسافات الفصل (الجدول 12.3.a) والمخارج وأنظمة الكشف والحماية من الحريق وطفايات الحريق (الجدول 12.3، البند 4)؛ (2) خطاباً على ورق الشركة الرسمي يبيّن المشروع والموقع والاستخدام وتاريخي البدء والانتهاء — ويجب أن تكون المدة 6 أشهر (180 يوماً) أو أقل؛ (3) شهادات فحص المواد المذكورة أعلاه.' });
-  const tpOd = tpDocs.fields.find(f => f.id === 'oneDrive');
-  tpDocs.fields.splice(tpDocs.fields.indexOf(tpOd), 0,
-    file('tpDrawings', 'Drawings: cover page and layout (one combined PDF)', 'المخططات: صفحة الغلاف ومخطط الموقع (ملف PDF واحد مجمّع)', { help: either }),
-    file('tpLetter', 'Duration letter on company letterhead (PDF)', 'خطاب المدة على ورق الشركة الرسمي (PDF)', { max: 1,
-      help: { en: 'It states the start and end dates — 6 months (180 days) or less, the same dates as above.', ar: 'يبيّن تاريخي البدء والانتهاء — 6 أشهر (180 يوماً) أو أقل، وبالتاريخين نفسيهما المذكورين أعلاه.' } }),
-    file('tpCertFiles', 'Material test certificates (PDF)', 'شهادات فحص المواد (PDF)', { max: 5 }));
-  Object.assign(tpOd, { req: false, reqIf: undefined, help: odExtra });
-  /* the generator's TP confirmation speaks of a OneDrive folder; on the portal the documents are uploaded */
-  cat('temporary').decl = [{ id: 'dTpDocs', en: 'The uploaded cover page, duration letter, layout drawing and material test certificates are complete and belong to this project.', ar: 'صفحة الغلاف وخطاب المدة ومخطط الموقع وشهادات فحص المواد المرفوعة مكتملة وتخص هذا المشروع.' }];
+  const tp = cat('temporary');
+  Object.assign(tp, {en:'Temporary project (6 months or less)', ar:'مشروع مؤقت (ستة أشهر أو أقل)', note:null, blocks:[],
+    subject:['appNo'], declOnly:['dPortal','dTrue'], sections:[project([F.appNo(), projectType,
+      field('tpStart','Start date','تاريخ البدء',{type:'date'}),
+      field('tpEnd','End date','تاريخ الانتهاء',{type:'date',check:v => {
+        const days = (Date.parse(v.tpEnd) - Date.parse(v.tpStart)) / 86400000;
+        if (days < 0) return {en:'The end date must be on or after the start date.', ar:'يجب أن يكون تاريخ الانتهاء في تاريخ البدء أو بعده.'};
+        if (days > 180) return {en:'For projects lasting more than 180 days, submit through the DCD e-services.',
+          ar:'للمشاريع التي تتجاوز مدتها 180 يوماً، قدّم الطلب عبر الخدمات الإلكترونية للدفاع المدني بدبي.'};
+      }}), file('tpPdf','Project document (one PDF)','مستند المشروع (ملف PDF واحد)',{max:1})])]});
 
   /* ---- Events: online now — the details, the drawing on the template, recorded in the Events register ---- */
   const evIdx = CONFIG.CATEGORIES.findIndex(c => c.id === 'event');
@@ -1514,6 +1501,12 @@ const PORTAL = (() => {
     help: { en: 'This is your company code. With it, “Check a request” › “Company requests” lists all your company’s requests.',
       ar: 'هذا هو رمز شركتكم. وبه تعرض «متابعة طلب» › «طلبات الشركة» جميع طلبات شركتكم.' } };
   { const f0 = CONFIG.SENDER[0].fields, i = f0.findIndex(f => f.id === 'company'); if (i !== -1 && !f0.some(f => f.id === 'licence')) f0.splice(i + 1, 0, LICENCE); }
+  const contact = fields => ({en:'Company contact details', ar:'بيانات التواصل مع الشركة', fields});
+  sa.sender = [contact([pick('company'), LICENCE, field('companyNumber','Company number (optional)','رقم الشركة (اختياري)',{req:false}),
+    {...pick('phone'),en:'Consultant or contractor contact number',ar:'رقم التواصل مع الاستشاري أو المقاول'}]), CONFIG.SENDER[1]];
+  fc.sender = [contact([{...pick('company'),en:'Consultancy company',ar:'اسم الشركة الاستشارية'}, LICENCE,
+    {...pick('name'),en:'Contact person',ar:'اسم مسؤول التواصل'}, pick('email'), pick('phone')])];
+  tp.sender = [contact([{...pick('role'),info:null}, pick('company'), LICENCE, pick('phone'), pick('email')])];
   EV_SENDER.fields.splice(1, 0, { ...LICENCE, en: 'Trade licence number', ar: 'رقم الرخصة التجارية',
     help: { en: 'For Event requests, this number is also your access code — keep it with your reference number.', ar: 'في طلبات الفعاليات، هذا الرقم هو أيضاً رمز الدخول — احتفظ به مع الرقم المرجعي.' } });
   /* follow-up text under another service than Application Status is blocked (the department's decision, 18 Nov 2026) */
@@ -1537,7 +1530,7 @@ const PORTAL = (() => {
   /* (18 Nov 2026) the e-mail option, only when the portal does not work */
   const EMAIL = { h: { en: 'Only if this page is not working', ar: 'فقط في حال تعذّر استخدام هذه الصفحة' },
     p: { en: 'If you cannot send your request here, send it by email using the Email Generator. Use it only in that case — requests sent both ways are delayed.', ar: 'إذا تعذّر عليك إرسال طلبك من هنا، فأرسله بالبريد الإلكتروني عبر منشئ البريد. استخدمه في هذه الحالة فقط — الطلبات المرسلة بالطريقتين تتأخر.' },
-    btn: { en: 'Open the Email Generator', ar: 'افتح منشئ البريد' } };
+    btn: { en: 'Projconf email generator', ar: 'منشئ بريد Projconf' } };
   /* the company list on the status page */
   const CO = {
     tab: { en: 'Company requests', ar: 'طلبات الشركة' },
@@ -1589,7 +1582,7 @@ const PORTAL = (() => {
       ar: 'جميع الخدمات الأخرى متوقفة مؤقتاً. يرجى إرسال الطلبات الأخرى بالبريد الإلكتروني عبر منشئ البريد. وما زال بإمكانك متابعة طلب أرسلته سابقاً.' },
     paused: { en: 'This service is paused on this page for now. Please send your request by email using the Email Generator.',
       ar: 'هذه الخدمة متوقفة مؤقتاً في هذه الصفحة. يرجى إرسال طلبك بالبريد الإلكتروني عبر منشئ البريد.' },
-    genBtn: { en: 'Open the Email Generator', ar: 'افتح منشئ البريد' },
+    genBtn: EMAIL.btn,
     help4: { en: 'You receive a reference number and an access code. Save both in two places — print the page or save it as PDF, and also copy them or take a screenshot.',
       ar: 'تحصل على رقم مرجعي ورمز دخول. احفظهما في مكانين — اطبع الصفحة أو احفظها بصيغة PDF، وانسخهما أيضاً أو التقط صورة للشاشة.' }
   };
@@ -1703,14 +1696,17 @@ const GUIDE = (() => {
       task: { en: 'Provide the project facts and write each code question with its chapter, section and page. Attach only the relevant drawing extract if needed.', ar: 'أدخل بيانات المشروع واكتب كل سؤال عن الكود مع الفصل والبند والصفحة. وأرفق الجزء المتعلق بالسؤال من المخطط عند الحاجة.' } },
     meeting: { who: project, roles: owner,
       task: { en: 'State the meeting purpose, application number if any, agenda and attendees. If the engineer requested the meeting, or a comment is unclear, provide the supporting comment or email.', ar: 'بيّن موضوع الاجتماع ورقم المعاملة إن وجد وجدول الأعمال والحضور. وإذا طلب المهندس الاجتماع أو كانت ملاحظته غير واضحة، فأرفق الملاحظة أو البريد الداعم.' } },
-    facade: { who: project, roles: owner,
-      task: { en: 'Enter the project, plot, area and type of façade work. Provide the façade drawings and any completed template, material reports and certificates requested by the form.', ar: 'أدخل بيانات المشروع والأرض والمنطقة ونوع أعمال الواجهة، وقدّم مخططات الواجهات والنموذج المكتمل وتقارير المواد وشهاداتها بحسب خانات النموذج.' } },
-    special: { who: project, roles: owner,
-      task: { en: 'Explain the code requirement that cannot be met, the justification and the proposed alternative. The consultant prepares the undertaking; the owner provides the owner letter; attach the contractor letter if applicable.', ar: 'وضّح متطلب الكود الذي يتعذّر تطبيقه والمبررات والحل البديل المقترح. يُعدّ الاستشاري خطاب التعهد، ويقدّم المالك خطابه، ويُرفق خطاب المقاول عند انطباقه.' } },
+    facade: {who:{en:'Project consultant', ar:'استشاري المشروع'},
+      roles:{en:'The consultancy provides its licence number and the details of its contact person.',ar:'تقدّم الشركة الاستشارية رقم رخصتها وبيانات مسؤول التواصل لديها.'},
+      task:{en:'Describe the façade or cladding work and share an editable OneDrive folder containing the files.',ar:'وضّح نطاق أعمال الواجهات أو التكسية وشارك مجلد OneDrive يضم الملفات بصلاحية التعديل.'}},
+    special: {who:project, roles:owner,
+      task:{en:'Specify the type of work for each selected topic. Upload the consultant letter, owner letter and drawings, and share an editable OneDrive link to the same files.',
+        ar:'حدّد نوع الأعمال لكل موضوع تختاره. ارفع خطاب الاستشاري وخطاب المالك والمخططات، وشارك رابط OneDrive للملفات نفسها بصلاحية التعديل.'}},
     stamp: { who: project, roles: owner,
       task: { en: 'Identify each approved page missing its stamp and explain the issue. Upload those pages and the final approval letter.', ar: 'حدّد كل صفحة معتمدة لا يظهر عليها الختم ووضّح المشكلة، ثم ارفع تلك الصفحات وخطاب الاعتماد النهائي.' } },
-    temporary: { who: project, roles: owner,
-      task: { en: 'Provide the use, location, dates, structures and materials. Prepare the drawings, the company letter confirming the project duration and relevant material certificates. Use Event for structures belonging to an event.', ar: 'بيّن الاستخدام والموقع والتواريخ والمنشآت والمواد، وجهّز المخططات وخطاب المدة على ورق الشركة وشهادات المواد ذات الصلة. وللمنشآت التابعة لفعالية، اختر خدمة «فعالية».' } },
+    temporary: {who:project, roles:{en:'The consultant or contractor provides the company and contact details.',
+      ar:'يقدّم الاستشاري أو المقاول بيانات الشركة والتواصل.'},task:{en:'Enter the application number and project dates and upload one PDF. For projects lasting more than 180 days, submit through the DCD e-services.',
+      ar:'أدخل رقم المعاملة وتاريخي بدء المشروع وانتهائه وارفع ملف PDF واحداً. للمشاريع التي تتجاوز مدتها 180 يوماً، قدّم الطلب عبر الخدمات الإلكترونية للدفاع المدني بدبي.'}},
     event: { who: { en: 'Event organiser', ar: 'الجهة المنظِّمة للفعالية' },
       roles: { en: 'The organiser enters the organising entity’s name and the responsible person’s contact details. This service does not ask for a project owner or a consultant/contractor role.', ar: 'تُدخل الجهة المنظِّمة اسمها وبيانات التواصل مع الشخص المسؤول. لا تطلب هذه الخدمة بيانات مالك مشروع أو اختيار صفة استشاري أو مقاول.' },
       task: { en: 'Download the department’s event template and fill it in Adobe Acrobat Reader — or in Microsoft Word if you cannot use Adobe. Add all the required letters, drawings and certificates and save everything as ONE PDF file (Adobe: Print → “Microsoft Print to PDF”, A3 landscape; Word: Save As → PDF). Enter the same event summary and dates in the online form and upload that one file. A request without the completed template in one file will be rejected.', ar: 'نزّل نموذج الفعاليات المعتمد لدى الإدارة واملأه في برنامج Adobe Acrobat Reader — أو في Microsoft Word إذا تعذّر استخدام Adobe. أضف جميع الخطابات والمخططات والشهادات المطلوبة واحفظ كل ذلك في ملف PDF واحد (في Adobe: «طباعة» ← «Microsoft Print to PDF» بمقاس A3 أفقي؛ وفي Word: «حفظ باسم» ← PDF). أدخل ملخص الفعالية والتواريخ نفسها في النموذج الإلكتروني وارفع هذا الملف الواحد. يُرفض الطلب الذي لا يتضمن النموذج المكتمل في ملف واحد.' } },
@@ -2006,11 +2002,12 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
      per session, so nobody can lock a client out of their request from another browser. */
   const SID = (() => { const b = new Uint8Array(8); crypto.getRandomValues(b); return Array.from(b, x => x.toString(16).padStart(2, '0')).join(''); })();
   const catById = id => CONFIG.CATEGORIES.find(c => c.id === id);
+  const formOnly = id => ['special', 'facade', 'temporary'].includes(id);
   const cur = () => (S.cat ? catById(S.cat) : null);
   // a DCD HQ walk-in visitor names no project owner (the service does not ask for one either)
   // the walk-in (DCD HQ General) asks only the visitor's own details, and the visitor may also be the owner or another person
   // an event comes from its organiser (no consultant/contractor, no project owner)
-  const senderSecs = () => { const cat = (typeof S !== 'undefined' && S) ? S.cat : null; return cat === 'dcdreply' ? [PORTAL.DR_SENDER].concat(['Consultant','Contractor'].includes(S.v.role) ? [CONFIG.SENDER[1]] : []) : cat === 'hq' ? [PORTAL.HQ_SENDER] : cat === 'event' ? [PORTAL.EV_SENDER] : CONFIG.SENDER.slice(0, 2); };
+  const senderSecs = () => { const cat = (typeof S !== 'undefined' && S) ? S.cat : null; return catById(cat)?.sender || (cat === 'dcdreply' ? [PORTAL.DR_SENDER].concat(['Consultant','Contractor'].includes(S.v.role) ? [CONFIG.SENDER[1]] : []) : cat === 'hq' ? [PORTAL.HQ_SENDER] : cat === 'event' ? [PORTAL.EV_SENDER] : CONFIG.SENDER.slice(0, 2)); };
   const nameOfCode = code => { const c = CONFIG.CATEGORIES.find(x => x.code === code); return c ? L(c) : code; };
   const catOfCode = code => CONFIG.CATEGORIES.find(x => x.code === code);
   /* "an Application Status request", "a Meeting Request" (English); the service name alone in Arabic */
@@ -2075,6 +2072,9 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       if (req && !list.some(x => x.status === 'done')) return t('required');
       return null;
     }
+    if (f.type === 'topics') {
+      return Array.isArray(val) && val.length && val.every(row => row.type.trim() && row.type.trim().length <= 200) ? null : t('required');
+    }
     if (f.type === 'list') {
       const rows = Array.isArray(val) ? val : [];
       const filled = rows.filter(r => f.cols.some(c => String(r[c.id] || '').trim()));
@@ -2106,6 +2106,10 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
      closed, "Check a request" kept; the texts that describe the access code stay neutral */
   const MAINT = !!CFG.maintenance;
   const ONLY = MAINT && Array.isArray(CFG.only) && CFG.only.length ? CFG.only : null;   // only these services stay open
+  const availability = ONLY && ONLY.length > 1 ? {
+    en:'Available services: ' + ONLY.map(id => catById(id)?.en).filter(Boolean).join(', '),
+    ar:'الخدمات المتاحة: ' + ONLY.map(id => catById(id)?.ar).filter(Boolean).join('، ')
+  } : PORTAL.MAINT.onlyH;
   const isOpen = id => !MAINT || (ONLY && ONLY.includes(id));
   const tm = k => (MAINT && PORTAL.MAINT[k] ? L(PORTAL.MAINT[k]) : t(k));
   const toastEl = $('#toast');
@@ -2117,13 +2121,12 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     catch (e) { const ta = D.createElement('textarea'); ta.value = s; D.body.appendChild(ta); ta.select(); try { D.execCommand('copy'); toast(t('copied')); } catch (x) { /* nothing */ } ta.remove(); }
   }
 
-  function chrome(view) {
+  function chrome(view, r) {
     D.documentElement.lang = lang; D.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     const base = lang === 'ar' ? 'خدمات المتعاملين — إدارة الهندسة الوقائية' : 'Client Services — Preventive Engineering Department';
     D.title = view ? view + ' — ' + base : base;
     $('#brandT').textContent = t('brandT'); $('#brandS').textContent = t('brandS');
-    const r = route().name;
-    const here = n => (r === n ? ' class="on" aria-current="page"' : '');
+    const here = n => (r.name === n ? ' class="on" aria-current="page"' : '');
     $('#nav').innerHTML =
       (MAINT && !ONLY ? '' : `<a href="#/new"${here('new')}>${icon('plus')}<span class="lbl">${esc(t('navNew'))}</span></a>`) +
       `<a href="#/status"${here('status')}>${icon('search')}<span class="lbl">${esc(t('navStatus'))}</span></a>` +
@@ -2133,13 +2136,13 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       let mb = $('#maintbar');
       if (!mb) { mb = D.createElement('div'); mb.id = 'maintbar'; mb.setAttribute('role', 'status'); app.parentNode.insertBefore(mb, app); }
       const M = PORTAL.MAINT, gen = ONLY && CFG.generator ? ` <a class="maint-gen" href="${esc(CFG.generator)}">${esc(L(M.genBtn))} ↗</a>` : '';
-      mb.innerHTML = `<div class="wrap">${icon('alert')}<div><b>${esc(L(ONLY ? M.onlyH : M.h))}</b><span>${esc(L(ONLY ? M.onlyP : M.p))}${gen}</span></div></div>`;
+      mb.innerHTML = `<div class="wrap">${icon('alert')}<div><b>${esc(L(ONLY ? availability : M.h))}</b><span>${esc(L(ONLY ? M.onlyP : M.p))}${gen}</span></div></div>`;
     }
     const dev = $('#devbar');
     if (CFG.dev) { dev.classList.remove('hidden'); dev.innerHTML = `<div class="wrap">${icon('alert', 'sm')}<span>${esc(t('dev'))}</span><a href="/staff" target="_blank" rel="noopener">${esc(t('devStaff'))} ↗</a></div>`; }
     $('#foot').innerHTML = `<span>${esc(t('foot'))}</span><span class="muted">${esc(t('privacy'))}</span>` +
       `<span class="end"><a href="${esc(FLS_LINK)}" target="_blank" rel="noopener noreferrer">${esc(t('fls'))} ↗</a>` +
-      (CFG.generator ? `<a href="${esc(CFG.generator)}" target="_blank" rel="noopener noreferrer">${esc(t('emailAlt'))} ↗</a>` : '') + '</span>';
+      (CFG.generator && !(r.name === 'new' && formOnly(r.arg)) ? `<a href="${esc(CFG.generator)}" target="_blank" rel="noopener noreferrer">${esc(t('emailAlt'))} ↗</a>` : '') + '</span>';
   }
   const crumbHome = () => `<a href="#/" aria-label="${esc(t('home'))}">${icon('globe', 'sm')}</a>`;
 
@@ -2147,7 +2150,8 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   function route() {
     const h = (location.hash || '#/').replace(/^#/, '');
     const p = h.split('/').filter(Boolean);
-    return { name: p[0] || 'home', arg: p[1] || '', extra: p[2] || '' };
+    const alias = p[0] === 'new' && {sa:'special', fc:'facade', tp:'temporary'}[p[1]];
+    return { name: p[0] || 'home', arg: typeof alias === 'string' ? alias : p[1] || '', extra: p[2] || '' };
   }
   function go(hash) { if (location.hash === hash) render(); else location.hash = hash; }
   let firstRender = true, focusAfter = null;
@@ -2160,7 +2164,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   }
   function render() {
     const r = route();
-    chrome(titleOf(r));
+    chrome(titleOf(r), r);
     if (r.name === 'new' && MAINT && !ONLY) renderMaint();
     else if (r.name === 'new' && ONLY && r.arg && !isOpen(r.arg)) renderPaused(r.arg);
     else if (r.name === 'new') renderNew(r.arg, r.extra);
@@ -2296,7 +2300,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     const team = PORTAL.teamOf(c);
     const side = `<aside class="side noprint"><div class="panel"><h3>${esc(t('rvService'))}</h3>
       <div class="svc"><span class="ic">${icon(c.icon)}</span><div><b>${esc(L(c))}</b><span class="muted">${esc(L(team))}</span></div></div>
-      <ul><li>${icon('key', 'sm')}<span>${esc(t('sideKeep'))}</span></li><li>${icon('calendar', 'sm')}<span>${esc(t(c.id === 'hq' ? 'hqSide' : 'r2s'))}</span></li></ul>
+      <ul><li>${icon('key', 'sm')}<span>${esc(c.sender ? L({en:'Keep the reference and access code shown on your receipt.',ar:'احتفظ بالرقم المرجعي ورمز الدخول الظاهرين في إيصالك.'}) : t('sideKeep'))}</span></li><li>${icon('calendar', 'sm')}<span>${esc(t(c.id === 'hq' ? 'hqSide' : 'r2s'))}</span></li></ul>
       <div class="navrow"><a class="btn sm ghost" href="#/new">${icon('back', 'sm flip')}${esc(t('change'))}</a></div></div></aside>`;
     let body = '';
     if (S.step === 1) body = stepDetails();
@@ -2329,7 +2333,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     const right = app.querySelector('[data-right]'); if (right) right.remove();
     app.querySelectorAll('a.card[href^="#/new/"]').forEach(a => { const id = a.getAttribute('href').split('/')[2]; if (!isOpen(id)) a.remove(); });
     const cards = app.querySelector('.cards');
-    if (cards && !app.querySelector('[data-only]')) cards.insertAdjacentHTML('beforebegin', `<div class="note bad maint-box" data-only>${icon('alert', 'sm')} <strong>${esc(L(PORTAL.MAINT.onlyH))}</strong><p class="mt2">${esc(L(PORTAL.MAINT.onlyP))}</p><div class="nbtns">${genButton()}</div></div>`);
+    if (cards && !app.querySelector('[data-only]')) cards.insertAdjacentHTML('beforebegin', `<div class="note bad maint-box" data-only>${icon('alert', 'sm')} <strong>${esc(L(availability))}</strong><p class="mt2">${esc(L(PORTAL.MAINT.onlyP))}</p><div class="nbtns">${genButton()}</div></div>`);
   }
   function maintHome() {
     if (ONLY) return;
@@ -2354,8 +2358,9 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   const senderOk = () => { const m = model(null); const v = m.values(); return senderSecs().every(sec => sec.fields.every(f => !checkField(f, m, v))); };
 
   function stepDetails() {
-    const secs = senderSecs().map(sec => `<div class="fsec"><h3>${esc(L(sec))}</h3>${sec.note ? noteHtml(sec.note) : ''}<div class="grid">${sec.fields.map(f => fieldHtml(f)).join('')}</div></div>`).join('');
-    return `<div class="panel"><h2 data-focus>${esc(t('steps')[0])}</h2><p class="desc">${esc(t(S.cat === 'dcdreply' ? 'drSub' : S.cat === 'hq' ? 'hqSub' : S.cat === 'event' ? 'evSub' : 's1sub'))}</p>${secs}
+    const m = model(null), v = m.values();
+    const secs = senderSecs().map(sec => `<div class="fsec"><h3>${esc(L(sec))}</h3>${sec.note ? noteHtml(sec.note) : ''}<div class="grid">${sec.fields.map(f => fieldHtml(f, m, v)).join('')}</div></div>`).join('');
+    return `<div class="panel"><h2 data-focus>${esc(t('steps')[0])}</h2><p class="desc">${cur()?.sender ? '' : esc(t(S.cat === 'dcdreply' ? 'drSub' : S.cat === 'hq' ? 'hqSub' : S.cat === 'event' ? 'evSub' : 's1sub'))}</p>${secs}
       <input class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" data-hp value="${esc(S.hp)}">
       <div class="navrow"><div class="end"><button type="button" class="btn primary lg" data-act="next">${esc(t('next'))}${icon('arrow', 'sm flip')}</button></div></div></div>`;
   }
@@ -2368,7 +2373,8 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
   }
 
   function stepRequest(c) {
-    const secs = c.sections.map((sec, si) => `<div class="fsec" data-sec="${si}"><h3>${esc(L(sec))}</h3>${sec.note ? noteHtml(sec.note) : ''}<div class="grid">${sec.fields.map(f => fieldHtml(f)).join('')}</div></div>`).join('');
+    const m = model(c), v = m.values();
+    const secs = c.sections.map((sec, si) => `<div class="fsec" data-sec="${si}"><h3>${esc(L(sec))}</h3>${sec.note ? noteHtml(sec.note) : ''}<div class="grid">${sec.fields.map(f => fieldHtml(f, m, v)).join('')}</div></div>`).join('');
     return `<div class="panel"><h2 data-focus>${esc(t('steps')[1])}</h2><p class="desc">${esc(t('s2sub'))}</p>
       ${noteHtml(c.note)}${c.id !== 'hq' && c.sections.some(sec => sec.fields.some(f => f.type === 'file')) ? `<div class="note upfirst" data-upfirst>${esc(t('upFirst'))}</div>` : ''}${c.tplName ? tplBox(c.tplName) : ''}<div data-blocks></div><div class="fsecs">${secs}</div>
       <div class="navrow"><button type="button" class="btn" data-act="back">${icon('back', 'sm flip')}${esc(t('back'))}</button>
@@ -2377,12 +2383,14 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
 
   /* every input is described by its hints and its error (aria-describedby); the error text itself is not an alert — the
      toast says what to do, and the first field with an error gets the focus */
-  function fieldHtml(f) {
+  function fieldHtml(f, m, values) {
     if (!f || !f.id) return '';
     const id = f.id, full = f.full || ['textarea', 'list', 'gate', 'note', 'file'].includes(f.type);
     if (f.type === 'note') return `<div class="field full" data-f="${esc(id)}"><div class="note">${trusted(L(f))}</div></div>`;
     const lbl = L(f) || '';
-    const reqMark = `<span class="req" data-reqmark="${esc(id)}" aria-hidden="true">*</span>`;
+    const required = m.reqOf(f, values);
+    const reqMark = required || typeof f.reqIf === 'function'
+      ? `<span class="req${required ? '' : ' hidden'}" data-reqmark="${esc(id)}" aria-hidden="true">*</span>` : '';
     const q = f.info ? `<button type="button" class="qbtn" data-q="${esc(id)}" aria-expanded="false" aria-controls="i_${esc(id)}" aria-label="${esc(t('explain') + ': ' + lbl)}">${lang === 'ar' ? '؟' : '?'}</button>` : '';
     const info = f.info ? `<div class="infobox hidden" id="i_${esc(id)}" data-info="${esc(id)}">${(L(f.info) || []).map(p => `<p>${f.infoHtml ? trusted(p) : esc(p)}</p>`).join('')}</div>` : '';
     const help = f.help ? `<div class="hint" id="h_${esc(id)}">${esc(L(f.help))}</div>` : '';
@@ -2395,6 +2403,16 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     let input = '';
     switch (f.type) {
       case 'textarea': input = `<textarea class="input" ${common}${ph} maxlength="${f.maxLength || LIM.textarea}">${esc(v)}</textarea>`; break;
+      case 'topics': {
+        const rows = Array.isArray(v) ? v : [];
+        const choices = optList(f).map((o, i) => {
+          const row = rows.find(r => r.topic === o.v), name = lang === 'ar' ? o.ar : o.en;
+          const label = (lang === 'ar' ? 'نوع الأعمال' : 'Type of work') + ' (' + name + ')';
+          return `<label class="gate"><input type="checkbox" data-topic="${esc(o.v)}" aria-controls="topic_${i}"${row ? ' checked' : ''}><span>${esc(name)}</span></label>
+            <label id="topic_${i}" class="field${row ? '' : ' hidden'}"><span>${esc(label)}</span><input class="input" data-topic-type="${esc(o.v)}" aria-required="true" maxlength="200" value="${esc(row?.type || '')}"></label>`;
+        }).join('');
+        return `<fieldset class="field full topic-options" data-f="${id}"><legend>${esc(lbl)} ${reqMark}</legend>${choices}${err}</fieldset>`;
+      }
       case 'radio': {
         input = `<div role="radiogroup" aria-label="${esc(lbl)}">${optList(f).map(o => `<label class="gate"><input type="radio" name="${esc(id)}" data-in="${esc(id)}" value="${esc(o.v)}"${o.v === v ? ' checked' : ''}><span>${esc(lang === 'ar' ? o.ar : o.en)}</span></label>`).join('')}</div>`;
         break;
@@ -2576,6 +2594,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
 
   /* ---------------- review ---------------- */
   function displayValue(f, val) {
+    if (f.type === 'topics') return val.map(r => esc(optLabel(f, r.topic)) + ' — ' + esc(r.type)).join('<br>');
     if (f.type === 'select' || f.type === 'cards') return esc(optLabel(f, val));
     if (f.type === 'gate') return val === 'Yes' ? `${icon('check', 'sm')} ${esc(t('yes'))}` : '';
     if (f.type === 'date') return esc(fmtDay(val));
@@ -2605,7 +2624,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       <div class="kv-h">${esc(t('declH'))}</div>
       <div class="decl" data-decls>${decls.map(d => `<label class="check"><input type="checkbox" data-decl="${esc(d.id)}"${S.decl[d.id] ? ' checked' : ''}><span>${esc(L(d))}</span></label>`).join('')}</div>
       <div class="navrow"><button type="button" class="btn sm ghost" data-act="checkall">${icon('check', 'sm')}${esc(t('checkAll'))}</button></div>
-      ${CFG.generator ? `<p class="muted fs13">${esc(t('altEmail'))} <a href="${esc(CFG.generator)}" target="_blank" rel="noopener noreferrer">${esc(t('lostGen'))} ↗</a></p>` : ''}
+      ${CFG.generator && !formOnly(c.id) ? `<p class="muted fs13">${esc(t('altEmail'))} <a href="${esc(CFG.generator)}" target="_blank" rel="noopener noreferrer">${esc(t('lostGen'))} ↗</a></p>` : ''}
       ${submissionNotice()}
       <div class="navrow"><button type="button" class="btn" data-act="back">${icon('back', 'sm flip')}${esc(t('back'))}</button>
         <div class="end"><button type="button" class="btn primary lg" data-act="submit">${icon('shield', 'sm')}${esc(t('submit'))}</button></div></div></div>`;
@@ -2637,17 +2656,25 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       if (!m.on(id) || f.type === 'note') continue;
       if (f.type === 'file') { (S.files[id] || []).filter(x => x.status === 'done').forEach(x => files.push({ fileId: x.fileId, field: id })); continue; }
       const val = S.v[id];
-      if (f.type === 'list') {
+      if (f.type === 'topics') {
+        form.topicTypes = (val || []).map(r => ({topic:r.topic, type:r.type.trim()}));
+      } else if (f.type === 'list') {
         const rows = (Array.isArray(val) ? val : []).map(r => { const o = {}; f.cols.forEach(cc => { const x = String(r[cc.id] || '').trim(); if (x) o[cc.id] = NUMERIC.test(cc.inputmode || '') ? asciiDigits(x) : x; }); return o; }).filter(o => Object.keys(o).length);
         if (rows.length) form[id] = rows;
       } else if (val != null && String(val).trim() !== '') {
-        const s = String(val).trim();
+        const s = f.normalise ? f.normalise(val) : String(val).trim();
         form[id] = f.type === 'phone' ? (normPhone(val) || s) : NUMERIC.test(f.inputmode || '') ? asciiDigits(s) : s;
       }
     }
     if (c.id === 'event') form.evOrganizer = String(S.v.company || '').trim();   // the organiser is the sender (Events register column)
     const sender = { by: c.id === 'event' ? 'Organizer' : (S.v.role || ''), company: String(S.v.company || '').trim(), person: String(S.v.name || '').trim(), mobile: normPhone(S.v.phone) || '', email: String(S.v.email || '').trim().toLowerCase(), ...(String(S.v.licence || '').trim() ? { licence: String(S.v.licence).trim() } : {}) };
-    const owner = (['event', 'hq'].includes(c.id) || (c.id === 'dcdreply' && !['Consultant','Contractor'].includes(S.v.role))) ? {} : { name: String(S.v.ownerName || '').trim(), mobile: normPhone(S.v.ownerPhone) || '', email: String(S.v.ownerEmail || '').trim().toLowerCase() };
+    if (c.code === 'SA') {
+      sender.by = ''; sender.person = ''; sender.email = '';
+      if (String(S.v.companyNumber || '').trim()) form.companyNumber = S.v.companyNumber.trim();
+    }
+    if (c.code === 'FC') sender.by = 'Consultant';
+    if (c.code === 'TP') sender.person = '';
+    const owner = (['event', 'hq', 'facade', 'temporary'].includes(c.id) || (c.id === 'dcdreply' && !['Consultant','Contractor'].includes(S.v.role))) ? {} : { name: String(S.v.ownerName || '').trim(), mobile: normPhone(S.v.ownerPhone) || '', email: String(S.v.ownerEmail || '').trim().toLowerCase() };
     if (c.id === 'dcdreply' && form.referral) form.referral = asciiDigits(form.referral).replace(/\s+/g, '').toUpperCase();
     if (c.id === 'hq' && form.hqStaff) form.hqStaff = asciiDigits(form.hqStaff).replace(/[\s-]+/g, '');
     const engineer = form.engineer || form.statusEng || form.portalEng || '';
@@ -2673,7 +2700,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     if (!c || c.id === 'status' || !PORTAL.FU) return false;
     const m = model(c), parts = [];
     for (const [id, e] of m.fmap) {
-      if (!m.on(id) || !['text', 'textarea', 'list'].includes(e.f.type)) continue;
+      if (!m.on(id) || !['text', 'textarea', 'list', 'topics'].includes(e.f.type)) continue;
       const v = S.v[id];
       if (Array.isArray(v)) v.forEach(r => Object.values(r || {}).forEach(x => parts.push(String(x || ''))));
       else if (v != null) parts.push(String(v));
@@ -2705,7 +2732,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     if (btn && D.body.contains(btn)) { btn.disabled = false; btn.innerHTML = `${icon('shield', 'sm')}${esc(t('submit'))}`; }
     if (!res) return;
     if (res.ok) {
-      S.receipt = { licence: String(S.v.licence || '').trim(), ref: res.ref, pin: res.pin, created: res.created, code: c.code, cat: c.id, project: (res.request && res.request.project) || S.v.project || S.v.evName || '', engineer: (res.request && res.request.engineer) || '', kept: false };
+      S.receipt = { licence: String(S.v.licence || '').trim(), ref: res.ref, pin: res.pin, created: res.created, code: c.code, cat: c.id, project: (res.request && res.request.project) || (c.code === 'TP' ? '' : S.v.project || S.v.evName || ''), engineer: (res.request && res.request.engineer) || '', kept: false };
       S.v = keepSender(); S.files = {}; S.decl = {}; S.cat = null; S.step = 1; S.t0 = Date.now(); S.token = newToken();
       go('#/receipt');
       return;
@@ -2735,8 +2762,8 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
       const fields = Array.isArray(res.fields) ? res.fields : [];
       const senderIds = new Set(senderSecs().flatMap(s => s.fields.map(f => f.id)));
       const map = { company: 'company', person: 'name', mobile: 'phone', email: 'email', 'owner.name': 'ownerName', 'owner.mobile': 'ownerPhone', 'owner.email': 'ownerEmail',
-        'sender.company': 'company', 'sender.person': 'name', 'sender.mobile': 'phone', 'sender.email': 'email', 'sender.by': 'role' };
-      const ids = fields.map(x => map[x] || String(x).replace(/^form\./, ''));
+        'sender.licence':'licence', 'sender.company': 'company', 'sender.person': 'name', 'sender.mobile': 'phone', 'sender.email': 'email', 'sender.by': 'role' };
+      const ids = fields.map(x => map[x] || String(x).replace(/^(?:form|files)\./, ''));
       S.step = ids.some(id => senderIds.has(id)) ? 1 : 2; render();
       ids.forEach(id => showErr(id, t('invalid')));
       if (ids.length) focusField(ids[0]);
@@ -2828,7 +2855,7 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
         <div class="key"><label>${esc(t('rcRef'))}</label><span class="v" data-ref>${esc(r.ref)}</span><button type="button" class="btn sm noprint" data-copy="${esc(r.ref)}" aria-label="${esc(t('copyRef'))}">${icon('copy', 'sm')}${esc(t('copy'))}</button></div>
         <div class="key code"><label>${esc(t('rcCode'))}</label><span class="v" data-pin>${esc(r.pin)}</span><button type="button" class="btn sm noprint" data-copy="${esc(r.pin)}" data-copypin aria-label="${esc(t('copyCode'))}">${icon('copy', 'sm')}${esc(t('copy'))}</button></div>
       </div>
-      ${!(r.code === 'EV' && r.licence) && /^[+]?[0-9]{8,15}[^0-9]?$/.test(String(r.pin || '')) ? `<p class="code-is" data-codeis>${esc(t('rcCodeIs'))}</p>` : ''}
+      ${!(r.code === 'EV' && r.licence) && /^[+]?[0-9]{8,15}[^0-9]?$/.test(String(r.pin || '')) ? `<p class="code-is" data-codeis>${esc(['SA','TP'].includes(r.code) ? L({en:'Your access code is the mobile number you entered on the form.',ar:'رمز الدخول هو رقم الهاتف المتحرك الذي أدخلته في النموذج.'}) : t('rcCodeIs'))}</p>` : ''}
       ${r.code === 'AS' && PORTAL.AS ? `<div class="note ok" data-asnote>${icon('check', 'sm')} ${esc(L(PORTAL.AS))}</div>` : ''}
       ${r.code === 'EV' && r.licence && PORTAL.CO ? `<p class="code-is" data-evcode>${esc(L(PORTAL.CO.evCode))}</p>` : ''}
       ${r.licence && PORTAL.CO ? `<div class="note co-code" data-cocode><b>${esc(L(PORTAL.CO.rc))}:</b> <span class="mono" dir="ltr">${esc(r.licence)}</span><br>${esc(L(PORTAL.CO.rcP))}</div>` : ''}
@@ -3182,11 +3209,27 @@ Object.assign(HELP_IMG,{"review_ar":"data:image/png;base64,iVBORw0KGgoAAAANSUhEU
     if (el.hasAttribute('data-hp')) { S.hp = el.value; return; }
     const id = el.getAttribute('data-in');
     if (id) { S.v[id] = el.type === 'checkbox' ? (el.checked ? 'Yes' : '') : el.value; showErr(id, null); applyVis(); return; }
+    if (el.hasAttribute('data-topic-type')) {
+      const row = S.v.topicTypes.find(r => r.topic === el.dataset.topicType);
+      if (row) row.type = el.value;
+      showErr('topicTypes', null);
+    }
     const li = el.getAttribute('data-li');
     if (li) { const rows = S.v[li] = S.v[li] || []; const r = +el.getAttribute('data-row'); rows[r] = rows[r] || {}; rows[r][el.getAttribute('data-col')] = el.value; showErr(li, null); }
   });
   D.addEventListener('change', ev => {
     const el = ev.target;
+    if (el.hasAttribute('data-topic')) {
+      const topic = el.dataset.topic;
+      const rows = (S.v.topicTypes || []).filter(r => r.topic !== topic);
+      if (el.checked) rows.push({topic, type:''});
+      S.v.topicTypes = rows;
+      const label = D.getElementById(el.getAttribute('aria-controls'));
+      label.classList.toggle('hidden', !el.checked);
+      label.querySelector('input').value = '';
+      showErr('topicTypes', null);
+      return;
+    }
     const id = el.getAttribute('data-in');
     if (id) {
       S.v[id] = el.type === 'checkbox' ? (el.checked ? 'Yes' : '') : el.value; showErr(id, null);
